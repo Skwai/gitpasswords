@@ -1,0 +1,24 @@
+.btn {
+	border-radius: 0.35rem;
+	padding: 0.5rem 1rem;
+	border: $input-border-color solid 1px;
+	border-bottom-width: 3px;
+	background-color: #fff;
+	background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.05));
+	cursor: pointer;
+	font-weight: 600;
+	
+	&:hover, &:active, &:focus {
+		background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,.1));
+	}
+}
+
+.btn-primary {
+	background-color: $link-color;
+	color: #fff;
+	border-color: darken($brand-primary, 15%);
+	
+	&:hover, &:active, &:focus {
+		background: $link-hover-color;
+	}
+}

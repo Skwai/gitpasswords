@@ -1,0 +1,22 @@
+.form-group {
+	margin: 0 0 1rem;
+}
+
+.form-control-label {
+  margin-bottom: 0.5rem;
+  display: inline-block;
+  font-weight: 600;
+}
+
+.form-control {
+	display: block;
+  width: 100%;
+  // // Make inputs at least the height of their button counterpart (base line-height + padding + border)
+  // height: $input-height;
+  padding: 0.5rem 0.75rem;
+  color: $body-color;
+  background-color: #fff;
+  // Reset unusual Firefox-on-Android default style; see https://github.com/necolas/normalize.css/issues/214.
+  background-image: none;
+  border: 1px solid $input-border-color;
+}
