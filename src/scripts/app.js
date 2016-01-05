@@ -1,6 +1,9 @@
 import Vue from 'vue';
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
+Vue.config.debug = false;
+
+// https://github.com/michael/github
 import Github from 'github-api';
 import CryptoJS from 'crypto-js';
 
@@ -9,7 +12,9 @@ import Entry from './models/entry';
 import jQuery from "jquery";
 import toastr from "toastr";
 
-// https://github.com/michael/github
+toastr.options = {	
+  positionClass: 'toast-bottom-right'
+};
 
 class App {
 	
@@ -24,13 +29,28 @@ class App {
     this.vue = new Vue({
       el: '#app',
 			data: {
+				loading: {
+					login: false,
+					save: false,
+					passwords: false,
+					repo_new: false
+				},
 				username: null,
 				password: null,
 				
+				decrypted: false,
+				
+				repo_type: null,
 				repos: [],
-				selectedrepo: null,				
+				selected_repo: null,
+								
 				repo: null,
 				
+				repo_new: {
+					name: null,
+					description: null,
+					private: true,
+				},				
 				data: null,
 				secret: null,					
 						
@@ -40,11 +60,10 @@ class App {
 			methods: {
 				
 				saveEntries: () => {
-					this.saveEntries();
-				},
-				
-				saveEntry: () => {
-					
+					this.vue.loading.save = true;
+					this.saveEntries(() => {
+						this.vue.loading.save = false;
+					});
 				},
 				
 				viewEntry: (index) => {
@@ -60,28 +79,41 @@ class App {
 					this.vue.$set('entry', entry);
 				},
 				
-				deleteEntry: () => {					
-					const currentEntry = JSON.parse(JSON.stringify(this.vue.$data.entry));
-					
-					this.vue.$data.entries.forEach((_entry, index) => {	
-						const entry = JSON.parse(JSON.stringify(_entry));
-						
-						if (Object.is(currentEntry, entry)) {
-							this.vue.entries.slice(index, 1);
-						}
-						
-						console.log(entry, currentEntry, Object.is(currentEntry, entry));						
-					});
+				deleteEntry: () => {
+					this.vue.$set('entries', this.vue.entries.filter((entry) => {						
+						return entry.uuid() !== this.vue.entry.uuid();
+					}));
+					toastr.success(this.vue.entry.name + ' has been deleted');
+					this.vue.entry = null;
 				},
 				
 				login: () => {
+					this.vue.loading.login = true;
 					this.login( this.vue.username, this.vue.password );
-					this.getRepos();
+					this.getRepos(() => {
+						this.vue.loading.login = false;
+					});
 				},
 				
 				selectRepo: () => {
-					this.selectRepo(this.vue.selectedrepo);
-					this.getPasswords();
+					if (this.vue.repo_type === 'new') {
+						this.vue.loading.repo_new = true;
+						
+						this.createRepo({
+							name: this.vue.repo_new.name,
+							description: this.vue.repo_new.description,
+							private: this.vue.repo_new.private
+						}, () => {
+							this.vue.loading.repo_new = false;
+						});
+					} else {
+						this.vue.loading.passwords = true;
+						this.selectRepo(this.vue.selected_repo);
+						this.getPasswords(() => {
+							this.vue.loading.passwords = false;						
+						});
+					}
+					
 				},
 				
 				decryptPasswords: () => {
@@ -90,30 +122,53 @@ class App {
 						return;
 					}
 					
-					this.decryptPasswords( this.vue.data, this.vue.secret );
+					if (this.vue.data) {		
+						this.decryptPasswords( this.vue.data, this.vue.secret );
+					}
+					
+					this.vue.decrypted = true;			
 				}
 				
 			}
     });
-		
-		if (test) {
-			this.login('Skwai', 'b2gg8y9c');
-			
-			const repo = this.github.getRepo('Skwai', 'jsonpassword');			
-			this.repo = repo;			
-			this.vue.$set('repo', repo);
-			this.vue.$set('secret', 'test');
-			
-			this.getPasswords(() => {				
-				this.decryptPasswords( this.vue.data, this.vue.secret );
-			});
-		}
   }
+	
+	/**
+	 * Create a new GitHub repository
+	 */
+	createRepo( args = {}, callback = () => {} ) {
+		
+		const defaults = {
+			name: 'passwords',
+			description: 'Git password repository',
+			private: 'true',			
+		};
+		
+		const opts = Object.assign( defaults, args );
+		opts.private = opts.private === 'false' ? false : true;
+		
+		this.user.createRepo( opts, (err, res) => {
+			// Error creating the repository
+			if (err) {
+				console.log(err);
+				const response = JSON.parse(err.request.response); 
+				toastr.error(response.message);
+			} else {			
+				// Repository has been created successfuully
+				toastr.success('Your new repository has been created');
+				
+				// Create the repository object
+				this.repo = this.github.getRepo( res.owner.login, res.name );	
+				this.vue.$set('repo', this.repo);
+			}
+			callback();
+		});
+	}
 	
 	/**
 	 * Encrypt the passwords
 	 */
-	encryptPasswords( entries, secret ) {		
+	encryptPasswords( entries, secret ) {
 		entries = this.parseEntries(entries);
 		
 		const json = JSON.stringify( entries );
@@ -156,18 +211,20 @@ class App {
 	/**
 	 * Save the entries to GitHub
 	 */
-	saveEntries() {
-		
+	saveEntries(callback = () => {}) {				
 		const content = this.encryptPasswords(this.vue.$data.entries, this.vue.$data.secret);			
 		const message = 'Passwords updated';
 		
 		console.log(content);
+		
 		this.repo.write(this.branch, this.filename, content, message, {}, (err) => {
 			if (err) {
 				toastr.error('There was a problem saving your passwords to GitHub');
-				return;
-			}						
-			toastr.success('Your passwords have been saved');
+			} else {
+				toastr.success('Your passwords have been saved');
+			}
+			
+			callback();
 		});
 	}
 	
@@ -197,35 +254,41 @@ class App {
 	/**
 	 * Get the password data from the file in the repository
 	 */
-	getPasswords(cb = function() {}) {
+	getPasswords(callback = () => {}) {
 		this.repo.read(this.branch, this.filename, (err, data) => {
+			
 			if (err) {
-				toastr.success("We loaded the repository but there was no 'passwords.txt' file");
+				if (err.error === 404) {					
+					// No password file exists yet
+				} else {					
+					// Some other error has happened					
+					toastr.success('There was a problem retrieving your password file');
+				}
+				
 				return;
 			}
 			
 			this.vue.$set('data', data);
 			
-			cb();
+			callback();
 		});
 	}
 	
 	/**
 	 * Get the user's repositories
 	 */
-	getRepos() {
+	getRepos(callback = () => {}) {
 		this.user = this.github.getUser();
 		this.user.repos({}, (err, repos) => {
 			if (err) {
 				if (err.error = 401) {
 					toastr.error("Could not authenticate. Please check your login details");
 				}
-				
-				return false;
+			} else {			
+				this.repos = repos;
+				this.vue.$set('repos', this.repos);
 			}
-			
-			this.repos = repos;
-			this.vue.$set('repos', this.repos);
+			callback();
 		});
 	}
 	

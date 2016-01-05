@@ -7,6 +7,7 @@ const htmlmin = require('gulp-htmlmin');
 const sass = require('gulp-sass');
 const cssmin = require('gulp-cssmin');
 const autoprefixer = require('gulp-autoprefixer');
+const imagemin = require('gulp-imagemin');
 
 const config = {
   srcPath: path.join('./src'),
@@ -55,11 +56,20 @@ gulp.task('styles', () => {
     .pipe( gulp.dest( config.distPath ) );
 });
 
+gulp.task('images', () => {
+  return gulp.src(path.join( config.srcPath, './images/*'))
+    .pipe(imagemin({      
+			progressive: true,
+			svgoPlugins: [{removeViewBox: false}],
+    }))
+    .pipe(gulp.dest( path.join(config.distPath, '/images')));
+});
+
 gulp.task('watch', ['scripts'], () => {
   gulp.watch( path.join(config.srcPath, './styles/**/*.scss'), ['sass']);
   gulp.watch( path.join(config.srcPath, './app/**/*.js'), ['scripts']);
 });
 
-gulp.task('build', ['scripts', 'html', 'styles'])
+gulp.task('build', ['scripts', 'html', 'styles', 'images'])
 
 gulp.task('default', ['watch']);

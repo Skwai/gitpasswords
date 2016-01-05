@@ -5,7 +5,7 @@
 	margin: 0;
 	background: darken($body-bg, 5%);
 	z-index: 2;
-	box-shadow: rgba(0,0,0,.2) 0 0 3px;
+	border-right: $input-border-color solid 1px;
 }
 
 .entries-entry {

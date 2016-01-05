@@ -1,0 +1,16 @@
+
+@keyframes spin {
+    from {transform:rotate(0deg);}
+    to {transform:rotate(360deg);}
+}
+.loading {
+	position: relative;
+	width: 1.5rem;
+	height: 1.5rem;
+	display: inline-block;
+	background: url(images/loading.svg) no-repeat center center;
+	animation: spin 1s linear infinite;
+	vertical-align: middle;
+	margin-right: 0.5rem;
+	margin-top: -0.25rem;
+}

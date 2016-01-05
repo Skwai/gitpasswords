@@ -1,3 +1,7 @@
+import uuid from 'uuid-v4';
+
+const _uuid = new WeakMap();
+
 class Entry {
   
   constructor(props = {}) {
@@ -7,10 +11,18 @@ class Entry {
     this.email = props.email || null;
     this.password = props.password || null;
     this.description = props.description || null;
+    
+    const __uuid = uuid();
+    
+    _uuid.set(this, __uuid);
   }
   
   icon() {
-    return this.url ? `https:\/\/www.google.com/s2/favicons?domain=${encodeURIComponent(this.url)}` : null
+    return this.url ? 'https://www.google.com/s2/favicons?domain=' + encodeURIComponent(this.url) : null;
+  }
+  
+  uuid() {
+    return _uuid.get(this);
   }
   
 }

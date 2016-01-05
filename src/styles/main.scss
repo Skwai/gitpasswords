@@ -2,11 +2,13 @@
 
 @import "variables.scss";
 
+@import "transitions";
 @import "general";
 @import "type";
 @import "modal";
 @import "form";
 @import "btn";
+@import "loading";
 
 @import "wrap";
 @import "entries";
