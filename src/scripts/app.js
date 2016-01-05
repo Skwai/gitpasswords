@@ -20,8 +20,9 @@ class App {
 	
   constructor(test = false) {
 		
-    this.github;
-		this.user;
+    this.github; // The github object
+		this.user; // The github user object
+		this.entries; // List of entries
 		
 		this.filename = 'passwords.txt';
 		this.branch = 'master';
@@ -29,6 +30,8 @@ class App {
     this.vue = new Vue({
       el: '#app',
 			data: {
+				
+				// List of booleans for AJAX loading animations
 				loading: {
 					login: false,
 					save: false,
@@ -59,6 +62,12 @@ class App {
 			},
 			methods: {
 				
+				// Undo all changes made after retrieving the repo
+				undo: () => {
+					this.vue.entries = this.entries;
+				},
+				
+				// Save all of the entries in their current state
 				saveEntries: () => {
 					this.vue.loading.save = true;
 					this.saveEntries(() => {
@@ -66,10 +75,12 @@ class App {
 					});
 				},
 				
+				// View an entry
 				viewEntry: (index) => {
 					this.vue.$set('entry', this.vue.entries[index]);
 				},
 				
+				// Create a new entry
 				addEntry: () => {
 					const entry = new Entry({
 						name: 'New password' 
@@ -79,6 +90,7 @@ class App {
 					this.vue.$set('entry', entry);
 				},
 				
+				// Delete an entry
 				deleteEntry: () => {
 					this.vue.$set('entries', this.vue.entries.filter((entry) => {						
 						return entry.uuid() !== this.vue.entry.uuid();
@@ -87,6 +99,7 @@ class App {
 					this.vue.entry = null;
 				},
 				
+				// Authenticate user by trying to retrieve their repos
 				login: () => {
 					this.vue.loading.login = true;
 					this.login( this.vue.username, this.vue.password );
@@ -95,6 +108,9 @@ class App {
 					});
 				},
 				
+				// Select a repo will do one of two things
+				// 1. Try to create a new GitHub repo (repo_type === 'new')
+				// 2. Use an existing repository, and try to retrieve the existing password data
 				selectRepo: () => {
 					if (this.vue.repo_type === 'new') {
 						this.vue.loading.repo_new = true;
@@ -116,6 +132,7 @@ class App {
 					
 				},
 				
+				// Decrypt passwords with the user supplied secret. If it fails, warn the user
 				decryptPasswords: () => {
 					if (!this.vue.secret) {
 						toastr.error("You need to enter your passphrase to decrypt your passwords");
@@ -183,11 +200,15 @@ class App {
 	 */	
 	decryptPasswords(data, secret) {
 		
-		// TODO; Capture failed decryption
 		try {
 			const base64 = CryptoJS.AES.decrypt( data, secret ).toString(CryptoJS.enc.Utf8);		
 			const json = atob( base64 );
 			const entries = this.parseEntries(JSON.parse(json));
+			
+			// Create a duplicate of entries so we can 'undo' changes if required
+			// JSONify it so it isn't a reference of another object
+			this.entries = JSON.parse(JSON.stringify(entries));
+			
 			this.vue.$set('entries', entries);
 		}
 		catch (err) {
