@@ -20,9 +20,9 @@ class App {
 	
   constructor(test = false) {
 		
-    this.github; // The github object
-		this.user; // The github user object
-		this.entries; // List of entries
+    this.github;   // The github object
+		this.user;     // The github user object
+		this.entries;  // List of entries
 		
 		this.filename = 'passwords.txt';
 		this.branch = 'master';
@@ -38,6 +38,7 @@ class App {
 					passwords: false,
 					repo_new: false
 				},
+				
 				username: null,
 				password: null,
 				
@@ -62,9 +63,9 @@ class App {
 			},
 			methods: {
 				
-				// Undo all changes made after retrieving the repo
+				// Restore entries to the version retrieved by repo
 				undo: () => {
-					this.vue.entries = this.entries;
+					this.vue.entries = this.parseEntries(JSON.parse(JSON.stringify(this.entries)));
 				},
 				
 				// Save all of the entries in their current state
@@ -113,8 +114,7 @@ class App {
 				// 2. Use an existing repository, and try to retrieve the existing password data
 				selectRepo: () => {
 					if (this.vue.repo_type === 'new') {
-						this.vue.loading.repo_new = true;
-						
+						this.vue.loading.repo_new = true;						
 						this.createRepo({
 							name: this.vue.repo_new.name,
 							description: this.vue.repo_new.description,
