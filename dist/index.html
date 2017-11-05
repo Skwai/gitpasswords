@@ -1,1 +1,65 @@
-<!doctype html><html><head><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700"><link rel="stylesheet" href="main.css"></head><body><div id="app"><form v-on:submit.prevent="login()" id="login" class="modal" v-if="!repos.length && !repo" transition="fade-down"><div class="modal-body"><div class="modal-header"><h2>Login with GitHub</h2></div><div class="modal-content"><p>Store your passwords in an encrypted file on a GitHub repository, all through your browser.</p><p>Use your GitHub details to retrieve your passwords</p><div class="form-group"><label class="form-control-label sr-only">GitHub Username</label><input class="form-control" type="text" v-model="username" placeholder="GitHub username"></div><div class="form-group"><label class="form-control-label sr-only">GitHub Password</label><input class="form-control" type="password" v-model="password" placeholder="GitHub password"></div></div><!-- .modal-content --><button class="modal-btn" type="submit"><i v-if="loading.login" class="loading"></i> Login</button></div><!-- .modal-body --></form><!-- #login --><form v-on:submit.prevent="selectRepo()" id="repos" class="modal" v-if="repos.length && !repo" transition="fade-down"><div class="modal-body"><div class="modal-header"><h2>Select a repository</h2></div><div class="modal-content"><p>Select which repository you want to retrieve your passwords from</p><div class="form-group"><label class="radio"><input type="radio" v-model="repo_type" value="existing"> Existing repository</label><label class="radio"><input type="radio" v-model="repo_type" value="new"> New repository</label></div><div v-if="repo_type === 'existing'" transition="expand"><h5>Existing repository</h5><div class="form-group"><select v-model="selected_repo" class="form-control"><option value="">Select repository&hellip;</option><option v-for="repo in repos" v-bind:value="$index">{{ repo.name }}</option></select></div></div><div v-if="repo_type === 'new'" transition="expand"><h5>Create a new repository</h5><div class="form-group"><input class="form-control" type="text" v-model="repo_new.name" maxlength="128" placeholder="Repository name"></div><div class="form-group"><input class="form-control" type="text" v-model="repo_new.description" maxlength="256" placeholder="Repository description"></div><div class="form-group"><select class="form-control" v-model="repo_new.private"><option selected="selected" value="true">Private repository (recommended)</option><option value="false">Public repository</option><select></select></select></div></div></div><!-- .modal-content --><button class="modal-btn" type="submit"><i v-if="loading.repo_new || loading.passwords" class="loading"></i> {{ repo_type === 'new' ? 'Create repository' : 'Use this repository' }}</button></div><!-- .modal-body --></form><!-- #repos --><div id="secret" class="modal" v-if="repo && !decrypted" transition="fade-down"><div class="modal-body"><div class="modal-header"><h2>Enter your passphrase</h2></div><div class="modal-content"><p>Enter your passphrase so that your data can be encrypted and decrypted</p><div class="form-group"><label class="form-control-label sr-only">Your passphrase</label><input type="password" v-model="secret" class="form-control" placeholder="Your passphrase"></div></div><button class="modal-btn" type="button" v-on:click="decryptPasswords()">Decrypt Passwords</button></div></div><!-- #secret --><main id="main" v-if="repo && decrypted" transition="fade"><header id="header"><h1 id="title">Passwords</h1><div id="actions"><button class="btn" v-on:click="undo()">Undo Changes</button> <button class="btn" v-on:click="addEntry()">Add New</button> <button class="btn btn-primary" v-on:click="saveEntries()"><i v-if="loading.save" class="loading"></i> Save Changes</button></div></header><div id="wrap"><ul id="entries" v-if="entries"><li transition="fade" class="entries-entry" v-for="e in entries" v-bind:class="{'active': e === entry}" v-on:click="viewEntry($index)"><img :src="e.icon()"> {{ e.name }}</li></ul><article id="entry" v-if="entry" transition="fade"><button type="button" class="btn" v-on:click="deleteEntry()">Delete</button><dl><dt><label for="entry_name" class="form-control-label">Name</label></dt><dd><input id="entry_name" required class="form-control" type="text" v-model="entry.name"></dd><dt><label for="entry_username" class="form-control-label">Username</label></dt><dd><input id="entry_username" class="form-control" type="text" v-model="entry.username"></dd><dt><label for="entry_email" class="form-control-label">Email</label></dt><dd><input id="entry_email" class="form-control" type="email" v-model="entry.email"></dd><dt><label for="entry_password" class="form-control-label">Password</label></dt><dd><input id="entry_password" class="form-control" type="text" v-model="entry.password"></dd><dt><label for="entry_url" class="form-control-label">URL</label></dt><dd><input id="entry_url" class="form-control" type="url" v-model="entry.url"></dd><dt><label for="entry_notes" class="form-control-label">Notes</label></dt><dd><textarea id="entry_notes" class="form-control" rows="10" cols="20" v-model="entry.description"></textarea></dd></dl></article></div><!-- #wrap --></main></div><script src="bundle.js"></script></body></html>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to Firebase Hosting</title>
+
+    <!-- update the version number as needed -->
+    <script defer src="/__/firebase/4.6.1/firebase-app.js"></script>
+    <!-- include only the Firebase features as you need -->
+    <script defer src="/__/firebase/4.6.1/firebase-auth.js"></script>
+    <script defer src="/__/firebase/4.6.1/firebase-database.js"></script>
+    <script defer src="/__/firebase/4.6.1/firebase-messaging.js"></script>
+    <script defer src="/__/firebase/4.6.1/firebase-storage.js"></script>
+    <!-- initialize the SDK after all desired features are loaded -->
+    <script defer src="/__/firebase/init.js"></script>
+
+    <style media="screen">
+      body { background: #ECEFF1; color: rgba(0,0,0,0.87); font-family: Roboto, Helvetica, Arial, sans-serif; margin: 0; padding: 0; }
+      #message { background: white; max-width: 360px; margin: 100px auto 16px; padding: 32px 24px; border-radius: 3px; }
+      #message h2 { color: #ffa100; font-weight: bold; font-size: 16px; margin: 0 0 8px; }
+      #message h1 { font-size: 22px; font-weight: 300; color: rgba(0,0,0,0.6); margin: 0 0 16px;}
+      #message p { line-height: 140%; margin: 16px 0 24px; font-size: 14px; }
+      #message a { display: block; text-align: center; background: #039be5; text-transform: uppercase; text-decoration: none; color: white; padding: 16px; border-radius: 4px; }
+      #message, #message a { box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24); }
+      #load { color: rgba(0,0,0,0.4); text-align: center; font-size: 13px; }
+      @media (max-width: 600px) {
+        body, #message { margin-top: 0; background: white; box-shadow: none; }
+        body { border-top: 16px solid #ffa100; }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="message">
+      <h2>Welcome</h2>
+      <h1>Firebase Hosting Setup Complete</h1>
+      <p>You're seeing this because you've successfully setup Firebase Hosting. Now it's time to go build something extraordinary!</p>
+      <a target="_blank" href="https://firebase.google.com/docs/hosting/">Open Hosting Documentation</a>
+    </div>
+    <p id="load">Firebase SDK Loading&hellip;</p>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+        // // The Firebase SDK is initialized and available here!
+        //
+        // firebase.auth().onAuthStateChanged(user => { });
+        // firebase.database().ref('/path/to/ref').on('value', snapshot => { });
+        // firebase.messaging().requestPermission().then(() => { });
+        // firebase.storage().ref('/path/to/ref').getDownloadURL().then(() => { });
+        //
+        // // 🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥
+
+        try {
+          let app = firebase.app();
+          let features = ['auth', 'database', 'messaging', 'storage'].filter(feature => typeof app[feature] === 'function');
+          document.getElementById('load').innerHTML = `Firebase SDK loaded with ${features.join(', ')}`;
+        } catch (e) {
+          console.error(e);
+          document.getElementById('load').innerHTML = 'Error loading the Firebase SDK, check the console.';
+        }
+      });
+    </script>
+  </body>
+</html>
