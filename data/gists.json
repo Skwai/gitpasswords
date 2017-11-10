@@ -1,0 +1,13 @@
+[
+  {
+    "url": "https://example.com",
+    "description": "Example",
+    "id": "f8a9ae48ed7f71e10365759c5e7e50fd",
+    "files": {
+      "password": {
+        "filename": "password",
+        "type": "text/plain"
+      }
+    }
+  }
+]
