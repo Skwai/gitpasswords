@@ -26,10 +26,6 @@ export default {
 
   data () {
     return {
-      credentials: {
-        username: null,
-        password: null
-      },
       loading: false,
       error: null
     }
@@ -39,7 +35,7 @@ export default {
     async login () {
       this.loading = true
       try {
-        await this.$store.dispatch('getRepos', this.credentials)
+        await this.$store.dispatch('login')
       } catch (err) {
         this.error = err.message
       } finally {

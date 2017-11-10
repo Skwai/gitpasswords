@@ -5,7 +5,6 @@ import config from '../config'
 const API_URL = 'https://api.github.com'
 const ACCEPT = 'application/vnd.github.v3+json'
 const FILENAME = 'gitpasswords'
-const STORAGE_TOKEN = 'gitpasswords:token'
 
 const github = new Firebase.auth.GithubAuthProvider()
 github.addScope('repo')
@@ -16,7 +15,7 @@ export const login = async () => {
   try {
     const { credential } = await auth().signInWithPopup(github)
     const { accessToken } = credential
-    const { login: username } = await getUser()
+    const { login: username } = await getUser(null, accessToken)
     return {
       accessToken,
       username
@@ -26,28 +25,22 @@ export const login = async () => {
   }
 }
 
-export const getUser = (username = null) => {
+export const getUser = (username = null, token) => {
   const path = username ? `users/${username}` : 'user'
-  return query(path)
-}
-
-export const getToken = () => {
-  return localStorage.getItem(STORAGE_TOKEN) || null
+  return query(path, { token })
 }
 
 export const getGists = (username) => {
   return query(`users/${username}/gists`)
 }
 
-export const query = async (path, method, data) => {
-  const token = this.getToken()
-  if (!token) throw Error('No `authToken` in `localStorage`')
+export const query = async (path, { method = 'GET', data, token = null }) => {
   const url = [API_URL, path].join('/')
   const response = await fetch(url, {
     method,
     headers: {
-      authorization: `token ${token}`,
-      accept: ACCEPT
+      accept: ACCEPT,
+      ...(token ? { authorization: `token ${token}` } : null)
     },
     ...(data ? { body: data } : null)
   })
@@ -63,11 +56,12 @@ export const createGist = (description, filename = FILENAME) => {
   query('gists', 'POST', data)
 }
 
-export const getGistData = (gistId, filename = FILENAME) => {
+export const getGistData = (gistId, secret, filename = FILENAME) => {
   const path = `gists/${gistId}`
   const { files } = this.query(path)
   if (!(filename in files)) throw Error('The retrieved Gist is empty')
-  return files[filename].content
+  const data = files[filename].content
+  return decryptData(data, secret)
 }
 
 export const saveGistData = (gistId, data, filename = FILENAME) => {

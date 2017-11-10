@@ -18,4 +18,9 @@ export default {
 </script>
 
 <style lang="stylus">
+@import "../styles/config.styl"
+
+.Gist
+  selectable()
+
 </style>

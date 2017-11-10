@@ -8,15 +8,19 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import Login from './components/Login'
+import Login from '@/components/Login'
+import Gists from '@/components/Gists'
+import Entries from '@/components/Entries'
 
 export default {
   components: {
-    Login
+    Login,
+    Gists,
+    Entries
   },
 
   computed: {
-    ...mapGetters(['username'])
+    ...mapGetters(['username', 'gistId'])
   }
 }
 </script>
