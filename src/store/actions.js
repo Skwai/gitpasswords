@@ -1,14 +1,27 @@
 import Entry from '@/models/Entry'
-import * as gh from '../services/gh'
+import * as gh from '@/services/gh'
+import { encryptData, decryptData } from '@/services/encrypt'
+import { ACCESS_TOKEN_STORAGE_KEY } from '@/config'
+
+const storeToken = (token) => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
+const removeToken = () => localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
 
 export const login = async ({ commit, state }) => {
-  try {
-    const { token, username } = await gh.login()
-    commit('SET_ACCESS_TOKEN', token)
-    commit('SET_USERNAME', username)
-  } catch (err) {
-    console.error(err)
-  }
+  const { token, username } = await gh.login()
+  storeToken(token)
+  commit('SET_ACCESS_TOKEN', token)
+  commit('SET_USERNAME', username)
+}
+
+export const logout = ({ commit }) => {
+  removeToken()
+  commit('RESET')
+}
+
+export const getUserFromToken = async ({ commit, state }, token) => {
+  const { login: username } = await gh.getUser({ token })
+  console.log(username)
+  commit('SET_USERNAME', username)
 }
 
 export const getGists = async ({ commit, state }) => {
@@ -37,7 +50,7 @@ export const createGist = async ({ commit, state }, { filename, secret }) => {
     url: 'http://example.com',
     password: 'test'
   })
-  const encryptedData = gh.encryptData([ placeholder ], secret)
+  const encryptedData = encryptData([ placeholder ], secret)
   const gist = await gh.createGist({ filename, secret, encryptedData, token })
   commit('SET_FILENAME', filename)
   commit('SET_SECRET', secret)
@@ -49,7 +62,7 @@ export const createGist = async ({ commit, state }, { filename, secret }) => {
 export const selectGist = async ({ commit, state }, { gistID, secret, filename }) => {
   const { token } = state
   const data = await gh.getGistData({ filename, gistID, token })
-  const entries = gh.decryptData(data, secret)
+  const entries = decryptData(data, secret)
   commit('SET_FILENAME', filename)
   commit('SET_SECRET', secret)
   commit('SET_GIST_ID', gistID)
@@ -66,6 +79,6 @@ export const updateEntry = ({ commit }, entry) => {
 
 export const saveEntries = async ({ commit, state }) => {
   const { entries, filename, secret, token, gistID } = state
-  const encryptedData = gh.encryptData(entries, secret)
+  const encryptedData = encryptData(entries, secret)
   await gh.saveGistData({ gistID, filename, encryptedData, token })
 }

@@ -1,6 +1,5 @@
 import Firebase from 'firebase'
-import CryptoJS from 'crypto-js'
-import config from '../config'
+import { FIREBASE } from '../config'
 
 const API_URL = 'https://api.github.com'
 const ACCEPT = 'application/vnd.github.v3+json'
@@ -8,15 +7,25 @@ const DEFAULT_DESCRIPTION = 'Git password file'
 
 const github = new Firebase.auth.GithubAuthProvider()
 github.addScope('gist')
-Firebase.initializeApp(config.FIREBASE)
+Firebase.initializeApp(FIREBASE)
 const { auth } = Firebase
 
+/**
+ * Perform a query agains the Github V3 REST API
+ * @param {String}  path              The API URL path
+ * @param {Object}  options
+ * @param {String}  options.method    The HTTP method (GET, POST, PATCH, etc.)
+ * @param {*}       options.data      The JSON data to send in request
+ * @param {String}  options.token     The GitHub oAuth access token
+ * @return {Promise<Array|Object>}    A promise that resolves with the returned data
+ */
 export const query = async (path, { method = 'GET', data, token = null }) => {
   const url = [API_URL, path].join('/')
   const response = await fetch(url, {
     method,
     headers: {
       accept: ACCEPT,
+      ...(data ? { 'content-type': 'application/json' } : null),
       ...(token ? { authorization: `token ${token}` } : null)
     },
     ...(data ? { body: JSON.stringify(data) } : null)
@@ -24,6 +33,12 @@ export const query = async (path, { method = 'GET', data, token = null }) => {
   return response.json()
 }
 
+/**
+ * Perform oAuth login request via Firebase
+ * @return {Object}
+ * @property {String} token
+ * @property {String} username
+ */
 export const login = async () => {
   try {
     const { credential } = await auth().signInWithPopup(github)
@@ -39,6 +54,13 @@ export const login = async () => {
   }
 }
 
+/**
+ * Get a Github user's profile
+ * @param {Object} options
+ * @param {String} options.username   The Github user's username
+ * @param {String} options.token      The oAuth token
+ * @return {Promise<Object>}          A promise that resolves with the user's data
+ */
 export const getUser = ({ username = null, token }) => {
   const path = username ? `users/${username}` : 'user'
   return query(path, { token })
@@ -86,21 +108,4 @@ export const saveGistData = ({ gistID, filename, encryptedData, token }) => {
     token,
     method: 'POST'
   })
-}
-
-export const decryptData = (data, secret) => {
-  try {
-    const b64 = CryptoJS.AES.decrypt(data, secret).toString(CryptoJS.enc.Utf8)
-    const json = atob(b64)
-    return JSON.parse(json)
-  } catch (err) {
-    throw Error('Could not decrypt data')
-  }
-}
-
-export const encryptData = (data, secret) => {
-  const json = JSON.stringify(data)
-  const b64 = btoa(json)
-  const encrypted = CryptoJS.AES.encrypt(b64, secret)
-  return encrypted.toString()
 }

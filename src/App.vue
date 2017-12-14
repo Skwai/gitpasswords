@@ -20,7 +20,13 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['username', 'gistID'])
+    ...mapGetters(['username', 'gistID', 'token'])
+  },
+
+  async created () {
+    if (this.token) {
+      await this.$store.dispatch('getUserFromToken', this.token)
+    }
   }
 }
 </script>

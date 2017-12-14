@@ -1,3 +1,5 @@
+import initialState from '@/store/initial-state'
+
 export const ADD_GISTS = (store, gists) => {
   store.gists = store.gists.concat(gists)
 }
@@ -50,4 +52,8 @@ export const ADD_ENTRY = (store, entry) => {
 export const REMOVE_ENTRY = (store, entryID) => {
   const index = store.entries.findIndex(({ id }) => id === entryID)
   store.entries.splice(index, 1)
+}
+
+export const RESET = (store) => {
+  store = { ...initialState }
 }

@@ -4,6 +4,7 @@ import Vuex from 'vuex'
 import * as actions from '@/store/actions'
 import * as getters from '@/store/getters'
 import * as mutations from '@/store/mutations'
+import initialState from '@/store/initial-state'
 
 Vue.use(Vuex)
 
@@ -13,15 +14,6 @@ export default new Vuex.Store({
   actions,
   getters,
   mutations,
-  state: {
-    username: null,
-    token: null,
-    secret: null,
-    filename: null,
-    gistID: null,
-    entryID: null,
-    gists: [],
-    entries: []
-  },
+  state: { ...initialState },
   strict: debug
 })
