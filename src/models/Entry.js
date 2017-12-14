@@ -12,8 +12,8 @@ export default class Entry {
   modified = new Date()
 
   constructor (attrs = {}) {
-    Object.assign(this, attrs)
     this.id = Entry.generateID()
+    Object.assign(this, attrs)
   }
 
   static generateID () {

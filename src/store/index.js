@@ -15,7 +15,9 @@ export default new Vuex.Store({
   mutations,
   state: {
     username: null,
+    token: null,
     secret: null,
+    filename: null,
     gistID: null,
     entryID: null,
     gists: [],

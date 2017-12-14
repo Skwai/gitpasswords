@@ -11,30 +11,6 @@ github.addScope('gist')
 Firebase.initializeApp(config.FIREBASE)
 const { auth } = Firebase
 
-export const login = async () => {
-  try {
-    const { credential } = await auth().signInWithPopup(github)
-    const { accessToken } = credential
-    const { login: username } = await getUser(null, accessToken)
-    return {
-      accessToken,
-      username
-    }
-  } catch (err) {
-    console.error(err)
-  }
-}
-
-export const getUser = (username = null, token) => {
-  const path = username ? `users/${username}` : 'user'
-  return query(path, { token })
-}
-
-export const getGists = (username, token) => {
-  const path = `users/${username}/gists`
-  return query(path, { token })
-}
-
 export const query = async (path, { method = 'GET', data, token = null }) => {
   const url = [API_URL, path].join('/')
   const response = await fetch(url, {
@@ -48,7 +24,32 @@ export const query = async (path, { method = 'GET', data, token = null }) => {
   return response.json()
 }
 
-export const createGist = (filename, secret, encryptedData, token) => {
+export const login = async () => {
+  try {
+    const { credential } = await auth().signInWithPopup(github)
+    const { accessToken: token } = credential
+    const { login: username } = await getUser({ token })
+    return {
+      token,
+      username
+    }
+  } catch (err) {
+    console.error(err)
+    throw err
+  }
+}
+
+export const getUser = ({ username = null, token }) => {
+  const path = username ? `users/${username}` : 'user'
+  return query(path, { token })
+}
+
+export const getGists = ({ username, token }) => {
+  const path = `users/${username}/gists`
+  return query(path, { token })
+}
+
+export const createGist = ({ filename, secret, encryptedData, token }) => {
   const data = {
     description: DEFAULT_DESCRIPTION,
     public: false,
@@ -65,18 +66,26 @@ export const createGist = (filename, secret, encryptedData, token) => {
   })
 }
 
-export const getGistData = async (gistId, token) => {
-  const path = `gists/${gistId}`
+export const getGistData = async ({ filename, gistID, token }) => {
+  const path = `gists/${gistID}`
   const { files } = await query(path, { token })
-  const filename = Object.keys(files).shift()
   return files[filename].content
 }
 
-export const saveGistData = (gistId, filename, data) => {
-  const path = `gists/${gistId}`
-  const { files } = this.query(path)
-  if (!(filename in files)) throw Error('The retrieved Gist is empty')
-  return files[filename].content
+export const saveGistData = ({ gistID, filename, encryptedData, token }) => {
+  const path = `gists/${gistID}`
+  const data = {
+    files: {
+      [filename]: {
+        content: encryptedData
+      }
+    }
+  }
+  return query(path, {
+    data,
+    token,
+    method: 'POST'
+  })
 }
 
 export const decryptData = (data, secret) => {

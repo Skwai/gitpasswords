@@ -14,8 +14,8 @@ export const SET_GIST_ID = (store, gistID) => {
   store.gistID = gistID
 }
 
-export const SET_ACCESS_TOKEN = (store, accessToken) => {
-  store.accessToken = accessToken
+export const SET_ACCESS_TOKEN = (store, token) => {
+  store.token = token
 }
 
 export const SET_USERNAME = (store, username) => {
@@ -32,4 +32,22 @@ export const SET_GISTS = (store, gists) => {
 
 export const ADD_GIST = (store, gist) => {
   store.gists.push(gist)
+}
+
+export const UPDATE_ENTRY = (store, entry) => {
+  const index = store.entries.findIndex(({ id }) => id === entry.id)
+  store.entries[index] = entry
+}
+
+export const SET_FILENAME = (store, filename) => {
+  store.filename = filename
+}
+
+export const ADD_ENTRY = (store, entry) => {
+  store.entries.push(entry)
+}
+
+export const REMOVE_ENTRY = (store, entryID) => {
+  const index = store.entries.findIndex(({ id }) => id === entryID)
+  store.entries.splice(index, 1)
 }

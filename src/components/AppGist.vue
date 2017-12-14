@@ -1,5 +1,5 @@
 <template>
-  <div :class="$style.AppGist" @click="$listeners.click">
+  <div :class="$style.AppGist" @click="$listeners.click(gist.id, filename)">
     {{gist.id}}: {{filename}}
     <small>{{updatedAt}}</small>
   </div>

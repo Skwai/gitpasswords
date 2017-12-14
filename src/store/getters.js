@@ -3,4 +3,4 @@ export const username = ({ username }) => username
 export const gists = ({ gists }) => gists
 export const entryID = ({ entryID }) => entryID
 export const entries = ({ entries }) => entries
-export const entryById = ({ entries }) => (id) => entries.find(e => e.id === id)
+export const entryByID = ({ entries }) => (id) => entries.find(e => e.id === id)

@@ -10,7 +10,7 @@
     >
       <AppGist
         :gist="gist"
-        @click="selectGist(gist.id)"
+        @click="selectGist"
       ></AppGist>
     </div>
     <div v-else>You don't have any Gists</div>
@@ -51,9 +51,9 @@ export default {
       return prompt('Enter a secret key')
     },
 
-    async selectGist (gistID) {
+    async selectGist (gistID, filename) {
       const secret = this.requestSecret()
-      await this.$store.dispatch('selectGist', { gistID, secret })
+      await this.$store.dispatch('selectGist', { gistID, secret, filename })
     },
 
     createGist () {

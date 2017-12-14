@@ -1,7 +1,15 @@
 <template>
   <div :class="$style.FormField">
     <label :class="$style.FormField__Label">{{label}}</Label>
+    <textarea v-if="type === 'textarea'"
+      :class="$style.FormField__Input"
+      :value="value"
+      @input="$emit('input', $event.target.value)"
+      rows="5"
+      cols="20"
+    ></textarea>
     <input
+      v-else
       :type="type"
       :class="$style.FormField__Input"
       :value="value"
@@ -22,10 +30,12 @@ export default {
       default: 'text'
     },
     required: {
-      type: Boolean
+      type: Boolean,
+      default: true
     },
     value: {
-      required: true
+      required: true,
+      default: null
     }
   }
 }

@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.EntryList">
-    <AppBtn>Create New</AppBtn>
+    <AppBtn @click="createEntry">Create New</AppBtn>
     <div
       v-for="entry in entries"
       :key="entry.id"
@@ -25,8 +25,11 @@ export default {
   },
 
   methods: {
+    createEntry () {
+      this.$store.dispatch('createEntry')
+    },
+
     selectEntry (entryID) {
-      console.log(entryID)
       this.$store.dispatch('setActiveEntryID', entryID)
     }
   }
