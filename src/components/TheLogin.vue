@@ -2,26 +2,22 @@
   <div :class="$style.Login">
     <div :class="$style.Login__Body">
       <h2>Login</h2>
-      <Loading v-if="loading" />
-      <template v-else>
-        <button @click.prevent="login">Sign in with GitHub</button>
-      </template>
+      <AppLoading v-if="loading" />
+      <AppBtn v-else @click="login">Sign in with GitHub</AppBtn>
     </div>
   </div>
 </template>
 
 <script>
-import FormField from './FormField'
-import Loading from './Loading'
-import Btn from './Btn'
-import Error from './Error'
+import AppLoading from './AppLoading'
+import AppBtn from './AppBtn'
+import AppError from './AppError'
 
 export default {
   components: {
-    FormField,
-    Btn,
-    Loading,
-    Error
+    AppBtn,
+    AppLoading,
+    AppError
   },
 
   data () {
@@ -35,7 +31,7 @@ export default {
     async login () {
       this.loading = true
       try {
-        await this.$store.dispatch('login')
+        this.$store.dispatch('login')
       } catch (err) {
         this.error = err.message
       } finally {

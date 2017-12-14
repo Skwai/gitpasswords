@@ -1,16 +1,21 @@
 <template>
-  <h4 :class="$style.Error">{{message}}</h4>
+  <h4 :class="$style.AppError">{{message}}</h4>
 </template>
 
 <script>
 export default {
-  props: ['message']
+  props: {
+    message: {
+      required: true,
+      type: String
+    }
+  }
 }
 </script>
 
 <style lang="stylus" module>
 @import "../styles/config.styl"
 
-.Error
+.AppError
   color: #d00
 </style>

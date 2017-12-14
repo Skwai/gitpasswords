@@ -1,31 +1,37 @@
 <template>
-  <div id="App" :class="$style.App">
-    <Login v-if="!username" />
-    <Gists v-else-if="!gistId" />
-    <Entries v-else />
+  <div :class="$style.App">
+    <TheLogin v-if="!username"></TheLogin>
+    <TheGists v-else-if="!gistID"></TheGists>
+    <TheEntries v-else></TheEntries>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Login from '@/components/Login'
-import Gists from '@/components/Gists'
-import Entries from '@/components/Entries'
+import TheLogin from '@/components/TheLogin'
+import TheGists from '@/components/TheGists'
+import TheEntries from '@/components/TheEntries'
 
 export default {
   components: {
-    Login,
-    Gists,
-    Entries
+    TheLogin,
+    TheGists,
+    TheEntries
   },
 
   computed: {
-    ...mapGetters(['username', 'gistId'])
+    ...mapGetters(['username', 'gistID'])
   }
 }
 </script>
 
 <style lang="stylus" module>
+html
+  font-size: calc(7px + 1vmin)
+
+body
+  margin: 0
+
 .App
   font-size: 1rem
   font-family: 'Avenir', Helvetica, Arial, sans-serif

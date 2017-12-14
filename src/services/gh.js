@@ -4,10 +4,10 @@ import config from '../config'
 
 const API_URL = 'https://api.github.com'
 const ACCEPT = 'application/vnd.github.v3+json'
-const FILENAME = 'gitpasswords'
+const DEFAULT_DESCRIPTION = 'Git password file'
 
 const github = new Firebase.auth.GithubAuthProvider()
-github.addScope('repo')
+github.addScope('gist')
 Firebase.initializeApp(config.FIREBASE)
 const { auth } = Firebase
 
@@ -21,7 +21,7 @@ export const login = async () => {
       username
     }
   } catch (err) {
-    throw err
+    console.error(err)
   }
 }
 
@@ -30,8 +30,9 @@ export const getUser = (username = null, token) => {
   return query(path, { token })
 }
 
-export const getGists = (username) => {
-  return query(`users/${username}/gists`)
+export const getGists = (username, token) => {
+  const path = `users/${username}/gists`
+  return query(path, { token })
 }
 
 export const query = async (path, { method = 'GET', data, token = null }) => {
@@ -42,29 +43,36 @@ export const query = async (path, { method = 'GET', data, token = null }) => {
       accept: ACCEPT,
       ...(token ? { authorization: `token ${token}` } : null)
     },
-    ...(data ? { body: data } : null)
+    ...(data ? { body: JSON.stringify(data) } : null)
   })
   return response.json()
 }
 
-export const createGist = (description, filename = FILENAME) => {
+export const createGist = (filename, secret, encryptedData, token) => {
   const data = {
-    description,
-    public: true,
-    files: { [filename]: '' }
+    description: DEFAULT_DESCRIPTION,
+    public: false,
+    files: {
+      [filename]: {
+        content: encryptedData
+      }
+    }
   }
-  query('gists', 'POST', data)
+  return query('gists', {
+    data,
+    token,
+    method: 'POST'
+  })
 }
 
-export const getGistData = (gistId, secret, filename = FILENAME) => {
+export const getGistData = async (gistId, token) => {
   const path = `gists/${gistId}`
-  const { files } = this.query(path)
-  if (!(filename in files)) throw Error('The retrieved Gist is empty')
-  const data = files[filename].content
-  return decryptData(data, secret)
+  const { files } = await query(path, { token })
+  const filename = Object.keys(files).shift()
+  return files[filename].content
 }
 
-export const saveGistData = (gistId, data, filename = FILENAME) => {
+export const saveGistData = (gistId, filename, data) => {
   const path = `gists/${gistId}`
   const { files } = this.query(path)
   if (!(filename in files)) throw Error('The retrieved Gist is empty')

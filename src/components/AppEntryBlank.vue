@@ -1,17 +1,15 @@
 <template>
-  <div class="EntryBlank">
+  <div :class="$style.EntryBlank">
     Select an entry on the left
   </div>
 </template>
 
 <script>
 export default {
-  props: ['entryId'],
-
-  computed: {
-  }
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" module>
+.EntryBlank
+  background: #fff
 </style>

@@ -6,12 +6,12 @@ export const SET_ENTRIES = (store, entries) => {
   store.entries = store.entries.concat(entries)
 }
 
-export const SET_ENTRY_ID = (store, entryId) => {
-  store.entryId = entryId
+export const SET_ENTRY_ID = (store, entryID) => {
+  store.entryID = entryID
 }
 
-export const SET_GIST_ID = (store, gistId) => {
-  store.gistId = gistId
+export const SET_GIST_ID = (store, gistID) => {
+  store.gistID = gistID
 }
 
 export const SET_ACCESS_TOKEN = (store, accessToken) => {
@@ -24,4 +24,12 @@ export const SET_USERNAME = (store, username) => {
 
 export const SET_SECRET = (store, secret) => {
   store.secret = secret
+}
+
+export const SET_GISTS = (store, gists) => {
+  store.gists = gists
+}
+
+export const ADD_GIST = (store, gist) => {
+  store.gists.push(gist)
 }

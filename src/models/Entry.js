@@ -1,5 +1,9 @@
+import Hashids from 'hashids'
+
+const hashids = new Hashids()
+
 export default class Entry {
-  id = new Date().getTime()
+  id = null
   title = null
   password = null
   url = null
@@ -9,5 +13,11 @@ export default class Entry {
 
   constructor (attrs = {}) {
     Object.assign(this, attrs)
+    this.id = Entry.generateID()
+  }
+
+  static generateID () {
+    const time = new Date().getTime()
+    return hashids.encode(...String(time).split('').map(s => Number(s)))
   }
 }

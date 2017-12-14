@@ -16,12 +16,10 @@ export default new Vuex.Store({
   state: {
     username: null,
     secret: null,
-
+    gistID: null,
+    entryID: null,
     gists: [],
-    gistId: null,
-
-    entries: [],
-    entryId: null
+    entries: []
   },
   strict: debug
 })
