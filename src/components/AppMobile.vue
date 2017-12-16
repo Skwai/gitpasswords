@@ -6,7 +6,7 @@
 
 <style lang="stylus" module>
 .AppMobile
-  display: block
+  display: inherit
 
   @media (min-width: 768px)
     display: none

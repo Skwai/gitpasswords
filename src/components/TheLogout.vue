@@ -1,10 +1,8 @@
 <template>
-  <div :class="$style.TheLogout">
-    <AppBtn
-      @click="logout"
-      color="muted"
-    >Log out</AppBtn>
-  </div>
+  <AppBtn
+    @click="logout"
+    color="muted"
+  >Log out</AppBtn>
 </template>
 
 <script>
@@ -22,12 +20,3 @@ export default {
   }
 }
 </script>
-
-<style lang="stylus" module>
-.TheLogout
-  @media (max-width: 767px)
-    margin-left: auto
-
-  @media (min-width: 768px)
-    margin-top: auto
-</style>

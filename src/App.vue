@@ -42,7 +42,7 @@ export default {
 @import "./styles/config.styl"
 
 html
-  font-size: 15px
+  font-size: 14px
 
 body
   margin: 0

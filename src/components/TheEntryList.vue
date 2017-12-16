@@ -1,6 +1,6 @@
 <template>
   <nav :class="$style.EntryList">
-    <div :class="$style.EntryList__Mobile">
+    <AppMobile :class="$style.EntryList__Mobile">
       <button
         v-if="entryID"
         :class="[$style.EntryList__MobileButton, $style.EntryList__MobileBack]"
@@ -16,21 +16,19 @@
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
       </button>
-    </div>
+    </AppMobile>
     <AppDesktop>
       <AppBtn @click="createEntry">New Entry</AppBtn>
     </AppDesktop>
     <div :class="$style.EntryList__Entries" :open="!entryID">
-      <div
-        tabindex="1"
-        v-for="entry in entries"
+      <AppEntryListItem
         :key="entry.id"
         :selected="entryID === entry.id"
-        :class="$style.EntryList__Entry"
-        @click="selectEntry(entry.id)"
-      >{{entry.title}}</div>
+        :entry="entry"
+        v-for="entry in entries"
+      ></AppEntryListItem>
     </div>
-    <AppDesktop>
+    <AppDesktop :class="$style.EntryList__Logout">
       <TheLogout></TheLogout>
     </AppDesktop>
   </nav>
@@ -41,6 +39,7 @@ import { mapGetters } from 'vuex'
 import AppBtn from './AppBtn'
 import AppMobile from './AppMobile'
 import AppDesktop from './AppDesktop'
+import AppEntryListItem from './AppEntryListItem'
 import TheLogout from './TheLogout'
 
 export default {
@@ -48,6 +47,7 @@ export default {
     AppBtn,
     AppMobile,
     AppDesktop,
+    AppEntryListItem,
     TheLogout
   },
 
@@ -83,48 +83,9 @@ export default {
     padding: spacingBase
     flex-direction: column
 
-  button
-    @media (min-width: 768px)
+  @media (min-width: 768px)
+    button
       width: 100%
-
-  &__Entry
-    padding: 1rem spacingBase
-    font-weight: 600
-    white-space: nowrap
-    max-width: 100%
-    text-overflow: ellipsis
-    cursor: pointer
-    transition: background 0.2s, opacity 0.2s
-    will-change: background, opacity
-
-    @media (max-width: 767px)
-      border-top: grayLight solid 1px
-      display: flex
-      align-items: center
-
-      &:first-child
-        border-top: 0
-
-    @media (min-width: 768px)
-      opacity: .7
-
-    &:hover,
-    &:focus,
-    &:active,
-    &[selected]
-      background: grayLighter
-
-      @media (min-width: 768px)
-        background: rgba(255,255,255,.1)
-
-    &[selected],
-    &:hover,
-    &:active,
-    &:focus
-      opacity: 1
-
-    &:focus
-      outline: 0
 
   &__Entries
     @media (max-width: 767px)
@@ -152,12 +113,29 @@ export default {
     width: 100%
     align-items: center
 
+    @media (min-width: 768px)
+      display: none
+
     &Add
       margin-left: auto
 
   &__MobileButton
+    padding: 0
+    background: transparent
+    border: 0
+
+    &:focus
+      outline: 0
+
     svg
       width: 2rem
       height: 2rem
       fill: #fff
+
+  &__Logout
+    @media (max-width: 767px)
+      margin-left: auto
+
+    @media (min-width: 768px)
+      margin-top: auto
 </style>
