@@ -67,3 +67,7 @@ export const SET_ERROR = (state, message) => {
 export const REMOVE_ERROR = (state) => {
   state.error = null
 }
+
+export const SET_TIMER = (state, timer) => {
+  state.inactiveTimer = timer
+}

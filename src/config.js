@@ -6,5 +6,5 @@ export const FIREBASE = {
   storageBucket: 'gitwords-e545c.appspot.com',
   messagingSenderId: '1012581199851'
 }
-
 export const ACCESS_TOKEN_STORAGE_KEY = 'gitpasswords:auth:token'
+export const INACTIVE_LOGOUT_DELAY = 60 * 60 * 1000

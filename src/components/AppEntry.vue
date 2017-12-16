@@ -152,7 +152,6 @@ export default {
     opacity: 1
 
 .AppEntry
-  background: #ffffff
   height: 100%
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05)
   background: #fff
@@ -161,7 +160,6 @@ export default {
 
   @media (min-width: $breakpoint)
     max-width: 40rem
-    border-right: 1px solid grayLight
     max-height: 100vh
 
   &__Footer,

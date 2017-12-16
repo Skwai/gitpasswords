@@ -1,7 +1,10 @@
 import Entry from '@/models/Entry'
 import * as gh from '@/services/gh'
 import { encryptData, decryptData } from '@/services/encrypt'
-import { ACCESS_TOKEN_STORAGE_KEY } from '@/config'
+import {
+  ACCESS_TOKEN_STORAGE_KEY,
+  INACTIVE_LOGOUT_DELAY
+} from '@/config'
 
 const storeToken = (token) => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
 const removeToken = () => localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
@@ -88,4 +91,10 @@ export const showError = ({ commit }, message) => {
 
 export const hideError = ({ commit }) => {
   commit('REMOVE_ERROR')
+}
+
+export const setInactiveTimer = ({ commit, state }) => {
+  if (state.secret) {
+    commit('SET_TIMER', setTimeout(() => commit('RESET'), INACTIVE_LOGOUT_DELAY))
+  }
 }

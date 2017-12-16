@@ -9,5 +9,6 @@ export default {
   entryID: null,
   gists: [],
   entries: [],
-  error: null
+  error: null,
+  inactiveTimer: null
 }

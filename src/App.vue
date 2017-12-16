@@ -26,7 +26,15 @@ export default {
     ...mapGetters(['username', 'gistID', 'token', 'error'])
   },
 
+  methods: {
+    bindClickTimeout () {
+      document.addEventListener('click', () => this.$store.dispatch('setInactiveTimer'))
+    }
+  },
+
   async created () {
+    this.bindClickTimeout()
+
     if (this.token) {
       try {
         await this.$store.dispatch('getUserFromToken', this.token)

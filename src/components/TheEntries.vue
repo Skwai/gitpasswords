@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.Entries">
     <div :class="$style.Entries__List">
-      <TheEntryList></TheEntryList>
+      <TheNav></TheNav>
     </div>
     <div :class="$style.Entries__Entry">
       <AppEntry
@@ -18,11 +18,11 @@
 import { mapGetters } from 'vuex'
 import AppEntry from './AppEntry'
 import AppEntryBlank from './AppEntryBlank'
-import TheEntryList from './TheEntryList'
+import TheNav from './TheNav'
 
 export default {
   components: {
-    TheEntryList,
+    TheNav,
     AppEntry,
     AppEntryBlank
   },
