@@ -81,3 +81,11 @@ export const saveEntries = async ({ commit, state }) => {
   const encryptedData = encryptData(entries, secret)
   await gh.saveGistData({ gistID, filename, encryptedData, token })
 }
+
+export const showError = ({ commit }, message) => {
+  commit('SET_ERROR', message)
+}
+
+export const hideError = ({ commit }) => {
+  commit('REMOVE_ERROR')
+}

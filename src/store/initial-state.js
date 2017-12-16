@@ -8,5 +8,6 @@ export default {
   gistID: null,
   entryID: null,
   gists: [],
-  entries: []
+  entries: [],
+  error: null
 }

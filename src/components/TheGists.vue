@@ -59,10 +59,6 @@ export default {
       return prompt(message)
     },
 
-    showError (message) {
-      alert(message)
-    },
-
     async selectGist (gistID, filename) {
       if (this.selectedGistID) return
       const secret = this.requestSecret('Enter your secret key to decrypt your passwords')
@@ -71,7 +67,7 @@ export default {
       try {
         await this.$store.dispatch('selectGist', { gistID, secret, filename })
       } catch (err) {
-        this.showError('The secret key you entered is not valid')
+        this.$store.dispatch('showError', 'The secret key you entered is not valid')
       } finally {
         this.selectedGistID = null
       }
@@ -82,13 +78,13 @@ export default {
       this.creating = true
       const secret = this.requestSecret('Enter a secret key to encrypt your passwords. It is vital that it is secure')
       if (this.secret === null) {
-        this.showError('Your secret key cannot be blank')
+        this.$store.dispatch('showError', 'Your secret key cannot be blank')
         return
       }
       try {
         this.$store.dispatch('createGist', { filename: this.filename, secret })
       } catch (err) {
-        this.showError('There was a problem creating your new Gist')
+        this.$store.dispatch('showError', 'There was a problem creating your new Gist')
       } finally {
         this.creating = false
       }

@@ -98,14 +98,13 @@ export default {
 
     async save () {
       this.saving = true
-      this.error = false
       try {
         this.entry.modified = new Date().toISOString()
         this.$store.dispatch('updateEntry', this.entry)
         this.isDirty = false
         await this.$store.dispatch('saveEntries')
       } catch (err) {
-        this.error = 'There was an error saving your entry'
+        this.$store.dispatch('showError', 'There was an error saving your entry')
       } finally {
         this.saving = false
       }
@@ -114,13 +113,12 @@ export default {
     async destroy () {
       if (!confirm('Are you sure you want to delete this entry?')) return
       this.destroying = true
-      this.error = false
       try {
         this.$store.dispatch('deleteEntry', this.entry.id)
         await this.$store.dispatch('saveEntries')
         this.$store.dispatch('setActiveEntryID', null)
       } catch (err) {
-        this.error = 'There was an error deleting this entry'
+        this.$store.dispatch('showError', 'There was an error deleting this entry')
       } finally {
         this.destroying = false
       }

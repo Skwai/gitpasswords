@@ -1,5 +1,6 @@
 <template>
   <div :class="$style.App">
+    <TheError v-if="error" :error="error"></TheError>
     <TheLogin v-if="!username"></TheLogin>
     <TheGists v-else-if="!gistID"></TheGists>
     <TheEntries v-else></TheEntries>
@@ -11,16 +12,18 @@ import { mapGetters } from 'vuex'
 import TheLogin from '@/components/TheLogin'
 import TheGists from '@/components/TheGists'
 import TheEntries from '@/components/TheEntries'
+import TheError from '@/components/TheError'
 
 export default {
   components: {
     TheLogin,
     TheGists,
-    TheEntries
+    TheEntries,
+    TheError
   },
 
   computed: {
-    ...mapGetters(['username', 'gistID', 'token'])
+    ...mapGetters(['username', 'gistID', 'token', 'error'])
   },
 
   async created () {

@@ -57,3 +57,11 @@ export const REMOVE_ENTRY = (state, entryID) => {
 export const RESET = (state) => {
   state = { ...initialState }
 }
+
+export const SET_ERROR = (state, message) => {
+  state.error = message
+}
+
+export const REMOVE_ERROR = (state) => {
+  state.error = null
+}

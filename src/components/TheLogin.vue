@@ -16,13 +16,11 @@
 <script>
 import AppLoading from './AppLoading'
 import AppBtn from './AppBtn'
-import AppError from './AppError'
 
 export default {
   components: {
     AppBtn,
-    AppLoading,
-    AppError
+    AppLoading
   },
 
   data () {
@@ -38,7 +36,7 @@ export default {
       try {
         await this.$store.dispatch('login')
       } catch (err) {
-        this.error = err.message
+        this.$store.dispatch('showError', err.message)
       } finally {
         this.loading = false
       }
