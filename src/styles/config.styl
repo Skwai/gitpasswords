@@ -1,0 +1,61 @@
+spacingBase = 1.5rem
+colorRed = #d00
+grayDark = #45506d
+grayLight = #DAE1E9
+grayLighter = #f1f2f3
+primary = #379eff
+borderRadius = 0px
+sansFont = -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"
+
+monospaceFont = "SF Mono", "Monaco", "Inconsolata", "Fira Mono", "Droid Sans Mono", "Source Code Pro", monospace
+
+card()
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05)
+  border: 1px solid grayLight
+  background: #fff
+  padding: spacingBase
+  border-radius: 3px
+
+modal()
+  background: grayLighter
+  width: 100vw
+  min-height: 100vh
+  // position: fixed
+  left: 0
+  top: 0
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+
+modalBody()
+  card()
+  width: 100%
+  max-width: 36rem
+
+fontSmall()
+  font-size: 87.5%
+
+textCaps()
+  text-transform: uppercase
+  fontSmall()
+  letter-spacing: 0.1em
+  font-weight: 600
+
+selectable()
+  padding: 1rem
+  // border: grayLight solid 1px
+
+input()
+  border: grayLight solid 1px
+  box-shadow: none
+  padding: 1rem
+  width: 100%
+  font-size: inherit
+  border-radius: borderRadius
+  transition: 0.15s
+
+  &:focus
+    box-shadow: none
+    outline: 0
+    border-color: primary
