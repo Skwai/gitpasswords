@@ -7,7 +7,7 @@
     :loading="loading"
     @click="click"
   >
-    <span :class="$style.AppBtn__Label"><slot /></span>
+    <span :class="$style.AppBtn__Label"><slot></slot></span>
     <span v-if="loading" :class="$style.AppBtn__Loading"><AppSpinner></AppSpinner></span>
   </button>
 </template>

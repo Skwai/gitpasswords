@@ -1,15 +1,15 @@
 <template>
   <div :class="$style.Entries">
     <div :class="$style.Entries__List">
-      <TheEntryList />
+      <TheEntryList></TheEntryList>
     </div>
     <div :class="$style.Entries__Entry">
       <AppEntry
         v-if="entryID"
         :key="entryID"
         :entryID="entryID"
-      />
-      <AppEntryBlank v-else />
+      ></AppEntry>
+      <AppEntryBlank v-else></AppEntryBlank>
     </div>
   </div>
 </template>
@@ -35,7 +35,8 @@ export default {
 
 <style lang="stylus" module>
 .Entries
-  min-height: 100vh
+  height: 100vh
+  max-height: 100vh
   display: flex
 
   &__List

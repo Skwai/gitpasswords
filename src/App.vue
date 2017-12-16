@@ -44,6 +44,10 @@ html
 body
   margin: 0
 
+h2
+  margin: 0 0 1.5rem
+  line-height: 1.1
+
 input,
 textarea,
 button

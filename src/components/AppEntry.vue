@@ -1,38 +1,35 @@
 <template>
   <form :class="$style.AppEntry" @submit.prevent="save">
-    <div :class="$style.AppEntry__Inner">
-      <div>
-        <header :class="$style.AppEntry__Header">
-          <h4 :class="$style.AppEntry__ID">ID: <i>{{entry.id}}</i></h4>
-          <time
-            :class="$style.AppEntry__Modified"
-            :datetime="entry.modified"
-          >Edited {{modified.date}} at {{modified.time}}</time>
-        </header>
-
-        <AppField
-          label="Title"
-          v-model="entry.title"
-        ></AppField>
-        <AppField
-          label="Username"
-          v-model="entry.username"
-        ></AppField>
-        <AppField
-          label="Password"
-          v-model="entry.password"
-        ></AppField>
-        <AppField
-          label="URL"
-          type="url"
-          v-model="entry.url"
-        ></AppField>
-        <AppField
-          label="Notes"
-          type="textarea"
-          v-model="entry.notes"
-        ></AppField>
-      </div>
+    <header :class="$style.AppEntry__Header">
+      <h3 :class="$style.AppEntry__ID">ID: <i>{{entry.id}}</i></h3>
+    </header>
+    <div :class="$style.AppEntry__Fields">
+      <p
+        :class="$style.AppEntry__Modified"><time
+        :datetime="entry.modified"
+      >Edited {{modified.date}} at {{modified.time}}</time></p>
+      <AppField
+        label="Title"
+        v-model="entry.title"
+      ></AppField>
+      <AppField
+        label="Username"
+        v-model="entry.username"
+      ></AppField>
+      <AppField
+        label="Password"
+        v-model="entry.password"
+      ></AppField>
+      <AppField
+        label="URL"
+        type="url"
+        v-model="entry.url"
+      ></AppField>
+      <AppField
+        label="Notes"
+        type="textarea"
+        v-model="entry.notes"
+      ></AppField>
     </div>
     <footer :class="$style.AppEntry__Footer">
       <AppBtn type="submit" :disabled="!isDirty" :loading="saving">Save Entry</AppBtn>
@@ -73,7 +70,10 @@ export default {
   watch: {
     entry: {
       handler () {
-        this.isDirty = JSON.stringify(this.getEntry()) !== JSON.stringify(this.entry)
+        const prev = JSON.stringify({ ...this.getEntry() })
+        const curr = JSON.stringify(this.entry)
+        console.log(prev, curr)
+        this.isDirty = prev !== curr
       },
       deep: true
     }
@@ -81,7 +81,7 @@ export default {
 
   methods: {
     getEntry () {
-      return this.$store.getters.entryByID(this.entryID)
+      return { ...this.$store.getters.entryByID(this.entryID) }
     },
 
     async save () {
@@ -151,9 +151,11 @@ export default {
   transform-origin: left top
   display: flex
   flex-direction: column
+  max-height: 100vh
 
   &__Footer,
-  &__Inner
+  &__Header,
+  &__Fields
     opacity: 0
     padding: spacingBase
     animation: AppEntry__Inner 0.25s 0.25s ease forwards
@@ -172,25 +174,28 @@ export default {
     button:last-child
       margin-left: auto
 
+  &__Fields
+    overflow-y: scroll
+
   &__Modified
     opacity: .5
     margin-left: auto
     font-size: 0.875rem
+    margin-top: 0
 
   &__Header
     display: flex
     align-items: center
+    flex-wrap: wrap
+    text-overflow: hidden
+    border-bottom: grayLight solid 1px
+    padding-bottom: spacingBase
 
   &__ID
-    margin: 0 1.5rem 0 0
-    display: inline-block
-    font-style: normal
-    background: grayLighter
-    border-radius: 3px
-    padding: 0.35em 0.65em
-    font-weight: 600
+    margin: 0
+    opacity: 0.5
+    font-weight: 500
 
     i
       font-style: normal
-      font-family: monospaceFont
 </style>

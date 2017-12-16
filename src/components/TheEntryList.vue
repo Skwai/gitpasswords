@@ -4,7 +4,7 @@
       <AppBtn @click="createEntry">Create New</AppBtn>
       <div :class="$style.EntryList__Entries">
         <div
-          tabindex="1"
+          tabindex="-1"
           v-for="entry in entries"
           :key="entry.id"
           :selected="entryID === entry.id"
@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <TheLogout />
+    <TheLogout></TheLogout>
   </nav>
 </template>
 

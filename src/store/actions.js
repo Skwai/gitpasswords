@@ -73,7 +73,7 @@ export const setActiveEntryID = ({ commit, state }, entryID) => {
 }
 
 export const updateEntry = ({ commit }, entry) => {
-  commit('UPDATE_ENTRY', entry)
+  commit('UPDATE_ENTRY', new Entry({ ...entry }))
 }
 
 export const saveEntries = async ({ commit, state }) => {

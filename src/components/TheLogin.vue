@@ -2,10 +2,13 @@
   <div :class="$style.Login">
     <div :class="$style.Login__Body">
       <h2>Git Passwords</h2>
-      <AppBtn
-        @click="login"
-        :loading="loading"
-      >Sign in with GitHub</AppBtn>
+      <p>An app to store your passwords in an encrypted Github Gist</p>
+      <div :class="$style.Login__Btn">
+        <AppBtn
+          @click="login"
+          :loading="loading"
+        >Sign in with GitHub</AppBtn>
+      </div>
     </div>
   </div>
 </template>
@@ -51,9 +54,9 @@ export default {
   modal()
   text-align: center
 
-  h2
-    margin-top: 0
-
   &__Body
     modalBody()
+
+  &__Btn
+    margin-top: spacingBase
 </style>
