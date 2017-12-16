@@ -152,16 +152,17 @@ export default {
     opacity: 1
 
 .AppEntry
-  max-width: 40rem
   background: #ffffff
   height: 100%
   box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05)
-  border-right: 1px solid grayLight
   background: #fff
-  transform-origin: left top
   display: flex
   flex-direction: column
-  max-height: 100vh
+
+  @media (min-width: 768px)
+    max-width: 40rem
+    border-right: 1px solid grayLight
+    max-height: 100vh
 
   &__Footer,
   &__Header,
@@ -197,7 +198,7 @@ export default {
     display: flex
     align-items: center
     flex-wrap: wrap
-    text-overflow: hidden
+    text-overflow: ellipsis
     border-bottom: grayLight solid 1px
     padding-bottom: spacingBase
 

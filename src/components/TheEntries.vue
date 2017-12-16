@@ -35,12 +35,14 @@ export default {
 
 <style lang="stylus" module>
 .Entries
-  height: 100vh
-  max-height: 100vh
-  display: flex
+  @media (min-width: 768px)
+    height: 100vh
+    max-height: 100vh
+    display: flex
 
   &__List
-    flex: 0 0 14rem
+    @media (min-width: 768px)
+      flex: 0 0 14rem
 
   &__Entry
     flex: 1

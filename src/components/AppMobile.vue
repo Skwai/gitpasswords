@@ -1,0 +1,13 @@
+<template>
+  <div :class="$style.AppMobile">
+    <slot></slot>
+  </div>
+</template>
+
+<style lang="stylus" module>
+.AppMobile
+  display: block
+
+  @media (min-width: 768px)
+    display: none
+</style>

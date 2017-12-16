@@ -25,5 +25,9 @@ export default {
 
 <style lang="stylus" module>
 .TheLogout
-  margin-top: auto
+  @media (max-width: 767px)
+    margin-left: auto
+
+  @media (min-width: 768px)
+    margin-top: auto
 </style>

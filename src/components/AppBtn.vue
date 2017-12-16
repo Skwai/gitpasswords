@@ -67,6 +67,7 @@ export default {
   display: inline-flex
   align-items: center
   justify-content: center
+  white-space: nowrap
 
   &:hover,
   &:focus,
@@ -81,6 +82,8 @@ export default {
       opacity: 0
 
     svg
+      height: 1.5em
+      width: 1.5em
       fill: currentColor
       vertical-align: middle
 

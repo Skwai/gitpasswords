@@ -1,6 +1,6 @@
 <template>
   <h3 :class="$style.EntryBlank">
-    Select an entry on the left, or create a  new one
+    Select an entry to edit it, or create a  new one
   </h3>
 </template>
 

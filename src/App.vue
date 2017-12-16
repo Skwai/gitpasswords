@@ -42,10 +42,11 @@ export default {
 @import "./styles/config.styl"
 
 html
-  font-size: calc(7px + 1vmin)
+  font-size: 15px
 
 body
   margin: 0
+  background: grayLighter
 
 h2
   margin: 0 0 1.5rem
@@ -66,7 +67,6 @@ svg:not(:root)
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
   color: grayDark
-  background: grayLighter
 
   &, *
     box-sizing: border-box
