@@ -25,27 +25,42 @@ export default {
 
   async created () {
     if (this.token) {
-      await this.$store.dispatch('getUserFromToken', this.token)
+      try {
+        await this.$store.dispatch('getUserFromToken', this.token)
+      } catch (err) {
+        await this.$store.dispatch('logout')
+      }
     }
   }
 }
 </script>
 
 <style lang="stylus" module>
+@import "./styles/config.styl"
+
 html
   font-size: calc(7px + 1vmin)
 
 body
   margin: 0
 
+input,
+textarea,
+button
+  font-size: 1rem
+  font-family: inherit
+
+svg:not(:root)
+  overflow: hidden
+
 .App
   font-size: 1rem
-  font-family: 'Avenir', Helvetica, Arial, sans-serif
+  font-family: sansFont
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  text-align: center
-  color: #2c3e50
+  color: grayDark
+  background: grayLighter
 
-  *
+  &, *
     box-sizing: border-box
 </style>

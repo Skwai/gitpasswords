@@ -1,23 +1,29 @@
 <template>
   <div :class="$style.TheGists">
-    <h2>Select a Gist</h2>
-    <AppLoading v-if="loading" />
-    <div
-      v-else-if="gists.length"
-      v-for="gist in gists"
-      :class="$style.TheGists__Gist"
-      :key="gist.id"
-    >
-      <AppGist
-        :gist="gist"
-        @click="selectGist"
-      ></AppGist>
+    <div :class="$style.TheGists__Body">
+      <h2>Select a Gist</h2>
+      <AppLoading v-if="loading" />
+      <div
+        v-else-if="gists.length"
+        v-for="gist in gists"
+        :class="$style.TheGists__Gist"
+        :key="gist.id"
+      >
+        <AppGist
+          :gist="gist"
+          @click="selectGist"
+        ></AppGist>
+      </div>
+      <div v-else>You don't have any Gists</div>
+      <form @submit.prevent="createGist" :class="$style.TheGists__New">
+        <input type="text" placeholder="New Gist Name" v-model="filename">
+        <AppBtn
+          type="submit"
+          title="Create a new Gist"
+          :loading="creating"
+        ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></AppBtn>
+      </form>
     </div>
-    <div v-else>You don't have any Gists</div>
-    <form @submit.prevent="createGist">
-      <input type="text" placeholder="New Gist Name" v-model="filename">
-      <AppBtn type="submit">Create New Gist</AppBtn>
-    </form>
   </div>
 </template>
 
@@ -57,6 +63,7 @@ export default {
     },
 
     createGist () {
+      if (this.creating) return
       this.creating = true
       const secret = this.requestSecret()
       try {
@@ -81,9 +88,31 @@ export default {
 </script>
 
 <style lang="stylus" module>
+@import "../styles/config.styl"
+
 .TheGists
-  background: #fff
+  modal()
+
+  h2
+    text-align: center
+    margin-top: 0
+
+  &__Body
+    modalBody()
 
   &__Gist
     background: #fff
+
+  &__New
+    display: flex
+    margin: 0 (-1 * spacingBase)
+    border-top: grayLight solid 1px
+    padding: spacingBase spacingBase 0
+
+    input
+      input()
+      border-right: 0
+
+    button
+      border-radius: 0 3px 3px 0
 </style>

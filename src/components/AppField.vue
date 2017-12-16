@@ -1,19 +1,23 @@
 <template>
-  <div :class="$style.FormField">
-    <label :class="$style.FormField__Label">{{label}}</Label>
+  <div :class="$style.AppField">
+    <label :class="$style.AppField__Label" :for="inputID">{{label}}</Label>
     <textarea v-if="type === 'textarea'"
-      :class="$style.FormField__Input"
+      :class="$style.AppField__Input"
       :value="value"
+      :required="required"
       @input="$emit('input', $event.target.value)"
       rows="5"
       cols="20"
+      :id="inputID"
     ></textarea>
     <input
       v-else
       :type="type"
-      :class="$style.FormField__Input"
+      :class="$style.AppField__Input"
       :value="value"
+      :required="required"
       @input="$emit('input', $event.target.value)"
+      :id="inputID"
     >
   </div>
 </template>
@@ -31,11 +35,17 @@ export default {
     },
     required: {
       type: Boolean,
-      default: true
+      default: false
     },
     value: {
       required: true,
       default: null
+    }
+  },
+
+  computed: {
+    inputID () {
+      return `${this._uid}__Input`
     }
   }
 }
@@ -44,8 +54,8 @@ export default {
 <style lang="stylus" module>
 @import "../styles/config.styl"
 
-.FormField
-  margin: spacingBase
+.AppField
+  margin: spacingBase 0
   position: relative
   text-align: left
 
@@ -55,14 +65,5 @@ export default {
     font-weight: 500
 
   &__Input
-    border: colorLight solid 1px
-    box-shadow: none
-    padding: 0.75rem
-    width: 100%
-    font-size: inherit
-
-    &:focus
-      box-shadow: none
-      outline: 0
-
+    input()
 </style>

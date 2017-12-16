@@ -1,30 +1,44 @@
 <template>
-  <form :class="$style.Entry" @submit.prevent="save">
-    <AppField
-      label="Title"
-      v-model="entry.title"
-    ></AppField>
-    <AppField
-      label="Username"
-      v-model="entry.username"
-    ></AppField>
-    <AppField
-      label="Password"
-      v-model="entry.password"
-    ></AppField>
-    <AppField
-      label="URL"
-      type="url"
-      v-model="entry.url"
-    ></AppField>
-    <AppField
-      label="Notes"
-      type="textarea"
-      v-model="entry.notes"
-    ></AppField>
+  <form :class="$style.AppEntry" @submit.prevent="save">
+    <div :class="$style.AppEntry__Inner">
+      <div>
+        <header :class="$style.AppEntry__Header">
+          <h4 :class="$style.AppEntry__ID">ID: <i>{{entry.id}}</i></h4>
+          <time
+            :class="$style.AppEntry__Modified"
+            :datetime="entry.modified"
+          >Edited {{modified.date}} at {{modified.time}}</time>
+        </header>
 
-    <AppBtn type="submit">Save</AppBtn>
-    <div v-if="isDirty">You have unsaved changes</div>
+        <AppField
+          label="Title"
+          v-model="entry.title"
+        ></AppField>
+        <AppField
+          label="Username"
+          v-model="entry.username"
+        ></AppField>
+        <AppField
+          label="Password"
+          v-model="entry.password"
+        ></AppField>
+        <AppField
+          label="URL"
+          type="url"
+          v-model="entry.url"
+        ></AppField>
+        <AppField
+          label="Notes"
+          type="textarea"
+          v-model="entry.notes"
+        ></AppField>
+      </div>
+    </div>
+    <footer :class="$style.AppEntry__Footer">
+      <AppBtn type="submit" :disabled="!isDirty" :loading="saving">Save Entry</AppBtn>
+      <div :class="$style.AppEntry__Dirty" v-if="isDirty">You have unsaved changes</div>
+      <AppBtn type="button" color="secondary" @click="destroy" :loading="destroying">Delete</AppBtn>
+    </footer>
   </form>
 </template>
 
@@ -50,6 +64,7 @@ export default {
     return {
       entry: { ...new Entry() },
       saving: false,
+      destroying: false,
       error: null,
       isDirty: false
     }
@@ -82,6 +97,31 @@ export default {
       } finally {
         this.saving = false
       }
+    },
+
+    async destroy () {
+      if (!confirm('Are you sure you want to delete this entry?')) return
+      this.destroying = true
+      this.error = false
+      try {
+        this.$store.dispatch('deleteEntry', this.entry.id)
+        await this.$store.dispatch('saveEntries')
+        this.$store.dispatch('setActiveEntryID', null)
+      } catch (err) {
+        this.error = 'There was an error deleting this entry'
+      } finally {
+        this.destroying = false
+      }
+    }
+  },
+
+  computed: {
+    modified () {
+      const date = new Date(this.entry.modified)
+      return {
+        date: date.toLocaleDateString(),
+        time: date.toLocaleTimeString()
+      }
     }
   },
 
@@ -93,6 +133,64 @@ export default {
 </script>
 
 <style lang="stylus" module>
-.Entry
+@import "../styles/config.styl"
+
+@keyframes AppEntry__Inner
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+.AppEntry
+  max-width: 40rem
+  background: #ffffff
+  height: 100%
+  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05)
+  border-right: 1px solid grayLight
   background: #fff
+  transform-origin: left top
+  display: flex
+  flex-direction: column
+
+  &__Footer,
+  &__Inner
+    opacity: 0
+    padding: spacingBase
+    animation: AppEntry__Inner 0.25s 0.25s ease forwards
+
+  &__Dirty
+    margin-left: 1rem
+    opacity: .5
+    font-size: 0.875rem
+
+  &__Footer
+    display: flex
+    align-items: center
+    border-top: grayLight solid 1px
+    margin: auto 0 0
+
+    button:last-child
+      margin-left: auto
+
+  &__Modified
+    opacity: .5
+    margin-left: auto
+    font-size: 0.875rem
+
+  &__Header
+    display: flex
+    align-items: center
+
+  &__ID
+    margin: 0 1.5rem 0 0
+    display: inline-block
+    font-style: normal
+    background: grayLighter
+    border-radius: 3px
+    padding: 0.35em 0.65em
+    font-weight: 600
+
+    i
+      font-style: normal
+      font-family: monospaceFont
 </style>

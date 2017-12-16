@@ -5,6 +5,7 @@ const hashids = new Hashids()
 export default class Entry {
   id = null
   title = null
+  username = null
   password = null
   url = null
   notes = null

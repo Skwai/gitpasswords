@@ -1,9 +1,11 @@
 <template>
   <div :class="$style.Login">
     <div :class="$style.Login__Body">
-      <h2>Login</h2>
-      <AppLoading v-if="loading" />
-      <AppBtn v-else @click="login">Sign in with GitHub</AppBtn>
+      <h2>Git Passwords</h2>
+      <AppBtn
+        @click="login"
+        :loading="loading"
+      >Sign in with GitHub</AppBtn>
     </div>
   </div>
 </template>
@@ -31,7 +33,7 @@ export default {
     async login () {
       this.loading = true
       try {
-        this.$store.dispatch('login')
+        await this.$store.dispatch('login')
       } catch (err) {
         this.error = err.message
       } finally {
@@ -47,6 +49,10 @@ export default {
 
 .Login
   modal()
+  text-align: center
+
+  h2
+    margin-top: 0
 
   &__Body
     modalBody()

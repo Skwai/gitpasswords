@@ -20,7 +20,6 @@ export const logout = ({ commit }) => {
 
 export const getUserFromToken = async ({ commit, state }, token) => {
   const { login: username } = await gh.getUser({ token })
-  console.log(username)
   commit('SET_USERNAME', username)
 }
 

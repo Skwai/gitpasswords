@@ -1,8 +1,14 @@
 <template>
   <div :class="$style.Entries">
-    <div :class="$style.Entries__List"><TheEntryList /></div>
+    <div :class="$style.Entries__List">
+      <TheEntryList />
+    </div>
     <div :class="$style.Entries__Entry">
-      <AppEntry v-if="entryID" :key="entryID" :entryID="entryID" />
+      <AppEntry
+        v-if="entryID"
+        :key="entryID"
+        :entryID="entryID"
+      />
       <AppEntryBlank v-else />
     </div>
   </div>
