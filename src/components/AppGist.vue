@@ -8,6 +8,7 @@
       <AppSpinner></AppSpinner>
     </div>
     <svg v-else :class="$style.AppGist__Icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24"><g class="nc-icon-wrapper" fill="none" stroke-linecap="square" stroke-miterlimit="10"><path d="M2.5 1.5h20v22h-20z"/><path data-color="color-2" d="M7.5 7.5h10m-10 5h10m-10 5h4"/></g></svg>
+    <small :class="$style.AppGist__Privacy">{{gist.public ? 'public' : 'private'}}</small>
     <div :class="$style.AppGist__Filename">{{filename}}</div>
     <div :class="$style.AppGist__Updated">{{updated}}</div>
   </div>
@@ -77,7 +78,17 @@ export default {
   &__Icon
     width: 2rem
     height: 2rem
-    margin-right: spacingBase
+    margin-right: 1rem
+
+  &__Privacy
+    textCaps()
+    font-size: 0.75rem
+    padding: 4px 6px
+    background: grayLighter
+    border-radius: 3px
+    margin-right: 1rem
+    min-width: 6.5em
+    text-align: center
 
   &__Icon
     stroke: currentColor
