@@ -71,7 +71,7 @@ export default {
   &__Updated
     margin-left: auto
     opacity: .5
-    font-size: 87.5%
+    fontSmall()
 
   &__Loading,
   &__Icon

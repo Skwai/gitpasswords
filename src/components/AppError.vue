@@ -17,5 +17,5 @@ export default {
 @import "../styles/config.styl"
 
 .AppError
-  color: #d00
+  color: colorRed
 </style>

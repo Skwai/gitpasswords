@@ -1,7 +1,7 @@
 <template>
   <nav :class="$style.EntryList">
     <div :class="$style.EntryList__Inner">
-      <AppBtn @click="createEntry">Create New</AppBtn>
+      <AppBtn @click="createEntry">New Entry</AppBtn>
       <div :class="$style.EntryList__Entries">
         <div
           tabindex="-1"

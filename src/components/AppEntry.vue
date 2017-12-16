@@ -10,6 +10,7 @@
       >Edited {{modified.date}} at {{modified.time}}</time></p>
       <AppField
         label="Title"
+        :required="true"
         v-model="entry.title"
       ></AppField>
       <AppField
@@ -32,9 +33,21 @@
       ></AppField>
     </div>
     <footer :class="$style.AppEntry__Footer">
-      <AppBtn type="submit" :disabled="!isDirty" :loading="saving">Save Entry</AppBtn>
-      <div :class="$style.AppEntry__Dirty" v-if="isDirty">You have unsaved changes</div>
-      <AppBtn type="button" color="secondary" @click="destroy" :loading="destroying">Delete</AppBtn>
+      <AppBtn
+        type="submit"
+        :disabled="!isDirty"
+        :loading="saving"
+      >Save Entry</AppBtn>
+      <div
+        :class="$style.AppEntry__Dirty"
+        v-if="isDirty"
+      >You have unsaved changes</div>
+      <AppBtn
+        type="button"
+        color="secondary"
+        @click="destroy"
+        :loading="destroying"
+      >Delete</AppBtn>
     </footer>
   </form>
 </template>
@@ -70,9 +83,8 @@ export default {
   watch: {
     entry: {
       handler () {
-        const prev = JSON.stringify({ ...this.getEntry() })
+        const prev = JSON.stringify(this.getEntry())
         const curr = JSON.stringify(this.entry)
-        console.log(prev, curr)
         this.isDirty = prev !== curr
       },
       deep: true
@@ -93,7 +105,7 @@ export default {
         this.isDirty = false
         await this.$store.dispatch('saveEntries')
       } catch (err) {
-        this.error = 'There was an error saving your changes'
+        this.error = 'There was an error saving your entry'
       } finally {
         this.saving = false
       }
@@ -163,7 +175,7 @@ export default {
   &__Dirty
     margin-left: 1rem
     opacity: .5
-    font-size: 0.875rem
+    fontSmall()
 
   &__Footer
     display: flex
@@ -180,7 +192,7 @@ export default {
   &__Modified
     opacity: .5
     margin-left: auto
-    font-size: 0.875rem
+    fontSmall()
     margin-top: 0
 
   &__Header

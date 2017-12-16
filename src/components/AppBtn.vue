@@ -58,7 +58,6 @@ export default {
   color: #fff
   background: primary
   border-radius: 3px
-  font-size: inherit
   border: 0
   textCaps()
   cursor: pointer
