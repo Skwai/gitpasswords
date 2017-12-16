@@ -15,4 +15,5 @@ export default {}
   background: transparent
   padding: spacingBase
   text-align: center
+  font-weight: 400
 </style>

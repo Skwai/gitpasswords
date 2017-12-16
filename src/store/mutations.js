@@ -55,7 +55,9 @@ export const REMOVE_ENTRY = (state, entryID) => {
 }
 
 export const RESET = (state) => {
-  state = { ...initialState }
+  Object.entries(initialState).forEach(([k, v]) => {
+    state[k] = v
+  })
 }
 
 export const SET_ERROR = (state, message) => {
