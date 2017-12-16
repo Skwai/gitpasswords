@@ -57,6 +57,7 @@ textarea,
 button
   font-size: 1rem
   font-family: inherit
+  color: inherit
 
 svg:not(:root)
   overflow: hidden

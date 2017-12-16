@@ -8,6 +8,6 @@
 .AppMobile
   display: inherit
 
-  @media (min-width: 768px)
+  @media (min-width: $breakpoint)
     display: none
 </style>

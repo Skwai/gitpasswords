@@ -37,7 +37,7 @@
         type="submit"
         :disabled="!isDirty"
         :loading="saving"
-      >Save Entry</AppBtn>
+      >Save</AppBtn>
       <div
         :class="$style.AppEntry__Dirty"
         v-if="isDirty"
@@ -159,7 +159,7 @@ export default {
   display: flex
   flex-direction: column
 
-  @media (min-width: 768px)
+  @media (min-width: $breakpoint)
     max-width: 40rem
     border-right: 1px solid grayLight
     max-height: 100vh

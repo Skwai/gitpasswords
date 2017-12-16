@@ -1,7 +1,7 @@
 <template>
   <AppBtn
     @click="logout"
-    color="muted"
+    color="secondary"
   >Log out</AppBtn>
 </template>
 

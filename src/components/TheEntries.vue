@@ -34,14 +34,16 @@ export default {
 </script>
 
 <style lang="stylus" module>
+@import "../styles/config.styl"
+
 .Entries
-  @media (min-width: 768px)
+  @media (min-width: $breakpoint)
     height: 100vh
     max-height: 100vh
     display: flex
 
   &__List
-    @media (min-width: 768px)
+    @media (min-width: $breakpoint)
       flex: 0 0 14rem
 
   &__Entry

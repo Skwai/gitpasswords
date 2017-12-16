@@ -3,6 +3,7 @@
     tabindex="1"
     :class="$style.AppEntryListItem"
     @click="selectEntry"
+    :selected="selected"
   >
     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke-linecap="square" stroke-miterlimit="10"><path d="M18 1L9.766 9.234A6.953 6.953 0 0 0 8 9a7 7 0 1 0 7 7c0-.891-.173-1.74-.476-2.524L17 11V8h3l3-3V1h-5z"/><circle data-color="color-2" cx="8" cy="16" r="2"/></g></svg>
     {{entry.title}}
@@ -51,10 +52,10 @@ export default {
     stroke: currentColor
     opacity: .35
 
-    @media (min-width: 768px)
+    @media (min-width: $breakpoint)
       display: none
 
-  @media (max-width: 767px)
+  @media (max-width: 639px)
     border-top: grayLight solid 1px
     display: flex
     align-items: center
@@ -62,17 +63,12 @@ export default {
     &:first-child
       border-top: 0
 
-  @media (min-width: 768px)
-    opacity: .7
-
   &:hover,
   &:focus,
   &:active,
   &[selected]
-    background: grayLighter
-
-    @media (min-width: 768px)
-      background: rgba(255,255,255,.1)
+    // background: grayLighter
+    color: primary
 
   &[selected],
   &:hover,

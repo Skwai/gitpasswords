@@ -5,9 +5,11 @@
 </template>
 
 <style lang="stylus" module>
+@import "../styles/config.styl"
+
 .AppDesktop
   display: none
 
-  @media (min-width: 768px)
+  @media (min-width: $breakpoint)
     display: block
 </style>

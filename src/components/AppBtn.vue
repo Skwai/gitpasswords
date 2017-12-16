@@ -102,8 +102,4 @@ export default {
   &[color="secondary"]
     background: grayLight
     color: grayDark
-
-  &[color="muted"]
-    background: rgba(grayLight, 0.15)
-    color: inherit
 </style>
