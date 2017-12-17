@@ -36,19 +36,22 @@ export default {
 @import "../styles/config.styl"
 
 .AppEntryListItem
-  padding: 1rem spacingBase
+  padding: 1rem $spacingBase
   font-weight: 600
   white-space: nowrap
   max-width: 100%
   text-overflow: ellipsis
   cursor: pointer
-  transition: background 0.2s, opacity 0.2s
+  transition: background $transitionBase, opacity $transitionBase
   will-change: background, opacity
+
+  + .AppEntryListItem
+    margin-top: -1px
 
   svg
     width: 1.75rem
     height: 1.75rem
-    margin-right: spacingBase
+    margin-right: $spacingBase
     stroke: currentColor
     opacity: .35
 
@@ -56,25 +59,20 @@ export default {
       display: none
 
   @media (max-width: 639px)
-    border-top: grayLight solid 1px
+    border-top: $grayLight solid 1px
     display: flex
     align-items: center
 
     &:first-child
       border-top: 0
 
-  &:hover,
-  &:focus,
-  &:active,
   &[selected]
-    // background: grayLighter
-    color: primary
+    color: $primary
 
-  &[selected],
   &:hover,
   &:active,
   &:focus
-    opacity: 1
+    color: $primary
 
   &:focus
     outline: 0

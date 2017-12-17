@@ -45,6 +45,6 @@ export default {
 
   @media (min-width: $breakpoint)
     display: block
-    overflow-y: scroll
-    margin: spacingBase (-1 * spacingBase) 0
+    overflow-y: auto
+    margin: $spacingBase (-1 * $spacingBase) 0
 </style>

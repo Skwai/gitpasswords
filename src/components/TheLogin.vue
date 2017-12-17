@@ -56,5 +56,5 @@ export default {
     modalBody()
 
   &__Btn
-    margin-top: spacingBase
+    margin-top: $spacingBase
 </style>

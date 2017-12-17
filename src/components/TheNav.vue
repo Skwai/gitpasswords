@@ -74,16 +74,17 @@ export default {
 .EntryList
   background: #fff
   height: 100%
-  box-shadow: rgba(0,0,0,.125) 0 0 10px
+  shadow()
   position: relative
   display: flex
   max-height: 100vh
 
   @media (max-width: 639px)
-    border-bottom: grayLight solid 1px
+    border-bottom: $grayLight solid 1px
 
   @media (min-width: $breakpoint)
-    padding: spacingBase
+    border-right: $grayLight solid 1px
+    padding: $spacingBase
     flex-direction: column
 
   @media (min-width: $breakpoint)
@@ -102,7 +103,7 @@ export default {
     svg
       width: 1.5rem
       height: 1.5rem
-      stroke: primary
+      stroke: $primary
       vertical-align: middle
 
   &__Mobile
@@ -114,14 +115,14 @@ export default {
       display: none
 
     &Logout
-      border-left: grayLight solid 1px
+      border-left: $grayLight solid 1px
 
     &Back
-      border-right: grayLight solid 1px
+      border-right: $grayLight solid 1px
 
     &Add
       margin-left: auto
-      border-left: grayLight solid 1px
+      border-left: $grayLight solid 1px
 
   &__Logout
     @media (max-width: 639px)

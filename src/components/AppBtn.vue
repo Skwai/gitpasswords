@@ -3,6 +3,7 @@
     :class="$style.AppBtn"
     :type="type"
     :color="color"
+    :size="size"
     :disabled="disabled || loading"
     :loading="loading"
     @click="click"
@@ -27,7 +28,11 @@ export default {
     },
     color: {
       type: String,
-      default: ''
+      default: null
+    },
+    size: {
+      type: String,
+      default: null
     },
     disabled: {
       type: Boolean,
@@ -56,28 +61,43 @@ export default {
 .AppBtn
   padding: 0.875rem 2rem
   color: #fff
-  background: primary
+  background: $primary
   border-radius: 3px
   border: 0
   textCaps()
   cursor: pointer
   position: relative
-  transition: box-shadow 0.2s
-  will-change: box-shadow
   display: inline-flex
   align-items: center
   justify-content: center
   white-space: nowrap
 
+  &::before
+    content: ""
+    left: 0
+    top: 0
+    width: 100%
+    height: 100%
+    position: absolute
+    background: rgba(0,0,0,.05)
+    opacity: 0
+    transition: opacity $transitionBase
+    will-change: opacity
+
   &:hover,
   &:focus,
   &:active
-    box-shadow: rgba(0,0,0,.1) 0 2px 8px
+    &:not(:disabled)
+      &::before
+        opacity: 1
 
   &:focus
     outline: 0
 
   &__Label
+    position: relative
+    z-index: 2
+
     [loading] &
       opacity: 0
 
@@ -100,6 +120,6 @@ export default {
     cursor: not-allowed
 
   &[color="secondary"]
-    background: grayLight
-    color: grayDark
+    background: $grayLight
+    color: $grayDark
 </style>

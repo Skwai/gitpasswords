@@ -54,7 +54,7 @@ html
 
 body
   margin: 0
-  background: grayLighter
+  background: $grayLighter
 
 h2
   margin: 0 0 1.5rem
@@ -72,10 +72,10 @@ svg:not(:root)
 
 .App
   font-size: 1rem
-  font-family: sansFont
+  font-family: $sansFont
   -webkit-font-smoothing: antialiased
   -moz-osx-font-smoothing: grayscale
-  color: grayDark
+  color: $grayDark
 
   &, *
     box-sizing: border-box

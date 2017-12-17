@@ -36,7 +36,7 @@ export default {
   margin: 0
   background: colorRed
   color: #fff
-  padding: spacingBase
+  padding: $spacingBase
   text-align: center
   animation: TheError 0.5s ease
   transform-origin: center top

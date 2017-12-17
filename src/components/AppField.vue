@@ -1,24 +1,35 @@
 <template>
   <div :class="$style.AppField">
     <label :class="$style.AppField__Label" :for="inputID">{{label}}</Label>
-    <textarea v-if="type === 'textarea'"
-      :class="$style.AppField__Input"
-      :value="value"
-      :required="required"
-      @input="$emit('input', $event.target.value)"
-      rows="5"
-      cols="20"
-      :id="inputID"
-    ></textarea>
-    <input
-      v-else
-      :type="type"
-      :class="$style.AppField__Input"
-      :value="value"
-      :required="required"
-      @input="$emit('input', $event.target.value)"
-      :id="inputID"
-    >
+    <div :class="$style.AppField__Wrap">
+      <textarea v-if="type === 'textarea'"
+        :class="$style.AppField__Input"
+        :value="value"
+        :required="required"
+        @input="$emit('input', $event.target.value)"
+        rows="5"
+        cols="20"
+        :id="inputID"
+        :autocomplete="autocomplete"
+        :autocapitalize="autocapitalize"
+        :autocorrect="autocorrect"
+        :spellcheck="spellcheck"
+      ></textarea>
+      <input
+        v-else
+        :type="type"
+        :class="$style.AppField__Input"
+        :value="value"
+        :required="required"
+        @input="$emit('input', $event.target.value)"
+        :id="inputID"
+        :autocomplete="autocomplete"
+        :autocapitalize="autocapitalize"
+        :autocorrect="autocorrect"
+        :spellcheck="spellcheck"
+      >
+      <slot></slot>
+    </div>
   </div>
 </template>
 
@@ -40,6 +51,26 @@ export default {
     value: {
       required: true,
       default: null
+    },
+    autocomplete: {
+      type: String,
+      required: false,
+      default: 'on'
+    },
+    autocapitalize: {
+      type: String,
+      required: false,
+      default: 'on'
+    },
+    autocorrect: {
+      type: String,
+      required: false,
+      default: 'on'
+    },
+    spellcheck: {
+      type: String,
+      required: false,
+      default: 'on'
     }
   },
 
@@ -55,15 +86,24 @@ export default {
 @import "../styles/config.styl"
 
 .AppField
-  margin: spacingBase 0
+  margin: $spacingBase 0
   position: relative
   text-align: left
+
+  &__Wrap
+    display: flex
+
+    button
+      border-top-left-radius: 0
+      border-bottom-left-radius: 0
 
   &__Label
     display: block
     margin: 0 0 0.35rem
     font-weight: 500
+    opacity: .5
 
   &__Input
     input()
+    flex: 1
 </style>

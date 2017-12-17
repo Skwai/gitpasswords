@@ -13,7 +13,7 @@ export default {}
 
 .EntryBlank
   background: transparent
-  padding: spacingBase
+  padding: $spacingBase
   text-align: center
   font-weight: 400
 </style>

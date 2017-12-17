@@ -5,6 +5,8 @@
 </template>
 
 <style lang="stylus" module>
+@import "../styles/config.styl"
+
 .AppMobile
   display: inherit
 

@@ -16,11 +16,25 @@
       <AppField
         label="Username"
         v-model="entry.username"
+        :autocomplete="off"
+        :autocorrect="off"
+        :autocapitalize="off"
+        :spellcheck="false"
       ></AppField>
       <AppField
         label="Password"
         v-model="entry.password"
-      ></AppField>
+        :autocomplete="off"
+        :autocorrect="off"
+        :autocapitalize="off"
+        :spellcheck="false"
+      >
+        <AppBtn
+          color="secondary"
+          type="button"
+          @click="generatePassword"
+        >Generate</AppBtn>
+      </AppField>
       <AppField
         label="URL"
         type="url"
@@ -56,6 +70,7 @@
 import Entry from '@/models/Entry'
 import AppField from './AppField'
 import AppBtn from './AppBtn'
+import { generatePassword } from '@/services/password'
 
 export default {
   components: {
@@ -94,6 +109,13 @@ export default {
   methods: {
     getEntry () {
       return { ...this.$store.getters.entryByID(this.entryID) }
+    },
+
+    generatePassword () {
+      if (this.entry.password && !confirm('Are you sure? This will replace your current password')) {
+        return
+      }
+      this.entry.password = generatePassword(20)
     },
 
     async save () {
@@ -153,7 +175,7 @@ export default {
 
 .AppEntry
   height: 100%
-  box-shadow: 0 1px 2px 0 rgba(0,0,0,0.05)
+  shadow()
   background: #fff
   display: flex
   flex-direction: column
@@ -161,12 +183,13 @@ export default {
   @media (min-width: $breakpoint)
     max-width: 40rem
     max-height: 100vh
+    border-right: $grayLight solid 1px
 
   &__Footer,
   &__Header,
   &__Fields
     opacity: 0
-    padding: spacingBase
+    padding: $spacingBase
     animation: AppEntry__Inner 0.25s 0.25s ease forwards
 
   &__Dirty
@@ -177,14 +200,14 @@ export default {
   &__Footer
     display: flex
     align-items: center
-    border-top: grayLight solid 1px
+    border-top: $grayLight solid 1px
     margin: auto 0 0
 
     button:last-child
       margin-left: auto
 
   &__Fields
-    overflow-y: scroll
+    overflow-y: auto
 
   &__Modified
     opacity: .5
@@ -197,8 +220,8 @@ export default {
     align-items: center
     flex-wrap: wrap
     text-overflow: ellipsis
-    border-bottom: grayLight solid 1px
-    padding-bottom: spacingBase
+    border-bottom: $grayLight solid 1px
+    padding-bottom: $spacingBase
 
   &__ID
     margin: 0

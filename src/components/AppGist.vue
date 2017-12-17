@@ -51,17 +51,17 @@ export default {
 
 .AppGist
   cursor: pointer
-  padding: 1rem spacingBase
-  margin: 0 (-1 * spacingBase)
-  transition: 0.2s
-  border-top: grayLight solid 1px
+  padding: 1rem $spacingBase
+  margin: 0 (-1 * $spacingBase)
+  transition: $transitionBase
+  border-top: $grayLight solid 1px
   display: flex
   align-items: center
 
   &:hover,
   &:focus,
   &:active
-    background: grayLighter
+    background: $grayLighter
 
   &:focus
     outline: 0
@@ -84,7 +84,7 @@ export default {
     textCaps()
     font-size: 0.75rem
     padding: 4px 6px
-    background: grayLighter
+    background: $grayLighter
     border-radius: 3px
     margin-right: 1rem
     min-width: 6.5em

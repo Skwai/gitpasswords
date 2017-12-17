@@ -24,5 +24,5 @@ export default {
   display: flex
   align-items: center
   justify-content: center
-  margin: spacingBase auto
+  margin: $spacingBase auto
 </style>

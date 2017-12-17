@@ -120,9 +120,9 @@ export default {
 
   &__New
     display: flex
-    margin: 0 (-1 * spacingBase)
-    border-top: grayLight solid 1px
-    padding: spacingBase spacingBase 0
+    margin: 0 (-1 * $spacingBase)
+    border-top: $grayLight solid 1px
+    padding: $spacingBase $spacingBase 0
 
     input
       input()
