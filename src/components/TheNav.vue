@@ -79,15 +79,15 @@ export default {
   display: flex
   max-height: 100vh
 
-  @media (max-width: 639px)
+  @media (max-width: $mobile)
     border-bottom: $grayLight solid 1px
 
-  @media (min-width: $breakpoint)
+  @media (min-width: $tablet)
     border-right: $grayLight solid 1px
     padding: $spacingBase
     flex-direction: column
 
-  @media (min-width: $breakpoint)
+  @media (min-width: $tablet)
     button
       width: 100%
 
@@ -111,7 +111,7 @@ export default {
     width: 100%
     align-items: center
 
-    @media (min-width: $breakpoint)
+    @media (min-width: $tablet)
       display: none
 
     &Logout
@@ -128,6 +128,6 @@ export default {
     @media (max-width: 639px)
       margin-left: auto
 
-    @media (min-width: $breakpoint)
+    @media (min-width: $tablet)
       margin-top: auto
 </style>

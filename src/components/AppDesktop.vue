@@ -10,6 +10,6 @@
 .AppDesktop
   display: none
 
-  @media (min-width: $breakpoint)
+  @media (min-width: $tablet)
     display: block
 </style>

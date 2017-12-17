@@ -16,18 +16,18 @@
       <AppField
         label="Username"
         v-model="entry.username"
-        :autocomplete="off"
-        :autocorrect="off"
-        :autocapitalize="off"
-        :spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
       ></AppField>
       <AppField
         label="Password"
         v-model="entry.password"
-        :autocomplete="off"
-        :autocorrect="off"
-        :autocapitalize="off"
-        :spellcheck="false"
+        autocomplete="off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="false"
       >
         <AppBtn
           color="secondary"
@@ -180,7 +180,7 @@ export default {
   display: flex
   flex-direction: column
 
-  @media (min-width: $breakpoint)
+  @media (min-width: $tablet)
     max-width: 40rem
     max-height: 100vh
     border-right: $grayLight solid 1px
@@ -197,17 +197,32 @@ export default {
     opacity: .5
     fontSmall()
 
+    @media (max-width: $mobile)
+      display: none
+
   &__Footer
     display: flex
     align-items: center
     border-top: $grayLight solid 1px
-    margin: auto 0 0
 
-    button:last-child
-      margin-left: auto
+    @media (max-width: $mobile)
+      button
+        flex: 1
+        margin: 0 0.5rem
+
+        &:first-child
+          margin-left:  0
+
+        &:last-child
+          margin-right: 0
+
+    @media (min-width: $tablet)
+      button:last-child
+        margin-left: auto
 
   &__Fields
     overflow-y: auto
+    flex: 1
 
   &__Modified
     opacity: .5
@@ -221,7 +236,6 @@ export default {
     flex-wrap: wrap
     text-overflow: ellipsis
     border-bottom: $grayLight solid 1px
-    padding-bottom: $spacingBase
 
   &__ID
     margin: 0

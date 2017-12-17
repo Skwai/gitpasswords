@@ -43,7 +43,7 @@ export default {
     &[open]
       display: block
 
-  @media (min-width: $breakpoint)
+  @media (min-width: $tablet)
     display: block
     overflow-y: auto
     margin: $spacingBase (-1 * $spacingBase) 0

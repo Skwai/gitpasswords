@@ -37,15 +37,19 @@ export default {
 @import "../styles/config.styl"
 
 .Entries
-  @media (min-width: $breakpoint)
-    height: 100vh
-    max-height: 100vh
-    display: flex
+  max-height: 100vh
+  height: 100vh
+  display: flex
+
+  @media (max-width: $mobile)
+    overflow: hidden
+    flex-direction: column
 
   &__List
-    @media (min-width: $breakpoint)
+    @media (min-width: $tablet)
       flex: 0 0 14rem
 
   &__Entry
     flex: 1
+    overflow-y: auto
 </style>
