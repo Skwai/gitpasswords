@@ -60,9 +60,10 @@ export default {
     },
 
     async selectGist (gistID, filename) {
-      if (this.selectedGistID) return
       const secret = this.requestSecret('Enter your secret key to decrypt your passwords')
-      if (secret === null) return
+      if (secret === null || this.selectedGistID) {
+        return
+      }
       this.selectedGistID = gistID
       try {
         await this.$store.dispatch('selectGist', { gistID, secret, filename })
@@ -74,13 +75,15 @@ export default {
     },
 
     createGist () {
-      if (this.creating) return
-      this.creating = true
+      if (this.creating) {
+        return
+      }
       const secret = this.requestSecret('Enter a secret key to encrypt your passwords. It is vital that it is secure')
       if (this.secret === null) {
         this.$store.dispatch('showError', 'Your secret key cannot be blank')
         return
       }
+      this.creating = true
       try {
         this.$store.dispatch('createGist', { filename: this.filename, secret })
       } catch (err) {
@@ -94,7 +97,6 @@ export default {
   async created () {
     try {
       await this.$store.dispatch('getGists')
-    } catch (err) {
     } finally {
       this.loading = false
     }

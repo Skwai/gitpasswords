@@ -23,7 +23,7 @@
       ></AppField>
       <AppField
         label="Password"
-        v-if="revealed"
+        v-if="showPassword"
         v-model="entry.password"
         autocomplete="off"
         autocorrect="off"
@@ -45,7 +45,7 @@
         <AppBtn
           color="secondary"
           type="button"
-          @click="toggleReveal"
+          @click="togglePasswordShown"
         >Show</AppBtn>
       </AppField>
       <AppField
@@ -107,7 +107,7 @@ export default {
       destroying: false,
       error: null,
       isDirty: false,
-      revealed: false,
+      passwordShown: false,
       mask: PASSWORD_MASK
     }
   },
@@ -132,11 +132,12 @@ export default {
       if (this.entry.password && !confirm('Are you sure? This will replace your current password')) {
         return
       }
+      this.passwordShown = true
       this.entry.password = generatePassword(20)
     },
 
-    toggleReveal () {
-      this.revealed = !this.revealed
+    togglePasswordShown () {
+      this.passwordShown = !this.passwordShown
     },
 
     async save () {
@@ -155,7 +156,9 @@ export default {
     },
 
     async destroy () {
-      if (!confirm('Are you sure you want to delete this entry?')) return
+      if (!confirm('Are you sure you want to delete this entry?')) {
+        return
+      }
       this.destroying = true
       try {
         this.$store.dispatch('deleteEntry', this.entry.id)
@@ -170,6 +173,17 @@ export default {
   },
 
   computed: {
+    showPassword () {
+      if (this.emptyPassword) {
+        return true
+      }
+      return this.passwordShown
+    },
+
+    emptyPassword () {
+      return !this.entry.password || !this.entry.password.length
+    },
+
     modified () {
       const date = new Date(this.entry.modified)
       return {
