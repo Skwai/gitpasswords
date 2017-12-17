@@ -7,4 +7,4 @@ export const FIREBASE = {
   messagingSenderId: '1012581199851'
 }
 export const ACCESS_TOKEN_STORAGE_KEY = 'gitpasswords:auth:token'
-export const INACTIVE_LOGOUT_DELAY = 60 * 60 * 1000
+export const INACTIVE_LOGOUT_DELAY = 30 * 60 * 1000 // in ms
