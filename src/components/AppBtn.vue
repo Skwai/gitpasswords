@@ -59,7 +59,7 @@ export default {
 @import "../styles/config.styl"
 
 .AppBtn
-  padding: 0.875rem 2rem
+  padding: 0.875rem $spacingBase
   color: #fff
   background: $primary
   border-radius: 3px
