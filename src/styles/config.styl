@@ -61,6 +61,10 @@ input()
   transition: border-color $transitionBase
   will-change: border-color
 
+  &[disabled]
+    background: $grayLighter
+    cursor: not-allowed
+
   &:focus
     box-shadow: none
     outline: 0

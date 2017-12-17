@@ -6,6 +6,7 @@
         :class="$style.AppField__Input"
         :value="value"
         :required="required"
+        :disabled="disabled"
         @input="$emit('input', $event.target.value)"
         rows="5"
         cols="20"
@@ -21,6 +22,7 @@
         :class="$style.AppField__Input"
         :value="value"
         :required="required"
+        :disabled="disabled"
         @input="$emit('input', $event.target.value)"
         :id="inputID"
         :autocomplete="autocomplete"
@@ -51,6 +53,10 @@ export default {
     value: {
       required: true,
       default: null
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     },
     autocomplete: {
       type: String,

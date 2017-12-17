@@ -1,7 +1,7 @@
 <template>
   <form :class="$style.AppEntry" @submit.prevent="save">
     <header :class="$style.AppEntry__Header">
-      <h3 :class="$style.AppEntry__ID">ID: <i>{{entry.id}}</i></h3>
+      <h3 :class="$style.AppEntry__ID">ID: {{entry.id}}</h3>
     </header>
     <div :class="$style.AppEntry__Fields">
       <p
@@ -23,6 +23,7 @@
       ></AppField>
       <AppField
         label="Password"
+        v-if="revealed"
         v-model="entry.password"
         autocomplete="off"
         autocorrect="off"
@@ -34,6 +35,18 @@
           type="button"
           @click="generatePassword"
         >Generate</AppBtn>
+      </AppField>
+      <AppField
+        label="Password"
+        v-else
+        v-model="mask"
+        :disabled="true"
+      >
+        <AppBtn
+          color="secondary"
+          type="button"
+          @click="toggleReveal"
+        >Show</AppBtn>
       </AppField>
       <AppField
         label="URL"
@@ -72,6 +85,8 @@ import AppField from './AppField'
 import AppBtn from './AppBtn'
 import { generatePassword } from '@/services/password'
 
+const PASSWORD_MASK = '***************'
+
 export default {
   components: {
     AppField,
@@ -91,7 +106,9 @@ export default {
       saving: false,
       destroying: false,
       error: null,
-      isDirty: false
+      isDirty: false,
+      revealed: false,
+      mask: PASSWORD_MASK
     }
   },
 
@@ -118,13 +135,18 @@ export default {
       this.entry.password = generatePassword(20)
     },
 
+    toggleReveal () {
+      this.revealed = !this.revealed
+    },
+
     async save () {
       this.saving = true
       try {
         this.entry.modified = new Date().toISOString()
         this.$store.dispatch('updateEntry', this.entry)
-        this.isDirty = false
         await this.$store.dispatch('saveEntries')
+        this.isDirty = false
+        this.revealed = false
       } catch (err) {
         this.$store.dispatch('showError', 'There was an error saving your entry')
       } finally {
@@ -241,7 +263,4 @@ export default {
     margin: 0
     opacity: 0.5
     font-weight: 500
-
-    i
-      font-style: normal
 </style>
