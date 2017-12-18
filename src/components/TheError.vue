@@ -34,7 +34,7 @@ export default {
 
 .TheError
   margin: 0
-  background: colorRed
+  background: $red
   color: #fff
   padding: $spacingBase
   text-align: center
