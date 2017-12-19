@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Browser based Github password store",
   "author": "Cameron <me@skwai.com>",
-  "private": true,
+  "private": false,
+  "license": "MIT",
   "scripts": {
     "dev": "node build/dev-server.js",
     "start": "npm run dev",
