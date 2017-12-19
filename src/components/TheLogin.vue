@@ -1,8 +1,8 @@
 <template>
   <div :class="$style.Login">
     <div :class="$style.Login__Body">
-      <h2>Git Passwords</h2>
-      <p>An app to store your passwords in an encrypted Github Gist</p>
+      <h2>GitWords</h2>
+      <p>Store your passwords in an encrypted Github Gist</p>
       <div :class="$style.Login__Btn">
         <AppBtn
           @click="login"

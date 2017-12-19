@@ -2,7 +2,7 @@ import Firebase from 'firebase'
 import { FIREBASE } from '../config'
 
 const API_URL = 'https://api.github.com'
-const ACCEPT = 'application/vnd.github.v3+json'
+const ACCEPT_HEADER = 'application/vnd.github.v3+json'
 const DEFAULT_DESCRIPTION = 'Git password file'
 
 const github = new Firebase.auth.GithubAuthProvider()
@@ -24,7 +24,7 @@ export const query = async (path, { method = 'GET', data, token = null }) => {
   const response = await fetch(url, {
     method,
     headers: {
-      accept: ACCEPT,
+      accept: ACCEPT_HEADER,
       ...(data ? { 'content-type': 'application/json' } : null),
       ...(token ? { authorization: `token ${token}` } : null)
     },
