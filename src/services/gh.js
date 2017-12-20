@@ -40,17 +40,12 @@ export const query = async (path, { method = 'GET', data, token = null }) => {
  * @property {String} username
  */
 export const login = async () => {
-  try {
-    const { credential } = await auth().signInWithPopup(github)
-    const { accessToken: token } = credential
-    const { login: username } = await getUser({ token })
-    return {
-      token,
-      username
-    }
-  } catch (err) {
-    console.error(err)
-    throw err
+  const { credential } = await auth().signInWithPopup(github)
+  const { accessToken: token } = credential
+  const { login: username } = await getUser({ token })
+  return {
+    token,
+    username
   }
 }
 
