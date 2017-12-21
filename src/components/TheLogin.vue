@@ -10,16 +10,19 @@
         >Sign in with GitHub</AppBtn>
       </div>
     </div>
+    <AppFooter></AppFooter>
   </div>
 </template>
 
 <script>
+import AppFooter from './AppFooter'
 import AppLoading from './AppLoading'
 import AppBtn from './AppBtn'
 
 export default {
   components: {
     AppBtn,
+    AppFooter,
     AppLoading
   },
 

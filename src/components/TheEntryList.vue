@@ -39,6 +39,8 @@ export default {
     modalBody()
     padding: 0
     width: auto
+    card()
+    padding: 0
 
     &[open]
       display: block

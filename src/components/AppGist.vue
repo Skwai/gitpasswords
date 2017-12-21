@@ -51,9 +51,7 @@ export default {
 .AppGist
   cursor: pointer
   padding: 1rem $spacingBase
-  margin: 0 (-1 * $spacingBase)
   transition: $transitionBase
-  border-top: $grayLight solid 1px
   display: flex
   align-items: center
 

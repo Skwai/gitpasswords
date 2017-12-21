@@ -3,27 +3,29 @@
     <div :class="$style.TheGists__Body">
       <h2>Select a Gist</h2>
       <AppLoading v-if="loading"></AppLoading>
-      <div
-        v-else-if="gists.length"
-        v-for="gist in gists"
-        :class="$style.TheGists__Gist"
-        :key="gist.id"
-      >
-        <AppGist
-          :gist="gist"
-          :loading="selectedGistID === gist.id"
-          @click="selectGist"
-        ></AppGist>
+      <div :class="$style.TheGists__Wrap" v-else>
+        <div
+          v-if="gists.length"
+          v-for="gist in gists"
+          :class="$style.TheGists__Gist"
+          :key="gist.id"
+        >
+          <AppGist
+            :gist="gist"
+            :loading="selectedGistID === gist.id"
+            @click="selectGist"
+          ></AppGist>
+        </div>
+        <div v-else>You don't have any Gists</div>
+        <form @submit.prevent="createGist" :class="$style.TheGists__New">
+          <input type="text" placeholder="New Gist Name" v-model="filename">
+          <AppBtn
+            type="submit"
+            title="Create a new Gist"
+            :loading="creating"
+          ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></AppBtn>
+        </form>
       </div>
-      <div v-else>You don't have any Gists</div>
-      <form @submit.prevent="createGist" :class="$style.TheGists__New">
-        <input type="text" placeholder="New Gist Name" v-model="filename">
-        <AppBtn
-          type="submit"
-          title="Create a new Gist"
-          :loading="creating"
-        ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></AppBtn>
-      </form>
     </div>
   </div>
 </template>
@@ -120,11 +122,13 @@ export default {
   &__Gist
     background: #fff
 
+    &:not(:first-child)
+      border-top: $grayLight solid 1px
+
   &__New
     display: flex
-    margin: 0 (-1 * $spacingBase)
     border-top: $grayLight solid 1px
-    padding: $spacingBase $spacingBase 0
+    padding: $spacingBase
 
     input
       input()
@@ -132,4 +136,8 @@ export default {
 
     button
       border-radius: 0 3px 3px 0
+
+  &__Wrap
+    card()
+    padding: 0
 </style>

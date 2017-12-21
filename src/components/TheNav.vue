@@ -72,7 +72,7 @@ export default {
 @import "../styles/config"
 
 .EntryList
-  background: #fff
+  // background: #fff
   height: 100%
   shadow()
   position: relative
