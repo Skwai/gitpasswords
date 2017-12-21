@@ -45,14 +45,14 @@ export const deleteEntry = ({ commit }, entryID) => {
 }
 
 export const createGist = async ({ commit, state }, { filename, secret }) => {
-  const { token } = state
+  const { token, username } = state
   const placeholder = new Entry({
     title: 'Example Entry',
     username: 'Example',
     url: 'http://example.com',
     password: 'test'
   })
-  const encryptedData = encryptData([ placeholder ], secret)
+  const encryptedData = encryptData([ placeholder ], secret, username)
   const gist = await gh.createGist({ filename, secret, encryptedData, token })
   commit('SET_FILENAME', filename)
   commit('SET_SECRET', secret)
@@ -62,9 +62,9 @@ export const createGist = async ({ commit, state }, { filename, secret }) => {
 }
 
 export const selectGist = async ({ commit, state }, { gistID, secret, filename }) => {
-  const { token } = state
+  const { token, username } = state
   const data = await gh.getGistData({ filename, gistID, token })
-  const entries = decryptData(data, secret)
+  const entries = decryptData(data, secret, username)
   commit('SET_FILENAME', filename)
   commit('SET_SECRET', secret)
   commit('SET_GIST_ID', gistID)
@@ -80,8 +80,8 @@ export const updateEntry = ({ commit }, entry) => {
 }
 
 export const saveEntries = async ({ commit, state }) => {
-  const { entries, filename, secret, token, gistID } = state
-  const encryptedData = encryptData(entries, secret)
+  const { entries, filename, secret, token, gistID, username } = state
+  const encryptedData = encryptData(entries, secret, username)
   await gh.saveGistData({ gistID, filename, encryptedData, token })
 }
 

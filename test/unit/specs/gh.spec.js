@@ -8,14 +8,15 @@ describe('encrypt.js', () => {
 
       it('should be able to decrypt encrypted data decrypted', () => {
         const secret = 'example'
-        const encrypted = encrypt.encryptData(data, secret)
-        const decrypted = encrypt.decryptData(encrypted, secret)
+        const username = 'testuser'
+        const encrypted = encrypt.encryptData(data, secret, username)
+        const decrypted = encrypt.decryptData(encrypted, secret, username)
         expect(decrypted).to.deep.equal(data)
       })
 
       it('throws exception when incorrect secret used', () => {
-        const encrypted = encrypt.encryptData(data, 'correct')
-        expect(() => encrypt.decryptData(encrypted, 'incorrect')).to.throw(Error)
+        const encrypted = encrypt.encryptData(data, 'correct', 'testuser')
+        expect(() => encrypt.decryptData(encrypted, 'incorrect', 'testuser')).to.throw(Error)
       })
     })
   })
