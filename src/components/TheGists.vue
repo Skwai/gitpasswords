@@ -4,7 +4,7 @@
       <h2>Select a Gist</h2>
       <AppLoading v-if="loading"></AppLoading>
       <div :class="$style.TheGists__Wrap" v-else>
-        <div v-if="!gists.length">You don't have any Gists</div>
+        <div v-if="!gists.length" :class="$style.TheGists__Empty">You don't have any Gists, yet</div>
         <div
           v-for="gist in gists"
           :class="$style.TheGists__Gist"
@@ -117,6 +117,10 @@ export default {
 
   &__Body
     modalBody()
+
+  &__Empty
+    text-align: center
+    padding: $spacingBase
 
   &__Gist
     background: #fff
