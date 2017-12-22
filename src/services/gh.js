@@ -61,11 +61,27 @@ export const getUser = ({ username = null, token }) => {
   return query(path, { token })
 }
 
+/**
+ * Get a users Gists
+ * @param {Object} options
+ * @param {String} options.username
+ * @param {String} options.token
+ * @return {Promise}
+ */
 export const getGists = ({ username, token }) => {
   const path = `users/${username}/gists`
   return query(path, { token })
 }
 
+/**
+ * Create a new Gist
+ * @param {Object} options
+ * @param {String} options.filename
+ * @param {String} options.secret
+ * @param {String} options.encryptedData
+ * @param {String} options.token
+ * @return {Promise}
+ */
 export const createGist = ({ filename, secret, encryptedData, token }) => {
   const data = {
     description: DEFAULT_DESCRIPTION,
@@ -83,12 +99,29 @@ export const createGist = ({ filename, secret, encryptedData, token }) => {
   })
 }
 
+/**
+ * Get a single Gist's data
+ * @param {Object} options
+ * @param {String} options.filename
+ * @param {String} options.gistID
+ * @param {String} options.token
+ * @return {Promise<String>}
+ */
 export const getGistData = async ({ filename, gistID, token }) => {
   const path = `gists/${gistID}`
   const { files } = await query(path, { token })
   return files[filename].content
 }
 
+/**
+ * Save a Gist's data
+ * @param {Object} options
+ * @param {String} options.gistID
+ * @param {String} options.filename
+ * @param {String} options.encryptedData
+ * @param {String} options.token
+ * @return {Promise}
+ */
 export const saveGistData = ({ gistID, filename, encryptedData, token }) => {
   const path = `gists/${gistID}`
   const data = {
