@@ -45,6 +45,8 @@ export const deleteEntry = ({ commit }, entryID) => {
 }
 
 export const createGist = async ({ commit, state }, { filename, secret }) => {
+  filename = [filename, gh.FILE_EXTENSION].join('.')
+  console.log(filename)
   const { token, username } = state
   const placeholder = new Entry({
     title: 'Example Entry',

@@ -1,9 +1,9 @@
-import * as encrypt from '@/services/gh'
+import * as encrypt from '@/services/encrypt'
 
 /* eslint-disable no-unused-expressions */
 describe('encrypt.js', () => {
-  describe('encryptData()', () => {
-    describe('decryptData()', () => {
+  describe('encrypt.encryptData()', () => {
+    describe('encrypt.decryptData()', () => {
       const data = { foo: 'bar', bar: 'baz' }
 
       it('should be able to decrypt encrypted data decrypted', () => {

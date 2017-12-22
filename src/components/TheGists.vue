@@ -4,8 +4,8 @@
       <h2>Select a Gist</h2>
       <AppLoading v-if="loading"></AppLoading>
       <div :class="$style.TheGists__Wrap" v-else>
+        <div v-if="!gists.length">You don't have any Gists</div>
         <div
-          v-if="gists.length"
           v-for="gist in gists"
           :class="$style.TheGists__Gist"
           :key="gist.id"
@@ -16,7 +16,6 @@
             @click="selectGist"
           ></AppGist>
         </div>
-        <div v-else>You don't have any Gists</div>
         <form @submit.prevent="createGist" :class="$style.TheGists__New">
           <input type="text" placeholder="New Gist Name" v-model="filename">
           <AppBtn

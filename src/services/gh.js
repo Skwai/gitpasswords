@@ -10,6 +10,8 @@ github.addScope('gist')
 Firebase.initializeApp(FIREBASE)
 const { auth } = Firebase
 
+export const FILE_EXTENSION = 'enc'
+
 /**
  * Perform a query agains the Github V3 REST API
  * @param {String}  path              The API URL path
@@ -66,11 +68,17 @@ export const getUser = ({ username = null, token }) => {
  * @param {Object} options
  * @param {String} options.username
  * @param {String} options.token
+ * @param {String} options.fileExtension
  * @return {Promise}
  */
-export const getGists = ({ username, token }) => {
+export const getGists = async ({ username, token, fileExtension = FILE_EXTENSION }) => {
   const path = `users/${username}/gists`
-  return query(path, { token })
+  const gists = await query(path, { token })
+  const filtered = gists.filter((gist) => {
+    const filenames = Object.keys(gist.files)
+    return !!filenames.find(filename => filename.endsWith(`.${fileExtension}`))
+  })
+  return filtered
 }
 
 /**
