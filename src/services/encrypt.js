@@ -1,5 +1,12 @@
 import CryptoJS from 'crypto-js'
 
+/**
+ * Decrypt the data
+ * @param {String} data
+ * @param {String} secret
+ * @param {String} salt
+ * @return {Object|Array}
+ */
 export const decryptData = (data, secret, salt) => {
   try {
     const key = generateKey(secret, salt)
@@ -11,6 +18,13 @@ export const decryptData = (data, secret, salt) => {
   }
 }
 
+/**
+ * Encrypt the data
+ * @param {Object|Array} data
+ * @param {String} secret
+ * @param {String} salt
+ * @return {String}
+ */
 export const encryptData = (data, secret, salt) => {
   const json = JSON.stringify(data)
   const b64 = btoa(json)
@@ -19,6 +33,11 @@ export const encryptData = (data, secret, salt) => {
   return encrypted.toString()
 }
 
+/**
+ * Generate a PBKDF2 key
+ * @param {String} secret
+ * @param {String} salt
+ */
 export const generateKey = (secret, salt) => {
   return CryptoJS.PBKDF2(secret, salt, { keySize: 8, iterations: 10000 }).toString()
 }
