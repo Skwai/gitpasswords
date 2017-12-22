@@ -4,11 +4,11 @@
       <TheNav></TheNav>
     </div>
     <div :class="$style.Entries__Entry">
-      <AppEntry
+      <TheEntry
         v-if="entryID"
         :key="entryID"
         :entryID="entryID"
-      ></AppEntry>
+      ></TheEntry>
       <AppEntryBlank v-else></AppEntryBlank>
     </div>
   </div>
@@ -16,14 +16,14 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import AppEntry from './AppEntry'
+import TheEntry from './TheEntry'
 import AppEntryBlank from './AppEntryBlank'
 import TheNav from './TheNav'
 
 export default {
   components: {
     TheNav,
-    AppEntry,
+    TheEntry,
     AppEntryBlank
   },
 

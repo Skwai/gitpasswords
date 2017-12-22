@@ -1,11 +1,11 @@
 <template>
-  <form :class="$style.AppEntry" @submit.prevent="save">
-    <header :class="$style.AppEntry__Header">
-      <h3 :class="$style.AppEntry__ID">ID: {{entry.id}}</h3>
+  <form :class="$style.TheEntry" @submit.prevent="save">
+    <header :class="$style.TheEntry__Header">
+      <h3 :class="$style.TheEntry__ID">ID: {{entry.id}}</h3>
     </header>
-    <div :class="$style.AppEntry__Fields">
+    <div :class="$style.TheEntry__Fields">
       <p
-        :class="$style.AppEntry__Modified"><time
+        :class="$style.TheEntry__Modified"><time
         :datetime="entry.modified"
       >Edited {{modified.date}} at {{modified.time}}</time></p>
       <AppField
@@ -59,14 +59,14 @@
         v-model="entry.notes"
       ></AppField>
     </div>
-    <footer :class="$style.AppEntry__Footer">
+    <footer :class="$style.TheEntry__Footer">
       <AppBtn
         type="submit"
         :disabled="!isDirty"
         :loading="saving"
       >Save</AppBtn>
       <div
-        :class="$style.AppEntry__Dirty"
+        :class="$style.TheEntry__Dirty"
         v-if="isDirty"
       >You have unsaved changes</div>
       <AppBtn
@@ -203,13 +203,13 @@ export default {
 <style lang="stylus" module>
 @import "../styles/config.styl"
 
-@keyframes AppEntry__Inner
+@keyframes TheEntry__Inner
   from
     opacity: 0
   to
     opacity: 1
 
-.AppEntry
+.TheEntry
   height: 100%
   shadow()
   background: #fff
@@ -226,7 +226,7 @@ export default {
   &__Fields
     opacity: 0
     padding: $spacingBase
-    animation: AppEntry__Inner 0.25s 0.25s ease forwards
+    animation: TheEntry__Inner 0.25s 0.25s ease forwards
 
   &__Dirty
     margin-left: 1rem
