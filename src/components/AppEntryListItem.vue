@@ -42,7 +42,7 @@ export default {
 @import "../styles/config.styl"
 
 .AppEntryListItem
-  padding: 1rem $spacingBase
+  padding: 1rem $spacingBase 1rem calc(2.5rem + 16px)
   font-weight: 600
   white-space: nowrap
   max-width: 100%
@@ -53,18 +53,23 @@ export default {
   overflow: hidden
   display: flex
   align-items: center
+  position: relative
 
   img
     opacity: 0.35
     transition: $transitionBase
     filter: grayscale(1)
-    margin-right: 1rem
     transform-origin: center center
+    position: absolute
+    left: $spacingBase
+    top: 50%
+    transform: translateY(-50%)
 
-  &:hover img
+  &:hover img,
+  &[selected] img
     opacity: 1
     filter: grayscale(0)
-    transform: scale(1.1)
+    transform: scale(1.1) translateY(-50%)
 
   + .AppEntryListItem
     margin-top: -1px
