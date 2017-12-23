@@ -1,5 +1,11 @@
 <template>
-  <img :class="$style.AppEntryIcon" :src="faviconURL" width="16" height="16">
+  <img
+    :class="$style.AppEntryIcon"
+    :src="faviconURL"
+    width="16"
+    height="16"
+    aria-hidden="true"
+  >
 </template>
 
 <script>
