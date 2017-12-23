@@ -1,4 +1,8 @@
-import { UPDATE_ENTRY, REMOVE_ENTRY } from '@/store/mutations'
+import {
+  UPDATE_ENTRY,
+  REMOVE_ENTRY,
+  RESET
+} from '@/store/mutations'
 
 const entry = { id: 'entry1', username: 'username1', password: 'password1' }
 
@@ -42,6 +46,23 @@ describe('mutations.js', () => {
     it(`doesn't remove any entries from the store if the ID doesn't exist`, () => {
       REMOVE_ENTRY(state, 'entry2')
       expect(state.entries).toHaveLength(1)
+    })
+  })
+
+  describe('RESET', () => {
+    it('modifies the store to reflect the new state', () => {
+      const state = {
+        entries: [ 'foo', 'bar' ],
+        username: 'baz'
+      }
+
+      const newState = {
+        entries: [],
+        username: null
+      }
+
+      RESET(state, newState)
+      expect(state).toEqual({ ...newState })
     })
   })
 })

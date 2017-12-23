@@ -1,5 +1,3 @@
-import initialState from '@/store/initial-state'
-
 export const ADD_GISTS = (state, gists) => {
   state.gists = state.gists.concat(gists)
 }
@@ -58,8 +56,8 @@ export const REMOVE_ENTRY = (state, entryID) => {
   }
 }
 
-export const RESET = (state) => {
-  Object.entries(initialState).forEach(([k, v]) => {
+export const RESET = (state, newState) => {
+  Object.entries(newState).forEach(([k, v]) => {
     state[k] = v
   })
 }

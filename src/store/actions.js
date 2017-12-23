@@ -5,20 +5,21 @@ import {
   ACCESS_TOKEN_STORAGE_KEY,
   INACTIVE_LOGOUT_DELAY
 } from '@/config'
+import initialState from './initial-state'
 
-const storeToken = (token) => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
-const removeToken = () => localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
+const storeAccessToken = (token) => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
+const clearAccessToken = () => localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
 
 export const login = async ({ commit, state }) => {
   const { token, username } = await gh.login()
-  storeToken(token)
+  storeAccessToken(token)
   commit('SET_ACCESS_TOKEN', token)
   commit('SET_USERNAME', username)
 }
 
 export const logout = ({ commit }) => {
-  removeToken()
-  commit('RESET')
+  clearAccessToken()
+  commit('RESET', { ...initialState })
 }
 
 export const getUserFromToken = async ({ commit, state }, token) => {
@@ -46,7 +47,6 @@ export const deleteEntry = ({ commit }, entryID) => {
 
 export const createGist = async ({ commit, state }, { filename, secret }) => {
   filename = [filename, gh.FILE_EXTENSION].join('.')
-  console.log(filename)
   const { token, username } = state
   const placeholder = new Entry({
     title: 'Example Entry',
