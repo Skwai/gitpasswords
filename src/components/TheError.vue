@@ -45,4 +45,5 @@ export default {
   top: 0
   width: 100vw
   box-shadow: rgba(0,0,0,.1) 0 2px 5px
+  z-index: $zindexTop
 </style>
