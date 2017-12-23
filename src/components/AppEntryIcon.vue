@@ -1,0 +1,28 @@
+<template>
+  <img :class="$style.AppEntryIcon" :src="faviconURL" width="16" height="16">
+</template>
+
+<script>
+const BASE_URL = 'https://www.google.com/s2/favicons?domain_url='
+
+export default {
+  props: {
+    url: {
+      type: String,
+      required: true
+    }
+  },
+
+  computed: {
+    faviconURL () {
+      return [BASE_URL, encodeURIComponent(this.url)].join('')
+    }
+  }
+}
+</script>
+
+<style lang="stylus" module>
+.AppEntryIcon
+  filter: grayscale(1)
+  opacity: .35
+</style>

@@ -4,10 +4,15 @@
     :class="$style.AppEntryListItem"
     @click="selectEntry"
     :selected="selected"
-  >{{entry.title}}</div>
+  >
+    <AppEntryIcon v-if="entry.url" :url="entry.url"></AppEntryIcon>
+    {{entry.title}}
+  </div>
 </template>
 
 <script>
+import AppEntryIcon from './AppEntryIcon'
+
 export default {
   props: {
     entry: {
@@ -19,6 +24,10 @@ export default {
       default: false,
       required: false
     }
+  },
+
+  components: {
+    AppEntryIcon
   },
 
   methods: {
@@ -42,6 +51,11 @@ export default {
   transition: background $transitionBase, opacity $transitionBase
   will-change: background, opacity
   overflow: hidden
+  display: flex
+  align-items: center
+
+  img
+    margin-right: 1em
 
   + .AppEntryListItem
     margin-top: -1px
