@@ -1,8 +1,8 @@
 {
   "name": "gitpasswords",
-  "version": "1.0.0",
-  "description": "Browser based Github password store",
-  "author": "Cameron <me@skwai.com>",
+  "version": "v1.0.0",
+  "description": "A Vue.js app to store your passwords in an encrypted Github Gist",
+  "author": "Cameron Jensen <me@skwai.com>",
   "private": false,
   "license": "MIT",
   "scripts": {
@@ -17,7 +17,6 @@
   "dependencies": {
     "crypto-js": "^3.1.9-1",
     "firebase": "^4.6.1",
-    "github-api": "^3.0.0",
     "hashids": "^1.1.4",
     "vue": "^2.5.2",
     "vuex": "^3.0.1"
@@ -86,6 +85,6 @@
   "browserslist": [
     "> 1%",
     "last 2 versions",
-    "not ie <= 8"
+    "not ie <= 10"
   ]
 }
