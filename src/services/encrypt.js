@@ -38,6 +38,6 @@ export const encryptData = (data, secret, salt) => {
  * @param {String} secret
  * @param {String} salt
  */
-export const generateKey = (secret, salt) => {
-  return CryptoJS.PBKDF2(secret, salt, { keySize: 8, iterations: 10000 }).toString()
+export const generateKey = (secret, salt, iterations = 10000) => {
+  return CryptoJS.PBKDF2(secret, salt, { keySize: 8, iterations }).toString()
 }
