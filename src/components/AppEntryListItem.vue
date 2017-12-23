@@ -41,6 +41,7 @@ export default {
   cursor: pointer
   transition: background $transitionBase, opacity $transitionBase
   will-change: background, opacity
+  overflow: hidden
 
   + .AppEntryListItem
     margin-top: -1px
