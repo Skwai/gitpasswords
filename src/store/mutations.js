@@ -38,7 +38,7 @@ export const ADD_GIST = (state, gist) => {
 
 export const UPDATE_ENTRY = (state, entry) => {
   const index = state.entries.findIndex(({ id }) => id === entry.id)
-  state.entries[index] = entry
+  state.entries.splice(index, 1, entry)
 }
 
 export const SET_FILENAME = (state, filename) => {
