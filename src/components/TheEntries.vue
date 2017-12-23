@@ -48,6 +48,7 @@ export default {
   &__List
     @media (min-width: $tablet)
       flex: 0 0 14rem
+      max-width: 14rem
 
   &__Entry
     flex: 1
