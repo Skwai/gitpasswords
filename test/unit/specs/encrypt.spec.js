@@ -1,23 +1,38 @@
-import * as encrypt from '@/services/encrypt'
+import { encryptData, decryptData, generateKey } from '@/services/encrypt'
 
-/* eslint-disable no-unused-expressions */
 describe('encrypt.js', () => {
-  describe('encrypt.encryptData()', () => {
-    describe('encrypt.decryptData()', () => {
-      const data = { foo: 'bar', bar: 'baz' }
+  const data = { foo: 'bar', bar: 'baz' }
+  const secret = 'example'
+  const username = 'testuser'
 
-      it('should be able to decrypt encrypted data decrypted', () => {
-        const secret = 'example'
-        const username = 'testuser'
-        const encrypted = encrypt.encryptData(data, secret, username)
-        const decrypted = encrypt.decryptData(encrypted, secret, username)
-        expect(decrypted).to.deep.equal(data)
-      })
+  describe('generateKey', () => {
+    it('should generate a key', () => {
+      const key = generateKey(secret, username)
+      expect(typeof key).toBe('string')
+    })
+  })
 
-      it('throws exception when incorrect secret used', () => {
-        const encrypted = encrypt.encryptData(data, 'correct', 'testuser')
-        expect(() => encrypt.decryptData(encrypted, 'incorrect', 'testuser')).to.throw(Error)
-      })
+  let encrypted
+
+  describe('encryptData()', () => {
+    it('should return the encrypted data as a string', () => {
+      encrypted = encryptData(data, secret, username)
+      expect(typeof encrypted).toBe('string')
+    })
+  })
+
+  describe('decryptData', () => {
+    it('should return the original data if it successfuly decrypts it', () => {
+      const decrypted = decryptData(encrypted, secret, username)
+      expect(decrypted).toEqual(data)
+    })
+
+    it('should throw an error if it fails to decrypt the data due to an incorrect secret', () => {
+      expect(() => decryptData(encrypted, 'incorrect', username)).toThrow()
+    })
+
+    it('should throw an error if it fails to decrypt the data due to an incorrect salt', () => {
+      expect(() => decryptData(encrypted, secret, 'incorrect')).toThrow()
     })
   })
 })
