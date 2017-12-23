@@ -29,6 +29,5 @@ export default {
 
 <style lang="stylus" module>
 .AppEntryIcon
-  filter: grayscale(1)
-  opacity: .35
+  border-radius: 2px
 </style>

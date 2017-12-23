@@ -55,7 +55,16 @@ export default {
   align-items: center
 
   img
-    margin-right: 1em
+    opacity: 0.35
+    transition: $transitionBase
+    filter: grayscale(1)
+    margin-right: 1rem
+    transform-origin: center center
+
+  &:hover img
+    opacity: 1
+    filter: grayscale(0)
+    transform: scale(1.1)
 
   + .AppEntryListItem
     margin-top: -1px
