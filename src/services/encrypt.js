@@ -20,7 +20,7 @@ export const decryptData = (data, secret, salt) => {
 
 /**
  * Encrypt the data
- * @param {Object|Array} data
+ * @param {*} data
  * @param {String} secret
  * @param {String} salt
  * @return {String}
