@@ -19,7 +19,7 @@ export const FILE_EXTENSION = 'enc'
  * @param {String}  options.method    The HTTP method (GET, POST, PATCH, etc.)
  * @param {*}       options.data      The JSON data to send in request
  * @param {String}  options.token     The GitHub oAuth access token
- * @return {Promise<Array|Object>}    A promise that resolves with the returned data
+ * @return {Promise<Object>}          A promise that resolves with the returned data
  */
 export const query = async (path, { method = 'GET', data, token = null }) => {
   const url = [API_URL, path].join('/')
@@ -37,9 +37,9 @@ export const query = async (path, { method = 'GET', data, token = null }) => {
 
 /**
  * Perform oAuth login request via Firebase
- * @return {Object}
- * @property {String} token
- * @property {String} username
+ * @return {Promise}
+ * @property {String} token     The Github auth token
+ * @property {String} username  The Github username
  */
 export const login = async () => {
   const { credential } = await auth().signInWithPopup(github)
@@ -56,7 +56,7 @@ export const login = async () => {
  * @param {Object} options
  * @param {String} options.username   The Github user's username
  * @param {String} options.token      The oAuth token
- * @return {Promise<Object>}          A promise that resolves with the user's data
+ * @return {Promise<Object>}          A promise that resolves with the user's profile data
  */
 export const getUser = ({ username = null, token }) => {
   const path = username ? `users/${username}` : 'user'
@@ -64,12 +64,12 @@ export const getUser = ({ username = null, token }) => {
 }
 
 /**
- * Get a users Gists
+ * Get a users Gists filtered by file extension
  * @param {Object} options
- * @param {String} options.username
- * @param {String} options.token
- * @param {String} options.fileExtension
- * @return {Promise}
+ * @param {String} options.username       The User's Github username
+ * @param {String} options.token          The Github auth token
+ * @param {String} options.fileExtension  The file extension to match Gist files against
+ * @return {Promise<Object[]>}               The user's Gists filtered that match the given file extension
  */
 export const getGists = async ({ username, token, fileExtension = FILE_EXTENSION }) => {
   const path = `users/${username}/gists`
@@ -84,13 +84,12 @@ export const getGists = async ({ username, token, fileExtension = FILE_EXTENSION
 /**
  * Create a new Gist
  * @param {Object} options
- * @param {String} options.filename
- * @param {String} options.secret
- * @param {String} options.encryptedData
- * @param {String} options.token
- * @return {Promise}
+ * @param {String} options.filename       The filename in the new Gist
+ * @param {String} options.encryptedData  The encrypted data to save
+ * @param {String} options.token          The Github auth token
+ * @return {Promise<Object>}              The new Gist
  */
-export const createGist = ({ filename, secret, encryptedData, token }) => {
+export const createGist = ({ filename, encryptedData, token }) => {
   const data = {
     description: DEFAULT_DESCRIPTION,
     public: false,
@@ -108,27 +107,30 @@ export const createGist = ({ filename, secret, encryptedData, token }) => {
 }
 
 /**
- * Get a single Gist's data
+ * Get a the contents of a Gist's file
  * @param {Object} options
- * @param {String} options.filename
- * @param {String} options.gistID
- * @param {String} options.token
- * @return {Promise<String>}
+ * @param {String} options.filename   The filename in the Gist
+ * @param {String} options.gistID     The ID of the Gist to retrieve
+ * @param {String} options.token      The Github auth token
+ * @return {Promise<String>}          The contents of the Gist's file
  */
 export const getGistData = async ({ filename, gistID, token }) => {
   const path = `gists/${gistID}`
   const { files } = await query(path, { token })
+  if (!(filename in files)) {
+    throw Error(`${filename} does not exist in this Gist`)
+  }
   return files[filename].content
 }
 
 /**
  * Save a Gist's data
  * @param {Object} options
- * @param {String} options.gistID
- * @param {String} options.filename
- * @param {String} options.encryptedData
- * @param {String} options.token
- * @return {Promise}
+ * @param {String} options.gistID         The ID of the Gist
+ * @param {String} options.filename       The filename to save the data to
+ * @param {String} options.encryptedData  The encrypted data to save
+ * @param {String} options.token          The Github auth token
+ * @return {Promise<Object>}              The updated Gist data
  */
 export const saveGistData = ({ gistID, filename, encryptedData, token }) => {
   const path = `gists/${gistID}`
@@ -142,6 +144,6 @@ export const saveGistData = ({ gistID, filename, encryptedData, token }) => {
   return query(path, {
     data,
     token,
-    method: 'POST'
+    method: 'PATCH'
   })
 }
