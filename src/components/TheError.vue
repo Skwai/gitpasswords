@@ -2,10 +2,12 @@
   <h4 :class="$style.TheError" role="alert">{{error}}</h4>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
+
 const ERROR_DURATION = 3000
 
-export default {
+export default Vue.extend({
   props: {
     error: {
       required: true,
@@ -16,7 +18,7 @@ export default {
   mounted () {
     setTimeout(() => this.$store.dispatch('hideError'), ERROR_DURATION)
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

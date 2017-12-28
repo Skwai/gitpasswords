@@ -35,8 +35,10 @@
   </div>
 </template>
 
-<script>
-export default {
+<script lang="ts">
+import Vue from 'vue'
+
+export default Vue.extend({
   props: {
     label: {
       required: true,
@@ -81,11 +83,11 @@ export default {
   },
 
   computed: {
-    inputID () {
+    inputID (): string {
       return `${this._uid}__Input`
     }
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

@@ -8,10 +8,12 @@
   >
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
+
 const BASE_URL = 'https://www.google.com/s2/favicons?domain_url='
 
-export default {
+export default Vue.extend({
   props: {
     url: {
       type: String,
@@ -20,11 +22,11 @@ export default {
   },
 
   computed: {
-    faviconURL () {
+    faviconURL (): string {
       return [BASE_URL, encodeURIComponent(this.url)].join('')
     }
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

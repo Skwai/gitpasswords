@@ -10,10 +10,11 @@
   </div>
 </template>
 
-<script>
-import AppEntryIcon from './AppEntryIcon'
+<script lang="ts">
+import Vue from 'vue'
+import AppEntryIcon from './AppEntryIcon.vue'
 
-export default {
+export default Vue.extend({
   props: {
     entry: {
       type: Object,
@@ -35,7 +36,7 @@ export default {
       this.$store.dispatch('setActiveEntryID', this.entry.id)
     }
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

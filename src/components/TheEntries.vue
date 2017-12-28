@@ -14,13 +14,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import TheEntry from './TheEntry'
-import AppEntryBlank from './AppEntryBlank'
-import TheNav from './TheNav'
+import TheEntry from './TheEntry.vue'
+import AppEntryBlank from './AppEntryBlank.vue'
+import TheNav from './TheNav.vue'
 
-export default {
+export default Vue.extend({
   components: {
     TheNav,
     TheEntry,
@@ -30,7 +31,7 @@ export default {
   computed: {
     ...mapGetters(['entryID'])
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

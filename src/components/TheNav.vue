@@ -31,18 +31,17 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import AppBtn from './AppBtn'
-import AppMobile from './AppMobile'
-import AppDesktop from './AppDesktop'
-import TheLogout from './TheLogout'
-import TheEntryList from './TheEntryList'
+import AppBtn from './AppBtn.vue'
+import AppDesktop from './AppDesktop.vue'
+import TheLogout from './TheLogout.vue'
+import TheEntryList from './TheEntryList.vue'
 
-export default {
+export default Vue.extend({
   components: {
     AppBtn,
-    AppMobile,
     AppDesktop,
     TheLogout,
     TheEntryList
@@ -65,7 +64,7 @@ export default {
       this.$store.dispatch('logout')
     }
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

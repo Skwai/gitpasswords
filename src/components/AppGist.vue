@@ -13,10 +13,11 @@
   </div>
 </template>
 
-<script>
-import AppSpinner from './AppSpinner'
+<script lang="ts">
+import Vue from 'vue'
+import AppSpinner from './AppSpinner.vue'
 
-export default {
+export default Vue.extend({
   components: {
     AppSpinner
   },
@@ -34,15 +35,15 @@ export default {
   },
 
   computed: {
-    filename () {
+    filename (): string|null {
       return Object.keys(this.gist.files).shift() || null
     },
 
-    updated () {
+    updated (): string {
       return new Date(this.gist.updated_at).toLocaleDateString()
     }
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

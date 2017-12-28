@@ -9,11 +9,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import AppEntryListItem from './AppEntryListItem'
+import AppEntryListItem from './AppEntryListItem.vue'
 
-export default {
+export default Vue.extend({
   components: {
     AppEntryListItem
   },
@@ -21,7 +22,7 @@ export default {
   computed: {
     ...mapGetters(['entries', 'entryID'])
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

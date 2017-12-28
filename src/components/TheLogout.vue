@@ -5,10 +5,11 @@
   >Log out</AppBtn>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import AppBtn from './AppBtn'
 
-export default {
+export default Vue.extend({
   components: {
     AppBtn
   },
@@ -18,5 +19,5 @@ export default {
       this.$store.dispatch('logout')
     }
   }
-}
+})
 </script>

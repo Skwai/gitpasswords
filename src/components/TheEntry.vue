@@ -79,15 +79,16 @@
   </form>
 </template>
 
-<script>
-import Entry from '@/models/Entry'
-import AppField from './AppField'
-import AppBtn from './AppBtn'
-import { generatePassword } from '@/services/password'
+<script lang="ts">
+import Vue from 'vue'
+import Entry from '../models/Entry'
+import AppField from './AppField.vue'
+import AppBtn from './AppBtn.vue'
+import { generatePassword } from '../services/password'
 
 const PASSWORD_MASK = '***************'
 
-export default {
+export default Vue.extend({
   components: {
     AppField,
     AppBtn
@@ -174,18 +175,19 @@ export default {
   },
 
   computed: {
-    showPassword () {
+    showPassword (): boolean {
       if (this.emptyPassword) {
         return true
       }
       return this.passwordShown
     },
 
-    emptyPassword () {
-      return !this.entry.password || !this.entry.password.length
+    emptyPassword (): boolean {
+      const { password } = this.entry
+      return !password || !password.length
     },
 
-    modified () {
+    modified (): { date: string, time: string } {
       const date = new Date(this.entry.modified)
       return {
         date: date.toLocaleDateString(),
@@ -198,7 +200,7 @@ export default {
     this.entry = Object.assign(this.entry, this.getEntry())
     this.isDirty = false
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

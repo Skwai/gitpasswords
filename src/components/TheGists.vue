@@ -29,13 +29,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import AppLoading from './AppLoading'
-import AppBtn from './AppBtn'
-import AppGist from './AppGist'
+import AppLoading from './AppLoading.vue'
+import AppBtn from './AppBtn.vue'
+import AppGist from './AppGist.vue'
 
-export default {
+export default Vue.extend({
   components: {
     AppLoading,
     AppBtn,
@@ -102,7 +103,7 @@ export default {
       this.loading = false
     }
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

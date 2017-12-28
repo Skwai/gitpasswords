@@ -14,12 +14,13 @@
   </div>
 </template>
 
-<script>
-import AppFooter from './AppFooter'
-import AppLoading from './AppLoading'
-import AppBtn from './AppBtn'
+<script lang="ts">
+import Vue from 'vue'
+import AppFooter from './AppFooter.vue'
+import AppLoading from './AppLoading.vue'
+import AppBtn from './AppBtn.vue'
 
-export default {
+export default Vue.extend({
   components: {
     AppBtn,
     AppFooter,
@@ -45,7 +46,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

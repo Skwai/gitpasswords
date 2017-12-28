@@ -4,14 +4,15 @@
   </div>
 </template>
 
-<script>
-import AppSpinner from './AppSpinner'
+<script lang="ts">
+import Vue from 'vue'
+import AppSpinner from './AppSpinner.vue'
 
-export default {
+export default Vue.extend({
   components: {
     AppSpinner
   }
-}
+})
 </script>
 
 <style lang="stylus" module>
