@@ -45,11 +45,10 @@ export default {
   },
 
   methods: {
-    click (ev) {
-      if (this.$listeners.click) {
+    click () {
+      if (typeof this.$listeners.click === 'function') {
         this.$listeners.click()
       }
-      return ev
     }
   }
 }
