@@ -5,7 +5,7 @@ import CryptoJS from 'crypto-js'
  * @param {String} data
  * @param {String} secret
  * @param {String} salt
- * @return {Object|Array}
+ * @return {*}
  */
 export const decryptData = (data, secret, salt) => {
   try {
@@ -37,6 +37,7 @@ export const encryptData = (data, secret, salt) => {
  * Generate a PBKDF2 key
  * @param {String} secret
  * @param {String} salt
+ * @param {Number} iterations
  * @return {String}
  */
 export const generateKey = (secret, salt, iterations = 10000) => {

@@ -21,23 +21,27 @@ export const FILE_EXTENSION = 'enc'
  * @param {String}  options.token     The GitHub oAuth access token
  * @return {Promise<Object>}          A promise that resolves with the returned data
  */
-export const query = async (path, { method = 'GET', data, token = null }) => {
+export const query = async (path, { method = 'GET', data = null, token = null }) => {
   const url = [API_URL, path].join('/')
+  const headers = new Headers({ accept: ACCEPT_HEADER })
+  const args = { method }
+  if (data) {
+    args.body = JSON.stringify(data)
+    headers.set('content-type', 'application/json')
+  }
+  if (token) {
+    headers.set('authorization', `token ${token}`)
+  }
   const response = await fetch(url, {
-    method,
-    headers: {
-      accept: ACCEPT_HEADER,
-      ...(data ? { 'content-type': 'application/json' } : null),
-      ...(token ? { authorization: `token ${token}` } : null)
-    },
-    ...(data ? { body: JSON.stringify(data) } : null)
+    ...args,
+    headers
   })
   return response.json()
 }
 
 /**
- * Perform oAuth login request via Firebase
- * @return {Promise}
+ * Perform an oAuth Firebase login request
+ * @return {Promise<Object>}
  * @property {String} token     The Github auth token
  * @property {String} username  The Github username
  */
@@ -54,11 +58,11 @@ export const login = async () => {
 /**
  * Get a Github user's profile
  * @param {Object} options
- * @param {String} options.username   The Github user's username
- * @param {String} options.token      The oAuth token
- * @return {Promise<Object>}          A promise that resolves with the user's profile data
+ * @param {String} [options.username]   The Github user's username
+ * @param {String} [options.token]      The oAuth token
+ * @return {Promise<Object>}            A promise that resolves with the user's profile data
  */
-export const getUser = ({ username = null, token }) => {
+export const getUser = ({ username = null, token = null }) => {
   const path = username ? `users/${username}` : 'user'
   return query(path, { token })
 }
@@ -66,10 +70,10 @@ export const getUser = ({ username = null, token }) => {
 /**
  * Get a users Gists filtered by file extension
  * @param {Object} options
- * @param {String} options.username       The User's Github username
- * @param {String} options.token          The Github auth token
- * @param {String} options.fileExtension  The file extension to match Gist files against
- * @return {Promise<Object[]>}               The user's Gists filtered that match the given file extension
+ * @param {String} options.username         The User's Github username
+ * @param {String} options.token            The Github auth token
+ * @param {String} [options.fileExtension]  The file extension to match Gist files against
+ * @return {Promise<Object[]>}              The user's Gists filtered that match the given file extension
  */
 export const getGists = async ({ username, token, fileExtension = FILE_EXTENSION }) => {
   const path = `users/${username}/gists`

@@ -14,7 +14,7 @@ export const generatePassword = (length = 20, chars = CHAR_SET) => {
 }
 
 /**
- * Generate a random integer
+ * Get a random integer
  * @param {Number}    max     The maximum possible integer to generate (inclusive)
  * @return {Number}           An integer between 0 and max
  */
