@@ -6,7 +6,7 @@
     :size="size"
     :disabled="disabled || loading"
     :loading="loading"
-    @click="click"
+    v-on="$listeners"
   >
     <span :class="$style.AppBtn__Label"><slot></slot></span>
     <span v-if="loading" :class="$style.AppBtn__Loading"><AppSpinner></AppSpinner></span>
@@ -14,45 +14,30 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import AppSpinner from './AppSpinner.vue'
 
-export default Vue.extend({
+@Component({
   components: {
     AppSpinner
-  },
-
-  props: {
-    type: {
-      type: String,
-      default: 'button'
-    },
-    color: {
-      type: String,
-      default: null
-    },
-    size: {
-      type: String,
-      default: null
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    loading: {
-      type: Boolean,
-      default: false
-    }
-  },
-
-  methods: {
-    click () {
-      if (typeof this.$listeners.click === 'function') {
-        this.$listeners.click()
-      }
-    }
   }
 })
+export default class AppBtn extends Vue {
+  @Prop({ default: 'button' })
+  type: string
+
+  @Prop({ default: null })
+  color: string|null
+
+  @Prop({ default: null })
+  size: string|null
+
+  @Prop({ default: false })
+  disabled: boolean
+
+  @Prop({ default: false })
+  loading: boolean
+}
 </script>
 
 <style lang="stylus" module>

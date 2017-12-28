@@ -80,127 +80,112 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import Entry from '../models/Entry'
+import { Component, Watch, Vue, Prop } from 'vue-property-decorator'
+import Entry, { EntryObject } from '../models/Entry'
 import AppField from './AppField.vue'
 import AppBtn from './AppBtn.vue'
 import { generatePassword } from '../services/password'
 
 const PASSWORD_MASK = '***************'
 
-export default Vue.extend({
+@Component({
   components: {
     AppField,
     AppBtn
-  },
+  }
+})
+export default class TheEntry extends Vue {
+  entry: EntryObject = { ...new Entry() }
+  saving: boolean = false
+  destroying: boolean = false
+  error: string|boolean = null
+  isDirty: boolean = false
+  passwordShown: boolean = false
+  mask: string = PASSWORD_MASK
+  revealed: boolean = false
 
-  props: {
-    entryID: {
-      type: String,
-      required: true
+  @Prop()
+  entryID: string
+
+  @Watch('entry', { deep: true })
+  onEntryChanged (val: EntryObject) {
+    const prev = JSON.stringify(this.getEntry())
+    const curr = JSON.stringify(this.entry)
+    this.isDirty = prev !== curr
+  }
+
+  getEntry (): EntryObject {
+    return { ...this.$store.getters.entryByID(this.entryID) }
+  }
+
+  generatePassword (): void {
+    if (this.entry.password && !confirm('Are you sure? This will replace your current password')) {
+      return
     }
-  },
+    this.passwordShown = true
+    this.entry.password = generatePassword(20)
+  }
 
-  data () {
+  togglePasswordShown (): void {
+    this.passwordShown = !this.passwordShown
+  }
+
+  async save (): Promise<void> {
+    this.saving = true
+    try {
+      this.entry.modified = new Date()
+      this.$store.dispatch('updateEntry', this.entry)
+      await this.$store.dispatch('saveEntries')
+      this.isDirty = false
+      this.revealed = false
+    } catch (err) {
+      this.$store.dispatch('showError', 'There was an error saving your entry')
+    } finally {
+      this.saving = false
+    }
+  }
+
+  async destroy (): Promise<void> {
+    if (!confirm('Are you sure you want to delete this entry?')) {
+      return
+    }
+    this.destroying = true
+    try {
+      this.$store.dispatch('deleteEntry', this.entry.id)
+      await this.$store.dispatch('saveEntries')
+      this.$store.dispatch('setActiveEntryID', null)
+    } catch (err) {
+      this.$store.dispatch('showError', 'There was an error deleting this entry')
+    } finally {
+      this.destroying = false
+    }
+  }
+
+  get showPassword (): boolean {
+    if (this.emptyPassword) {
+      return true
+    }
+    return this.passwordShown
+  }
+
+  get emptyPassword (): boolean {
+    const { password } = this.entry
+    return !password || !password.length
+  }
+
+  get modified (): { date: string, time: string } {
+    const date = new Date(this.entry.modified)
     return {
-      entry: { ...new Entry() },
-      saving: false,
-      destroying: false,
-      error: null,
-      isDirty: false,
-      passwordShown: false,
-      mask: PASSWORD_MASK,
-      revealed: false
+      date: date.toLocaleDateString(),
+      time: date.toLocaleTimeString()
     }
-  },
+  }
 
-  watch: {
-    entry: {
-      handler () {
-        const prev = JSON.stringify(this.getEntry())
-        const curr = JSON.stringify(this.entry)
-        this.isDirty = prev !== curr
-      },
-      deep: true
-    }
-  },
-
-  methods: {
-    getEntry () {
-      return { ...this.$store.getters.entryByID(this.entryID) }
-    },
-
-    generatePassword () {
-      if (this.entry.password && !confirm('Are you sure? This will replace your current password')) {
-        return
-      }
-      this.passwordShown = true
-      this.entry.password = generatePassword(20)
-    },
-
-    togglePasswordShown () {
-      this.passwordShown = !this.passwordShown
-    },
-
-    async save () {
-      this.saving = true
-      try {
-        this.entry.modified = new Date()
-        this.$store.dispatch('updateEntry', this.entry)
-        await this.$store.dispatch('saveEntries')
-        this.isDirty = false
-        this.revealed = false
-      } catch (err) {
-        this.$store.dispatch('showError', 'There was an error saving your entry')
-      } finally {
-        this.saving = false
-      }
-    },
-
-    async destroy () {
-      if (!confirm('Are you sure you want to delete this entry?')) {
-        return
-      }
-      this.destroying = true
-      try {
-        this.$store.dispatch('deleteEntry', this.entry.id)
-        await this.$store.dispatch('saveEntries')
-        this.$store.dispatch('setActiveEntryID', null)
-      } catch (err) {
-        this.$store.dispatch('showError', 'There was an error deleting this entry')
-      } finally {
-        this.destroying = false
-      }
-    }
-  },
-
-  computed: {
-    showPassword (): boolean {
-      if (this.emptyPassword) {
-        return true
-      }
-      return this.passwordShown
-    },
-
-    emptyPassword (): boolean {
-      const { password } = this.entry
-      return !password || !password.length
-    },
-
-    modified (): { date: string, time: string } {
-      const date = new Date(this.entry.modified)
-      return {
-        date: date.toLocaleDateString(),
-        time: date.toLocaleTimeString()
-      }
-    }
-  },
-
-  created () {
+  created (): void {
     this.entry = Object.assign(this.entry, this.getEntry())
     this.isDirty = false
   }
-})
+}
 </script>
 
 <style lang="stylus" module>

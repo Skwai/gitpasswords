@@ -5,14 +5,15 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator'
 import AppSpinner from './AppSpinner.vue'
 
-export default Vue.extend({
+@Component({
   components: {
     AppSpinner
   }
 })
+export default class AppLoading extends Vue {}
 </script>
 
 <style lang="stylus" module>

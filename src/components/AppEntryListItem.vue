@@ -11,32 +11,26 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { EntryObject } from '../models/Entry'
 import AppEntryIcon from './AppEntryIcon.vue'
 
-export default Vue.extend({
-  props: {
-    entry: {
-      type: Object,
-      required: true
-    },
-    selected: {
-      type: Boolean,
-      default: false,
-      required: false
-    }
-  },
-
+@Component({
   components: {
     AppEntryIcon
-  },
-
-  methods: {
-    selectEntry () {
-      this.$store.dispatch('setActiveEntryID', this.entry.id)
-    }
   }
 })
+export default class AppEntryListItem extends Vue {
+  @Prop()
+  entry: EntryObject
+
+  @Prop({ default: false })
+  selected: boolean
+
+  selectEntry (): void {
+    this.$store.dispatch('setActiveEntryID', this.entry.id)
+  }
+}
 </script>
 
 <style lang="stylus" module>

@@ -5,10 +5,10 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator'
 
-export default Vue.extend({})
-</script>}
+@Component
+export default class AppDesktop extends Vue {}
 </script>
 
 <style lang="stylus" module>

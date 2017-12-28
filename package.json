@@ -19,6 +19,8 @@
     "firebase": "^4.6.1",
     "hashids": "^1.1.4",
     "vue": "^2.5.2",
+    "vue-class-component": "^6.1.2",
+    "vue-property-decorator": "^6.0.0",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -35,6 +37,7 @@
     "html-webpack-plugin": "^2.30.1",
     "jest": "^21.2.0",
     "jest-serializer-vue": "^0.3.0",
+    "jest-vue-preprocessor": "^1.3.1",
     "node-notifier": "^5.1.2",
     "optimize-css-assets-webpack-plugin": "^3.2.0",
     "ora": "^1.2.0",

@@ -3,26 +3,32 @@ const path = require('path')
 module.exports = {
   rootDir: path.resolve(__dirname, '../../'),
   moduleFileExtensions: [
-    'ts',
     'js',
     'json',
+    'ts',
     'vue'
   ],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '^~/(.*)$': '<rootDir>/$1'
   },
   transform: {
-    '^.+\\.ts$': '<rootDir>/node_modules/ts-jest',
     '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
-    '.*\\.(vue)$': '<rootDir>/node_modules/vue-jest'
+    '^.+\\.ts$': '<rootDir>/node_modules/ts-jest/preprocessor.js',
+    '.*\\.(vue)$': '<rootDir>/node_modules/jest-vue-preprocessor'
   },
+  testPathIgnorePatterns: [
+    '<rootDir>/test/e2e'
+  ],
+  testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|js)$',
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
   setupFiles: ['<rootDir>/test/unit/setup'],
   mapCoverage: true,
   coverageDirectory: '<rootDir>/test/unit/coverage',
   collectCoverageFrom: [
-    'src/**/*.{js,vue,ts}',
-    '!src/main.ts',
+    'components/**/*.{js,ts,vue}',
+    'layouts/**/*.{js,ts,vue}',
+    'pages/**/*.{js,ts,vue}',
+    'store/**/*.{js,ts,vue}',
     '!**/node_modules/**'
   ]
 }

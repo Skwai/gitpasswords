@@ -9,41 +9,37 @@
     </div>
     <small :class="$style.AppGist__Privacy">{{gist.public ? 'public' : 'private'}}</small>
     <div :class="$style.AppGist__Filename">{{filename}}</div>
-    <div :class="$style.AppGist__Updated">{{updated}}</div>
+    <div :class="$style.AppGist__Updated">{{updatedAt}}</div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import AppSpinner from './AppSpinner.vue'
 
-export default Vue.extend({
+@Component({
   components: {
     AppSpinner
-  },
-
-  props: {
-    gist: {
-      type: Object,
-      required: true
-    },
-
-    loading: {
-      type: Boolean,
-      default: false
-    }
-  },
-
-  computed: {
-    filename (): string|null {
-      return Object.keys(this.gist.files).shift() || null
-    },
-
-    updated (): string {
-      return new Date(this.gist.updated_at).toLocaleDateString()
-    }
   }
 })
+export default class AppGist extends Vue {
+  @Prop()
+  gist: any
+
+  @Prop({ default: false })
+  loading: boolean
+
+  get filename (): string|null {
+    return Object.keys(this.gist.files).shift() || null
+  }
+
+  get updatedAt (): string|null {
+    if (this.gist && this.gist.updated_at) {
+      return new Date(this.gist.updated_at).toLocaleDateString()
+    }
+    return null
+  }
+}
 </script>
 
 <style lang="stylus" module>

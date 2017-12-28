@@ -32,39 +32,37 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
 import AppBtn from './AppBtn.vue'
 import AppDesktop from './AppDesktop.vue'
 import TheLogout from './TheLogout.vue'
 import TheEntryList from './TheEntryList.vue'
 
-export default Vue.extend({
+@Component({
   components: {
     AppBtn,
     AppDesktop,
     TheLogout,
     TheEntryList
   },
-
   computed: {
     ...mapGetters(['entries', 'entryID'])
-  },
-
-  methods: {
-    createEntry () {
-      this.$store.dispatch('createEntry')
-    },
-
-    clearEntry () {
-      this.$store.dispatch('setActiveEntryID', null)
-    },
-
-    logout () {
-      this.$store.dispatch('logout')
-    }
   }
 })
+export default class TheNav extends Vue {
+  createEntry (): void {
+    this.$store.dispatch('createEntry')
+  }
+
+  clearEntry (): void {
+    this.$store.dispatch('setActiveEntryID', null)
+  }
+
+  logout (): void {
+    this.$store.dispatch('logout')
+  }
+}
 </script>
 
 <style lang="stylus" module>

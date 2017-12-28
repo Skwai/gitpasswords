@@ -9,24 +9,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 const BASE_URL = 'https://www.google.com/s2/favicons?domain_url='
 
-export default Vue.extend({
-  props: {
-    url: {
-      type: String,
-      required: true
-    }
-  },
+@Component
+export default class AppEntryIcon extends Vue {
+  @Prop()
+  url: string
 
-  computed: {
-    faviconURL (): string {
-      return [BASE_URL, encodeURIComponent(this.url)].join('')
-    }
+  get faviconURL (): string {
+    return [BASE_URL, encodeURIComponent(this.url)].join('')
   }
-})
+}
 </script>
 
 <style lang="stylus" module>

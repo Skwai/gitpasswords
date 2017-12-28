@@ -3,22 +3,19 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
 const ERROR_DURATION = 3000
 
-export default Vue.extend({
-  props: {
-    error: {
-      required: true,
-      type: String
-    }
-  },
+@Component
+export default class TheError extends Vue {
+  @Prop()
+  error: string
 
-  mounted () {
+  mounted (): void {
     setTimeout(() => this.$store.dispatch('hideError'), ERROR_DURATION)
   }
-})
+}
 </script>
 
 <style lang="stylus" module>
