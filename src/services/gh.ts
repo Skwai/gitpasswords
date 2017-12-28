@@ -96,7 +96,7 @@ export const getGists = async ({
   username: string,
   token: string,
   fileExtension?: string
-}) => {
+}): Promise<Object> => {
   const path = `users/${username}/gists`
   const gists = await query(path, { token })
   const filtered = gists.filter((gist) => {
