@@ -35,7 +35,7 @@ export default {
 
   computed: {
     filename () {
-      return Object.keys(this.gist.files).shift()
+      return Object.keys(this.gist.files).shift() || null
     },
 
     updated () {
