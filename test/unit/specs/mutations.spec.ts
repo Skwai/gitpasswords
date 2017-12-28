@@ -2,7 +2,7 @@ import {
   UPDATE_ENTRY,
   REMOVE_ENTRY,
   RESET
-} from '@/store/mutations'
+} from '../src/store/mutations'
 
 const entry = { id: 'entry1', username: 'username1', password: 'password1' }
 

@@ -1,4 +1,4 @@
-import { generatePassword } from '@/services/password'
+import { generatePassword } from '../src/services/password'
 
 /* eslint-disable no-unused-expressions */
 describe('password.js', () => {

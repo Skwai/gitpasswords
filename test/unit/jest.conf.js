@@ -3,6 +3,7 @@ const path = require('path')
 module.exports = {
   rootDir: path.resolve(__dirname, '../../'),
   moduleFileExtensions: [
+    'ts',
     'js',
     'json',
     'vue'
@@ -11,6 +12,7 @@ module.exports = {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
   transform: {
+    '^.+\\.ts$': '<rootDir>/node_modules/ts-jest',
     '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
     '.*\\.(vue)$': '<rootDir>/node_modules/vue-jest'
   },
@@ -19,8 +21,8 @@ module.exports = {
   mapCoverage: true,
   coverageDirectory: '<rootDir>/test/unit/coverage',
   collectCoverageFrom: [
-    'src/**/*.{js,vue}',
-    '!src/main.js',
+    'src/**/*.{js,vue,ts}',
+    '!src/main.ts',
     '!**/node_modules/**'
   ]
 }
