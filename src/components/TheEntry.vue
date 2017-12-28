@@ -108,7 +108,8 @@ export default {
       error: null,
       isDirty: false,
       passwordShown: false,
-      mask: PASSWORD_MASK
+      mask: PASSWORD_MASK,
+      revealed: false
     }
   },
 
@@ -143,7 +144,7 @@ export default {
     async save () {
       this.saving = true
       try {
-        this.entry.modified = new Date().toISOString()
+        this.entry.modified = new Date()
         this.$store.dispatch('updateEntry', this.entry)
         await this.$store.dispatch('saveEntries')
         this.isDirty = false
