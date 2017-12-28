@@ -1,6 +1,6 @@
 {
   "name": "gitpasswords",
-  "version": "v1.0.0",
+  "version": "v1.0.1",
   "description": "A Vue.js app to store your passwords in an encrypted Github Gist",
   "author": "Cameron Jensen <me@skwai.com>",
   "private": false,
