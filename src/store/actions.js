@@ -54,8 +54,9 @@ export const createGist = async ({ commit, state }, { filename, secret }) => {
     url: 'http://example.com',
     password: 'test'
   })
-  const encryptedData = encryptData([ placeholder ], secret, username)
-  const gist = await gh.createGist({ filename, secret, encryptedData, token })
+  const data = [placeholder]
+  const encryptedData = encryptData(data, secret, username)
+  const gist = await gh.createGist({ filename, encryptedData, token })
   commit('SET_FILENAME', filename)
   commit('SET_SECRET', secret)
   commit('ADD_GIST', gist)
