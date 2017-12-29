@@ -27,6 +27,7 @@
     "@types/jest": "^21.1.10",
     "@types/node": "^8.5.2",
     "autoprefixer": "^7.1.2",
+    "babel-jest": "^22.0.4",
     "chalk": "^2.0.1",
     "copy-webpack-plugin": "^4.0.1",
     "css-loader": "^0.28.0",

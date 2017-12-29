@@ -1,4 +1,4 @@
-import { EntryObject } from '../models/entry'
+import { EntryObject } from '../models/Entry'
 
 export const gistID = ({ gistID }: { gistID: string }): string => gistID
 export const username = ({ username }: { username: string }): string => username

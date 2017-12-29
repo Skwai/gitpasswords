@@ -1,4 +1,4 @@
-import { encryptData, decryptData, generateKey } from '../src/services/encrypt'
+import { encryptData, decryptData, generateKey } from '../../../src/services/encrypt'
 
 describe('encrypt.js', () => {
   const data = { foo: 'bar', bar: 'baz' }
