@@ -14,35 +14,32 @@
   </div>
 </template>
 
-<script>
-import AppFooter from './AppFooter'
-import AppLoading from './AppLoading'
-import AppBtn from './AppBtn'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import AppFooter from './AppFooter.vue'
+import AppLoading from './AppLoading.vue'
+import AppBtn from './AppBtn.vue'
 
-export default {
+@Component({
   components: {
     AppBtn,
     AppFooter,
     AppLoading
-  },
+  }
+})
+export default class TheLogin extends Vue {
+  loading: boolean = false
+  error: string|null = null
 
-  data () {
-    return {
-      loading: false,
-      error: null
-    }
-  },
+  async login (): Promise<void> {
+    this.loading = true
 
-  methods: {
-    async login () {
-      this.loading = true
-      try {
-        await this.$store.dispatch('login')
-      } catch (err) {
-        this.$store.dispatch('showError', err.message)
-      } finally {
-        this.loading = false
-      }
+    try {
+      await this.$store.dispatch('login')
+    } catch (err) {
+      this.$store.dispatch('showError', err.message)
+    } finally {
+      this.loading = false
     }
   }
 }

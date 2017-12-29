@@ -5,9 +5,11 @@
   </svg>
 </template>
 
-<script>
-export default {
-}
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class TheLoading extends Vue {}
 </script>
 
 <style lang="stylus" module>

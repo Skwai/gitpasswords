@@ -5,22 +5,29 @@ module.exports = {
   moduleFileExtensions: [
     'js',
     'json',
+    'ts',
     'vue'
   ],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1'
+    '^~/(.*)$': '<rootDir>/$1'
   },
   transform: {
     '^.+\\.js$': '<rootDir>/node_modules/babel-jest',
-    '.*\\.(vue)$': '<rootDir>/node_modules/vue-jest'
+    '^.+\\.ts$': '<rootDir>/node_modules/ts-jest/preprocessor.js',
+    '.*\\.(vue)$': '<rootDir>/node_modules/jest-vue-preprocessor'
   },
+  moduleDirectories: ["node_modules", "src"],
+  testPathIgnorePatterns: [
+    '<rootDir>/test/e2e'
+  ],
+  testRegex: '(/__tests__/.*|\\.(test|spec))\\.(ts|js)$',
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
   setupFiles: ['<rootDir>/test/unit/setup'],
   mapCoverage: true,
   coverageDirectory: '<rootDir>/test/unit/coverage',
   collectCoverageFrom: [
-    'src/**/*.{js,vue}',
-    '!src/main.js',
+    'src/**/*.{ts,js,vue}',
+    '!src/main.ts',
     '!**/node_modules/**'
   ]
 }

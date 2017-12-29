@@ -35,55 +35,44 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    label: {
-      required: true,
-      type: String
-    },
-    type: {
-      type: String,
-      default: 'text'
-    },
-    required: {
-      type: Boolean,
-      default: false
-    },
-    value: {
-      required: true,
-      default: null
-    },
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    autocomplete: {
-      type: String,
-      required: false,
-      default: 'on'
-    },
-    autocapitalize: {
-      type: String,
-      required: false,
-      default: 'on'
-    },
-    autocorrect: {
-      type: String,
-      required: false,
-      default: 'on'
-    },
-    spellcheck: {
-      type: String,
-      required: false,
-      default: 'on'
-    }
-  },
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
 
-  computed: {
-    inputID () {
-      return `${this._uid}__Input`
-    }
+@Component
+export default class AppField extends Vue {
+  @Prop()
+  label: string
+
+  @Prop({ default: 'text' })
+  type: string
+
+  @Prop({ default: false })
+  required: boolean
+
+  @Prop({ default: null })
+  value: string|number|null
+
+  @Prop({ default: false })
+  disabled: boolean
+
+  @Prop({ default: 'on' })
+  autocomplete: string
+
+  @Prop({ default: 'on' })
+  autocapitalize: string
+
+  @Prop({ default: 'on' })
+  autocorrect: string
+
+  @Prop({ default: 'on' })
+  spellcheck: string
+
+  get uid (): string {
+    return Math.random().toString(16).substr(2)
+  }
+
+  get inputID (): string {
+    return `${this.uid}__Input`
   }
 }
 </script>

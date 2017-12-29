@@ -7,14 +7,15 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import TheLogin from '@/components/TheLogin'
-import TheGists from '@/components/TheGists'
-import TheEntries from '@/components/TheEntries'
-import TheError from '@/components/TheError'
+import TheLogin from './components/TheLogin.vue'
+import TheGists from './components/TheGists.vue'
+import TheEntries from './components/TheEntries.vue'
+import TheError from './components/TheError.vue'
 
-export default {
+export default Vue.extend({
   components: {
     TheLogin,
     TheGists,
@@ -43,7 +44,7 @@ export default {
       }
     }
   }
-}
+})
 </script>
 
 <style lang="stylus" module>

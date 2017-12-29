@@ -1,10 +1,10 @@
-import Entry from '@/models/Entry'
-import * as gh from '@/services/gh'
-import { encryptData, decryptData } from '@/services/encrypt'
+import Entry from '../models/Entry'
+import * as gh from '../services/gh'
+import { encryptData, decryptData } from '../services/encrypt'
 import {
   ACCESS_TOKEN_STORAGE_KEY,
   INACTIVE_LOGOUT_DELAY
-} from '@/config'
+} from '../config'
 import initialState from './initial-state'
 
 const storeAccessToken = (token) => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
@@ -56,7 +56,11 @@ export const createGist = async ({ commit, state }, { filename, secret }) => {
   })
   const data = [placeholder]
   const encryptedData = encryptData(data, secret, username)
-  const gist = await gh.createGist({ filename, encryptedData, token })
+  const gist = await gh.createGist({
+    filename,
+    encryptedData,
+    token
+  })
   commit('SET_FILENAME', filename)
   commit('SET_SECRET', secret)
   commit('ADD_GIST', gist)
@@ -66,7 +70,11 @@ export const createGist = async ({ commit, state }, { filename, secret }) => {
 
 export const selectGist = async ({ commit, state }, { gistID, secret, filename }) => {
   const { token, username } = state
-  const data = await gh.getGistData({ filename, gistID, token })
+  const data = await gh.getGistData({
+    filename,
+    gistID,
+    token
+  })
   const entries = decryptData(data, secret, username)
   commit('SET_FILENAME', filename)
   commit('SET_SECRET', secret)
@@ -83,9 +91,21 @@ export const updateEntry = ({ commit }, entry) => {
 }
 
 export const saveEntries = async ({ commit, state }) => {
-  const { entries, filename, secret, token, gistID, username } = state
+  const {
+    entries,
+    filename,
+    secret,
+    token,
+    gistID,
+    username
+  } = state
   const encryptedData = encryptData(entries, secret, username)
-  await gh.saveGistData({ gistID, filename, encryptedData, token })
+  await gh.saveGistData({
+    gistID,
+    filename,
+    encryptedData,
+    token
+  })
 }
 
 export const showError = ({ commit }, message) => {

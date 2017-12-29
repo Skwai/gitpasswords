@@ -10,30 +10,25 @@
   </div>
 </template>
 
-<script>
-import AppEntryIcon from './AppEntryIcon'
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+import { EntryObject } from '../models/Entry'
+import AppEntryIcon from './AppEntryIcon.vue'
 
-export default {
-  props: {
-    entry: {
-      type: Object,
-      required: true
-    },
-    selected: {
-      type: Boolean,
-      default: false,
-      required: false
-    }
-  },
-
+@Component({
   components: {
     AppEntryIcon
-  },
+  }
+})
+export default class AppEntryListItem extends Vue {
+  @Prop()
+  entry: EntryObject
 
-  methods: {
-    selectEntry () {
-      this.$store.dispatch('setActiveEntryID', this.entry.id)
-    }
+  @Prop({ default: false })
+  selected: boolean
+
+  selectEntry (): void {
+    this.$store.dispatch('setActiveEntryID', this.entry.id)
   }
 }
 </script>

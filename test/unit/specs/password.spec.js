@@ -1,7 +1,14 @@
-import { generatePassword } from '@/services/password'
+import { generatePassword, getRandomInteger } from '../../../src/services/password'
 
-/* eslint-disable no-unused-expressions */
 describe('password.js', () => {
+  describe('getRandomInteger', () => {
+    it('should generate a random number within the range supplied', () => {
+      const result = getRandomInteger(10)
+      expect(result).toBeLessThanOrEqual(10)
+      expect(result).toBeGreaterThan(0)
+    })
+  })
+
   describe('generatePassword', () => {
     it('should return a password with the length supplied', () => {
       expect(generatePassword(4)).toHaveLength(4)

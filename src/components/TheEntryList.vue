@@ -9,19 +9,20 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
-import AppEntryListItem from './AppEntryListItem'
+import AppEntryListItem from './AppEntryListItem.vue'
 
-export default {
+@Component({
   components: {
     AppEntryListItem
   },
-
   computed: {
     ...mapGetters(['entries', 'entryID'])
   }
-}
+})
+export default class TheEntryList extends Vue {}
 </script>
 
 <style lang="stylus" module>

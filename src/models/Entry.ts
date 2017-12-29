@@ -4,24 +4,16 @@ const hashids = new Hashids()
 
 /**
  * Class representing an Entry
- * @property {String} id
- * @property {String} title
- * @property {String} username
- * @property {String} password
- * @property {String} url
- * @property {String} notes
- * @property {Date}   created
- * @property {Date}   modified
  */
 export default class Entry {
-  id = null
-  title = null
-  username = null
-  password = null
-  url = null
-  notes = null
-  created = new Date()
-  modified = new Date()
+  id: string|null = null
+  title: string|null = null
+  username: string|null = null
+  password: string|null = null
+  url: string|null = null
+  notes: string|null = null
+  created: Date = new Date()
+  modified: Date = new Date()
 
   /**
    * Create an Entry
@@ -36,8 +28,19 @@ export default class Entry {
    * Generate a hash ID
    * @return {String} The hash ID
    */
-  static generateID () {
+  static generateID (): string {
     const time = new Date().getTime()
     return hashids.encode(...String(time).split('').map(s => Number(s)))
   }
+}
+
+export interface EntryObject {
+  id: string|null
+  title: string|null
+  username: string|null
+  password: string|null
+  url: string|null
+  notes: string|null
+  created: Date
+  modified: Date
 }

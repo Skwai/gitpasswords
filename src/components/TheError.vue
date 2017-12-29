@@ -2,18 +2,17 @@
   <h4 :class="$style.TheError" role="alert">{{error}}</h4>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
+
 const ERROR_DURATION = 3000
 
-export default {
-  props: {
-    error: {
-      required: true,
-      type: String
-    }
-  },
+@Component
+export default class TheError extends Vue {
+  @Prop()
+  error: string
 
-  mounted () {
+  mounted (): void {
     setTimeout(() => this.$store.dispatch('hideError'), ERROR_DURATION)
   }
 }

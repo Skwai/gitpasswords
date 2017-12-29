@@ -4,8 +4,11 @@
   </h3>
 </template>
 
-<script>
-export default {}
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+
+@Component
+export default class AppEntryBlank extends Vue {}
 </script>
 
 <style lang="stylus" module>

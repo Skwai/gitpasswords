@@ -14,23 +14,24 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue, Prop } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
-import TheEntry from './TheEntry'
-import AppEntryBlank from './AppEntryBlank'
-import TheNav from './TheNav'
+import TheEntry from './TheEntry.vue'
+import AppEntryBlank from './AppEntryBlank.vue'
+import TheNav from './TheNav.vue'
 
-export default {
+@Component({
   components: {
     TheNav,
     TheEntry,
     AppEntryBlank
   },
-
   computed: {
     ...mapGetters(['entryID'])
   }
-}
+})
+export default class TheEntries extends Vue {}
 </script>
 
 <style lang="stylus" module>

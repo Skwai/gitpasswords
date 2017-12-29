@@ -5,18 +5,18 @@
   >Log out</AppBtn>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
 import AppBtn from './AppBtn'
 
-export default {
+@Component({
   components: {
     AppBtn
-  },
-
-  methods: {
-    logout () {
-      this.$store.dispatch('logout')
-    }
+  }
+})
+export default class TheLogout extends Vue {
+  logout (): void {
+    this.$store.dispatch('logout')
   }
 }
 </script>

@@ -4,14 +4,16 @@
   </div>
 </template>
 
-<script>
-import AppSpinner from './AppSpinner'
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
+import AppSpinner from './AppSpinner.vue'
 
-export default {
+@Component({
   components: {
     AppSpinner
   }
-}
+})
+export default class AppLoading extends Vue {}
 </script>
 
 <style lang="stylus" module>

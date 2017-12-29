@@ -1,4 +1,4 @@
-import { ACCESS_TOKEN_STORAGE_KEY } from '@/config'
+import { ACCESS_TOKEN_STORAGE_KEY } from '../config'
 
 const storage = window.localStorage || false
 

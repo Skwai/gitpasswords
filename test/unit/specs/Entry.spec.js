@@ -1,4 +1,4 @@
-import Entry from '@/models/Entry'
+import Entry from '../../../src/models/Entry'
 
 describe('Entry', () => {
   describe('generateId', () => {

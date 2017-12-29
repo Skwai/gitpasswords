@@ -29,13 +29,14 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
-import AppLoading from './AppLoading'
-import AppBtn from './AppBtn'
-import AppGist from './AppGist'
+import AppLoading from './AppLoading.vue'
+import AppBtn from './AppBtn.vue'
+import AppGist from './AppGist.vue'
 
-export default {
+@Component({
   components: {
     AppLoading,
     AppBtn,
@@ -44,58 +45,53 @@ export default {
 
   computed: {
     ...mapGetters(['gists'])
-  },
+  }
+})
+export default class TheGists extends Vue {
+  filename: string = ''
+  loading: boolean = true
+  selectedGistID: string|null = null
+  creating: boolean = false
 
-  data () {
-    return {
-      filename: '',
-      loading: true,
-      selectedGistID: null,
-      creating: false
+  requestSecret (message): string|null {
+    return prompt(message)
+  }
+
+  async selectGist (gistID, filename): Promise<void> {
+    const secret = this.requestSecret('Enter your secret key to decrypt your passwords')
+    if (secret === null || this.selectedGistID) {
+      return
     }
-  },
-
-  methods: {
-    requestSecret (message) {
-      return prompt(message)
-    },
-
-    async selectGist (gistID, filename) {
-      const secret = this.requestSecret('Enter your secret key to decrypt your passwords')
-      if (secret === null || this.selectedGistID) {
-        return
-      }
-      this.selectedGistID = gistID
-      try {
-        await this.$store.dispatch('selectGist', { gistID, secret, filename })
-      } catch (err) {
-        this.$store.dispatch('showError', 'The secret key you entered is not valid')
-      } finally {
-        this.selectedGistID = null
-      }
-    },
-
-    createGist () {
-      if (this.creating) {
-        return
-      }
-      const secret = this.requestSecret('Enter a secret key to encrypt your passwords. It is vital that it is secure')
-      if (this.secret === null) {
-        this.$store.dispatch('showError', 'Your secret key cannot be blank')
-        return
-      }
-      this.creating = true
-      try {
-        this.$store.dispatch('createGist', { filename: this.filename, secret })
-      } catch (err) {
-        this.$store.dispatch('showError', 'There was a problem creating your new Gist')
-      } finally {
-        this.creating = false
-      }
+    this.selectedGistID = gistID
+    try {
+      await this.$store.dispatch('selectGist', { gistID, secret, filename })
+    } catch (err) {
+      this.$store.dispatch('showError', 'The secret key you entered is not valid')
+    } finally {
+      this.selectedGistID = null
     }
-  },
+  }
 
-  async created () {
+  createGist (): Promise<void> {
+    if (this.creating) {
+      return
+    }
+    const secret = this.requestSecret('Enter a secret key to encrypt your passwords. It is vital that it is secure')
+    if (secret === null) {
+      this.$store.dispatch('showError', 'Your secret key cannot be blank')
+      return
+    }
+    this.creating = true
+    try {
+      this.$store.dispatch('createGist', { filename: this.filename, secret })
+    } catch (err) {
+      this.$store.dispatch('showError', 'There was a problem creating your new Gist')
+    } finally {
+      this.creating = false
+    }
+  }
+
+  async created (): Promise<void> {
     try {
       await this.$store.dispatch('getGists')
     } finally {

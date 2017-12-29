@@ -31,39 +31,36 @@
   </nav>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue } from 'vue-property-decorator'
 import { mapGetters } from 'vuex'
-import AppBtn from './AppBtn'
-import AppMobile from './AppMobile'
-import AppDesktop from './AppDesktop'
-import TheLogout from './TheLogout'
-import TheEntryList from './TheEntryList'
+import AppBtn from './AppBtn.vue'
+import AppDesktop from './AppDesktop.vue'
+import TheLogout from './TheLogout.vue'
+import TheEntryList from './TheEntryList.vue'
 
-export default {
+@Component({
   components: {
     AppBtn,
-    AppMobile,
     AppDesktop,
     TheLogout,
     TheEntryList
   },
-
   computed: {
     ...mapGetters(['entries', 'entryID'])
-  },
+  }
+})
+export default class TheNav extends Vue {
+  createEntry (): void {
+    this.$store.dispatch('createEntry')
+  }
 
-  methods: {
-    createEntry () {
-      this.$store.dispatch('createEntry')
-    },
+  clearEntry (): void {
+    this.$store.dispatch('setActiveEntryID', null)
+  }
 
-    clearEntry () {
-      this.$store.dispatch('setActiveEntryID', null)
-    },
-
-    logout () {
-      this.$store.dispatch('logout')
-    }
+  logout (): void {
+    this.$store.dispatch('logout')
   }
 }
 </script>
