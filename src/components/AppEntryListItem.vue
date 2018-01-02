@@ -21,7 +21,7 @@ import AppEntryIcon from './AppEntryIcon.vue'
   }
 })
 export default class AppEntryListItem extends Vue {
-  @Prop()
+  @Prop({ required: true })
   entry: EntryObject
 
   @Prop({ default: false })

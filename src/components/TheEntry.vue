@@ -103,7 +103,7 @@ export default class TheEntry extends Vue {
   mask: string = PASSWORD_MASK
   revealed: boolean = false
 
-  @Prop()
+  @Prop({ required: true })
   entryID: string
 
   @Watch('entry', { deep: true })

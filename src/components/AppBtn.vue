@@ -25,19 +25,19 @@ import AppSpinner from './AppSpinner.vue'
   }
 })
 export default class AppBtn extends Vue {
-  @Prop({ default: 'button' })
+  @Prop({ default: 'button', required: false })
   type: string
 
-  @Prop({ default: null })
+  @Prop({ default: null, required: false })
   color: string|null
 
-  @Prop({ default: null })
+  @Prop({ default: null, required: false })
   size: string|null
 
-  @Prop({ default: false })
+  @Prop({ default: false, required: false })
   disabled: boolean
 
-  @Prop({ default: false })
+  @Prop({ default: false, required: false })
   loading: boolean
 }
 </script>

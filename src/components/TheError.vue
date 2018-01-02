@@ -9,7 +9,7 @@ const ERROR_DURATION = 3000
 
 @Component
 export default class TheError extends Vue {
-  @Prop()
+  @Prop({ required: true })
   error: string
 
   mounted (): void {

@@ -42,7 +42,6 @@ import AppGist from './AppGist.vue'
     AppBtn,
     AppGist
   },
-
   computed: {
     ...mapGetters(['gists'])
   }

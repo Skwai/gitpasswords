@@ -15,7 +15,7 @@ const BASE_URL = 'https://www.google.com/s2/favicons?domain_url='
 
 @Component
 export default class AppEntryIcon extends Vue {
-  @Prop()
+  @Prop({ required: true })
   url: string
 
   get faviconURL (): string {

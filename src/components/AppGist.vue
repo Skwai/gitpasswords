@@ -17,16 +17,21 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import AppSpinner from './AppSpinner.vue'
 
+interface GistObject {
+  updated_at: string,
+  files: Object
+}
+
 @Component({
   components: {
     AppSpinner
   }
 })
 export default class AppGist extends Vue {
-  @Prop()
-  gist: any
+  @Prop({ required: true })
+  gist: GistObject
 
-  @Prop({ default: false })
+  @Prop({ default: false, required: false })
   loading: boolean
 
   get filename (): string|null {

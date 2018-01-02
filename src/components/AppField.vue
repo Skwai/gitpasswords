@@ -40,31 +40,31 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 
 @Component
 export default class AppField extends Vue {
-  @Prop()
+  @Prop({ required: true })
   label: string
 
   @Prop({ default: 'text' })
   type: string
 
-  @Prop({ default: false })
+  @Prop({ default: false, required: false })
   required: boolean
 
-  @Prop({ default: null })
+  @Prop({ required: true })
   value: string|number|null
 
-  @Prop({ default: false })
+  @Prop({ default: false, required: false })
   disabled: boolean
 
-  @Prop({ default: 'on' })
+  @Prop({ default: 'on', required: false })
   autocomplete: string
 
-  @Prop({ default: 'on' })
+  @Prop({ default: 'on', required: false })
   autocapitalize: string
 
-  @Prop({ default: 'on' })
+  @Prop({ default: 'on', required: false })
   autocorrect: string
 
-  @Prop({ default: 'on' })
+  @Prop({ default: 'on', required: false })
   spellcheck: string
 
   get uid (): string {

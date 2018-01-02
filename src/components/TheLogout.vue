@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import AppBtn from './AppBtn'
+import AppBtn from './AppBtn.vue'
 
 @Component({
   components: {
