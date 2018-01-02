@@ -52,6 +52,8 @@ export default class AppEntryListItem extends Vue {
   display: flex
   align-items: center
   position: relative
+  user-select: none
+  pointer-events: none
 
   img
     opacity: 0.35
