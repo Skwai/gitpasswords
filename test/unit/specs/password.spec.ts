@@ -1,3 +1,4 @@
+// <reference path='../../../node_modules/@types/jest/index.d.ts' />
 import { generatePassword, getRandomInteger } from '../../../src/services/password'
 
 describe('password.js', () => {

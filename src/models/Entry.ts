@@ -1,6 +1,6 @@
 import Hashids from 'hashids'
 
-const hashids = new Hashids()
+// const hashids = new Hashids()
 
 /**
  * Class representing an Entry
@@ -30,7 +30,8 @@ export default class Entry {
    */
   static generateID (): string {
     const time = new Date().getTime()
-    return hashids.encode(...String(time).split('').map(s => Number(s)))
+    return 'test'
+    // return hashids.encode(...String(time).split('').map(s => Number(s)))
   }
 }
 

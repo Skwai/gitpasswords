@@ -2,6 +2,7 @@
   "hosting": {
     "public": "dist",
     "ignore": [
+      ".DS_Store",
       "firebase.json",
       "**/.*",
       "**/node_modules/**"

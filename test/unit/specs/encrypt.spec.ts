@@ -1,3 +1,4 @@
+// <reference path='../../../node_modules/@types/jest/index.d.ts' />
 import { encryptData, decryptData, generateKey } from '../../../src/services/encrypt'
 
 describe('encrypt.js', () => {
