@@ -4,6 +4,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
+import { Action } from 'vuex-class'
 
 const ERROR_DURATION = 3000
 
@@ -12,8 +13,10 @@ export default class TheError extends Vue {
   @Prop({ required: true })
   error: string
 
+  @Action('hideError') hideErrorAction
+
   mounted (): void {
-    setTimeout(() => this.$store.dispatch('hideError'), ERROR_DURATION)
+    setTimeout(() => this.hideErrorAction(ERROR_DURATION))
   }
 }
 </script>

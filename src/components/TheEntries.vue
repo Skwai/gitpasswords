@@ -16,7 +16,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { mapGetters } from 'vuex'
+import { Getter } from 'vuex-class'
 import TheEntry from './TheEntry.vue'
 import AppEntryBlank from './AppEntryBlank.vue'
 import TheNav from './TheNav.vue'
@@ -26,12 +26,12 @@ import TheNav from './TheNav.vue'
     TheNav,
     TheEntry,
     AppEntryBlank
-  },
-  computed: {
-    ...mapGetters(['entryID'])
   }
 })
-export default class TheEntries extends Vue {}
+export default class TheEntries extends Vue {
+  @Getter
+  entryID
+}
 </script>
 
 <style lang="stylus" module>

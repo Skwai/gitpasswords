@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapGetters } from 'vuex'
+import { Getter, Action } from 'vuex-class'
 import AppBtn from './AppBtn.vue'
 import AppDesktop from './AppDesktop.vue'
 import TheLogout from './TheLogout.vue'
@@ -45,22 +45,26 @@ import TheEntryList from './TheEntryList.vue'
     AppDesktop,
     TheLogout,
     TheEntryList
-  },
-  computed: {
-    ...mapGetters(['entries', 'entryID'])
   }
 })
 export default class TheNav extends Vue {
+  @Getter entries
+  @Getter entryID
+
+  @Action('createEntry') createEntryAction
+  @Action('setActiveEntryID') setActiveEntryIDAction
+  @Action('logout') logoutAction
+
   createEntry (): void {
-    this.$store.dispatch('createEntry')
+    this.createEntryAction()
   }
 
   clearEntry (): void {
-    this.$store.dispatch('setActiveEntryID', null)
+    this.setActiveEntryIDAction(null)
   }
 
   logout (): void {
-    this.$store.dispatch('logout')
+    this.logoutAction()
   }
 }
 </script>

@@ -13,7 +13,7 @@
           <AppGist
             :gist="gist"
             :loading="selectedGistID === gist.id"
-            @click="selectGist"
+            @click="select"
           ></AppGist>
         </div>
         <form @submit.prevent="createGist" :class="$style.TheGists__New">
@@ -31,7 +31,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapGetters } from 'vuex'
+import { Action } from 'vuex-class'
+import { Getter } from 'vuex-class'
 import AppLoading from './AppLoading.vue'
 import AppBtn from './AppBtn.vue'
 import AppGist from './AppGist.vue'
@@ -41,9 +42,6 @@ import AppGist from './AppGist.vue'
     AppLoading,
     AppBtn,
     AppGist
-  },
-  computed: {
-    ...mapGetters(['gists'])
   }
 })
 export default class TheGists extends Vue {
@@ -52,39 +50,46 @@ export default class TheGists extends Vue {
   selectedGistID: string|null = null
   creating: boolean = false
 
-  requestSecret (message): string|null {
+  @Getter gists
+
+  @Action('selectGist') selectGistAction
+  @Action('getGists') getGistsAction
+  @Action('createGist') createGistAction
+  @Action('showError') showErrorAction
+
+  requestSecret (message: string): string|null {
     return prompt(message)
   }
 
-  async selectGist (gistID, filename): Promise<void> {
+  async select (gistID, filename): Promise<void> {
     const secret = this.requestSecret('Enter your secret key to decrypt your passwords')
     if (secret === null || this.selectedGistID) {
       return
     }
     this.selectedGistID = gistID
     try {
-      await this.$store.dispatch('selectGist', { gistID, secret, filename })
+      await this.selectGistAction({ gistID, secret, filename })
     } catch (err) {
-      this.$store.dispatch('showError', 'The secret key you entered is not valid')
+      this.showErrorAction('The secret key you entered is not valid')
     } finally {
       this.selectedGistID = null
     }
   }
 
-  createGist (): Promise<void> {
+  async createGist (): Promise<void> {
     if (this.creating) {
       return
     }
     const secret = this.requestSecret('Enter a secret key to encrypt your passwords. It is vital that it is secure')
     if (secret === null) {
-      this.$store.dispatch('showError', 'Your secret key cannot be blank')
+      this.showErrorAction('Your secret key cannot be blank')
       return
     }
     this.creating = true
     try {
-      this.$store.dispatch('createGist', { filename: this.filename, secret })
+      await this.createGistAction({ secret, filename: this.filename })
     } catch (err) {
-      this.$store.dispatch('showError', 'There was a problem creating your new Gist')
+      this.showErrorAction('There was a problem creating your new Gist')
     } finally {
       this.creating = false
     }
@@ -92,7 +97,7 @@ export default class TheGists extends Vue {
 
   async created (): Promise<void> {
     try {
-      await this.$store.dispatch('getGists')
+      await this.getGistsAction()
     } finally {
       this.loading = false
     }

@@ -11,18 +11,21 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapGetters } from 'vuex'
+import { Getter } from 'vuex-class'
 import AppEntryListItem from './AppEntryListItem.vue'
 
 @Component({
   components: {
     AppEntryListItem
-  },
-  computed: {
-    ...mapGetters(['entries', 'entryID'])
   }
 })
-export default class TheEntryList extends Vue {}
+export default class TheEntryList extends Vue {
+  @Getter
+  entries
+
+  @Getter
+  entryID
+}
 </script>
 
 <style lang="stylus" module>

@@ -16,11 +16,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import AppSpinner from './AppSpinner.vue'
-
-interface GistObject {
-  updated_at: string,
-  files: Object
-}
+import GistInterface from '../interfaces/Gist'
 
 @Component({
   components: {
@@ -29,7 +25,7 @@ interface GistObject {
 })
 export default class AppGist extends Vue {
   @Prop({ required: true })
-  gist: GistObject
+  gist: GistInterface
 
   @Prop({ default: false, required: false })
   loading: boolean

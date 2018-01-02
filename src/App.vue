@@ -8,43 +8,47 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
-import { mapGetters } from 'vuex'
+import { Vue, Prop, Component } from 'vue-property-decorator'
+import { Action, Getter } from 'vuex-class'
 import TheLogin from './components/TheLogin.vue'
 import TheGists from './components/TheGists.vue'
 import TheEntries from './components/TheEntries.vue'
 import TheError from './components/TheError.vue'
 
-export default Vue.extend({
+@Component({
   components: {
     TheLogin,
     TheGists,
     TheEntries,
     TheError
-  },
+  }
+})
+export default class App extends Vue {
+  @Getter username
+  @Getter gistID
+  @Getter token
+  @Getter error
 
-  computed: {
-    ...mapGetters(['username', 'gistID', 'token', 'error'])
-  },
+  @Action setInactiveTimer
+  @Action getUserFromToken
+  @Action logout
 
-  methods: {
-    bindClickTimeout () {
-      document.addEventListener('click', () => this.$store.dispatch('setInactiveTimer'))
-    }
-  },
+  bindClickTimeout (): void {
+    document.addEventListener('click', this.setInactiveTimer)
+  }
 
-  async created () {
+  async created (): Promise<void> {
     this.bindClickTimeout()
 
     if (this.token) {
       try {
-        await this.$store.dispatch('getUserFromToken', this.token)
+        await this.getUserFromToken(this.token)
       } catch (err) {
-        await this.$store.dispatch('logout')
+        await this.logout()
       }
     }
   }
-})
+}
 </script>
 
 <style lang="stylus" module>

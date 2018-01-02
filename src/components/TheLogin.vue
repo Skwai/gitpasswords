@@ -16,6 +16,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Action } from 'vuex-class'
 import AppFooter from './AppFooter.vue'
 import AppLoading from './AppLoading.vue'
 import AppBtn from './AppBtn.vue'
@@ -31,13 +32,16 @@ export default class TheLogin extends Vue {
   loading: boolean = false
   error: string|null = null
 
+  @Action('login') loginAction
+  @Action('showError') showErrorAction
+
   async login (): Promise<void> {
     this.loading = true
 
     try {
-      await this.$store.dispatch('login')
+      await this.loginAction()
     } catch (err) {
-      this.$store.dispatch('showError', err.message)
+      this.showErrorAction(err.message)
     } finally {
       this.loading = false
     }

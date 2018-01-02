@@ -43,7 +43,7 @@ export default class AppField extends Vue {
   @Prop({ required: true })
   label: string
 
-  @Prop({ default: 'text' })
+  @Prop({ default: 'text', required: false })
   type: string
 
   @Prop({ default: false, required: false })

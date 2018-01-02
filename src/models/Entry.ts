@@ -1,4 +1,5 @@
 import Hashids from 'hashids'
+import EntryInterface from '../interfaces/Entry';
 
 const hashids = new Hashids()
 
@@ -17,30 +18,17 @@ export default class Entry {
 
   /**
    * Create an Entry
-   * @param {Object} props The initialization properties
    */
-  constructor (props = {}) {
+  constructor (props: EntryInterface = {}) {
     this.id = Entry.generateID()
     Object.assign(this, props)
   }
 
   /**
    * Generate a hash ID
-   * @return {String} The hash ID
    */
   static generateID (): string {
     const time = new Date().getTime()
     return hashids.encode(...String(time).split('').map(s => Number(s)))
   }
-}
-
-export interface EntryObject {
-  id: string|null
-  title: string|null
-  username: string|null
-  password: string|null
-  url: string|null
-  notes: string|null
-  created: Date
-  modified: Date
 }

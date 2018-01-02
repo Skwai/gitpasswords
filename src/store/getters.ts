@@ -1,10 +1,12 @@
-import { EntryObject } from '../models/Entry'
+import EntryInterface from '../interfaces/Entry'
+import StateInterface from '../interfaces/State'
+import GistInterface from '../interfaces/Gist'
 
-export const gistID = ({ gistID }: { gistID: string }): string => gistID
-export const username = ({ username }: { username: string }): string => username
-export const gists = ({ gists }: { gists: Object[] }): Object[] => gists
-export const entryID = ({ entryID }: { entryID: string }): string => entryID
-export const entries = ({ entries }: { entries: Object[] }): Object[] => entries
-export const entryByID = ({ entries }: { entries: EntryObject[] }) => (id: string) => entries.find(e => e.id === id)
-export const token = ({ token }: { token: string }): string => token
-export const error = ({ error }: { error: string }): string => error
+export const gistID = ({ gistID }: StateInterface): string => gistID
+export const username = ({ username }: StateInterface): string => username
+export const entryID = ({ entryID }: StateInterface): string => entryID
+export const entries = ({ entries }: StateInterface): EntryInterface[] => entries
+export const entryByID = ({ entries }: StateInterface) => (id: string): EntryInterface => entries.find(e => e.id === id)
+export const token = ({ token }: StateInterface): string => token
+export const error = ({ error }: StateInterface): string => error
+export const gists = ({ gists }: StateInterface): GistInterface[] => gists

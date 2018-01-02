@@ -1,4 +1,5 @@
 import Entry from '../models/Entry'
+import EntryInterface from '../interfaces/Entry'
 import * as gh from '../services/gh'
 import { encryptData, decryptData } from '../services/encrypt'
 import {
@@ -7,33 +8,41 @@ import {
 } from '../config'
 import initialState from './initial-state'
 
-const storeAccessToken = (token) => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
-const clearAccessToken = () => localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
+const storeAccessToken = (token: string): void => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
+const clearAccessToken = (): void => localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
 
-export const login = async ({ commit, state }) => {
+interface StoreObject {
+  commit?(mutation: string, payload?: any): any
+  state?: any
+}
+
+export const login = async ({ commit, state }: StoreObject): Promise<void> => {
   const { token, username } = await gh.login()
   storeAccessToken(token)
   commit('SET_ACCESS_TOKEN', token)
   commit('SET_USERNAME', username)
 }
 
-export const logout = ({ commit }) => {
+export const logout = ({ commit }): void => {
   clearAccessToken()
   commit('RESET', { ...initialState })
 }
 
-export const getUserFromToken = async ({ commit, state }, token) => {
+export const getUserFromToken = async (
+  { commit, state }: StoreObject,
+  token: string
+): Promise<void> => {
   const { login: username } = await gh.getUser({ token })
   commit('SET_USERNAME', username)
 }
 
-export const getGists = async ({ commit, state }) => {
+export const getGists = async ({ commit, state }: StoreObject): Promise<void> => {
   const { username, token } = state
   const gists = await gh.getGists({ username, token })
   commit('SET_GISTS', gists)
 }
 
-export const createEntry = ({ commit }) => {
+export const createEntry = ({ commit }: StoreObject): void => {
   const entry = new Entry({
     title: 'New entry'
   })
@@ -41,11 +50,17 @@ export const createEntry = ({ commit }) => {
   commit('SET_ENTRY_ID', entry.id)
 }
 
-export const deleteEntry = ({ commit }, entryID) => {
+export const deleteEntry = (
+  { commit }: StoreObject,
+  entryID: string
+): void => {
   commit('REMOVE_ENTRY', entryID)
 }
 
-export const createGist = async ({ commit, state }, { filename, secret }) => {
+export const createGist = async (
+  { commit, state }: StoreObject,
+  { filename, secret }: { filename: string, secret: string }
+): Promise<void> => {
   filename = [filename, gh.FILE_EXTENSION].join('.')
   const { token, username } = state
   const placeholder = new Entry({
@@ -68,7 +83,10 @@ export const createGist = async ({ commit, state }, { filename, secret }) => {
   commit('SET_ENTRIES', placeholder)
 }
 
-export const selectGist = async ({ commit, state }, { gistID, secret, filename }) => {
+export const selectGist = async (
+  { commit, state }: StoreObject,
+  { gistID, secret, filename }: { gistID: string, secret: string, filename: string }
+): Promise<void> => {
   const { token, username } = state
   const data = await gh.getGistData({
     filename,
@@ -82,15 +100,21 @@ export const selectGist = async ({ commit, state }, { gistID, secret, filename }
   commit('SET_ENTRIES', entries)
 }
 
-export const setActiveEntryID = ({ commit, state }, entryID) => {
+export const setActiveEntryID = (
+  { commit, state }: StoreObject,
+  entryID: string
+): void => {
   commit('SET_ENTRY_ID', entryID)
 }
 
-export const updateEntry = ({ commit }, entry) => {
+export const updateEntry = (
+  { commit }: StoreObject,
+  entry: EntryInterface
+): void => {
   commit('UPDATE_ENTRY', new Entry({ ...entry }))
 }
 
-export const saveEntries = async ({ commit, state }) => {
+export const saveEntries = async ({ commit, state }: StoreObject): Promise<void> => {
   const {
     entries,
     filename,
@@ -108,15 +132,15 @@ export const saveEntries = async ({ commit, state }) => {
   })
 }
 
-export const showError = ({ commit }, message) => {
+export const showError = ({ commit }: StoreObject, message: string): void => {
   commit('SET_ERROR', message)
 }
 
-export const hideError = ({ commit }) => {
+export const hideError = ({ commit }: StoreObject): void => {
   commit('REMOVE_ERROR')
 }
 
-export const setInactiveTimer = ({ commit, state }) => {
+export const setInactiveTimer = ({ commit, state }: StoreObject) => {
   if (state.secret) {
     commit('SET_TIMER', setTimeout(() => commit('RESET'), INACTIVE_LOGOUT_DELAY))
   }

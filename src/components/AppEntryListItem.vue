@@ -12,8 +12,9 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import { EntryObject } from '../models/Entry'
+import EntryInterface from '../interfaces/Entry'
 import AppEntryIcon from './AppEntryIcon.vue'
+import { Action } from 'vuex-class'
 
 @Component({
   components: {
@@ -22,13 +23,15 @@ import AppEntryIcon from './AppEntryIcon.vue'
 })
 export default class AppEntryListItem extends Vue {
   @Prop({ required: true })
-  entry: EntryObject
+  entry: EntryInterface
 
   @Prop({ default: false })
   selected: boolean
 
+  @Action('setActiveEntryID') setActiveEntryIDAction
+
   selectEntry (): void {
-    this.$store.dispatch('setActiveEntryID', this.entry.id)
+    this.setActiveEntryIDAction(this.entry.id)
   }
 }
 </script>

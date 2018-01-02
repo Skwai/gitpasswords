@@ -7,6 +7,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { Action } from 'vuex-class'
+
 import AppBtn from './AppBtn.vue'
 
 @Component({
@@ -15,8 +17,10 @@ import AppBtn from './AppBtn.vue'
   }
 })
 export default class TheLogout extends Vue {
+  @Action('logout') actionLogout
+
   logout (): void {
-    this.$store.dispatch('logout')
+    this.actionLogout()
   }
 }
 </script>
