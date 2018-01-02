@@ -18,7 +18,7 @@
         :class="[$style.EntryList__MobileButton, $style.EntryList__MobileLogout]"
         aria-hidden="true"
         @click="logout"
-      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke-width="1 stroke-linecap="square" stroke-miterlimit="10"><path d="M12 1C9.2 1 7 3.2 7 6v3h10V6c0-2.8-2.2-5-5-5zM4 9h16v14H4z"/><circle cx="12" cy="15" r="2"/><path d="M12 17v2"/></g></svg>
+      ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke-width="1" stroke-linecap="square" stroke-miterlimit="10"><path d="M12 1C9.2 1 7 3.2 7 6v3h10V6c0-2.8-2.2-5-5-5zM4 9h16v14H4z"/><circle cx="12" cy="15" r="2"/><path d="M12 17v2"/></g></svg>
       </button>
     </div>
     <AppDesktop>
