@@ -16,7 +16,7 @@
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import AppSpinner from './AppSpinner.vue'
-import GistInterface from '../interfaces/Gist'
+import Gist from '../interfaces/Gist'
 
 @Component({
   components: {
@@ -25,7 +25,7 @@ import GistInterface from '../interfaces/Gist'
 })
 export default class AppGist extends Vue {
   @Prop({ required: true })
-  gist: GistInterface
+  gist: Gist
 
   @Prop({ default: false, required: false })
   loading: boolean

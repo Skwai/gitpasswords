@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import EntryInterface from '../interfaces/Entry'
+import Entry from '../interfaces/Entry'
 import AppEntryIcon from './AppEntryIcon.vue'
 import { Action } from 'vuex-class'
 
@@ -23,7 +23,7 @@ import { Action } from 'vuex-class'
 })
 export default class AppEntryListItem extends Vue {
   @Prop({ required: true })
-  entry: EntryInterface
+  entry: Entry
 
   @Prop({ default: false })
   selected: boolean

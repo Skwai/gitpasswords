@@ -2,21 +2,18 @@ import Entry from '../models/Entry'
 import EntryInterface from '../interfaces/Entry'
 import * as gh from '../services/gh'
 import { encryptData, decryptData } from '../services/encrypt'
-import {
-  ACCESS_TOKEN_STORAGE_KEY,
-  INACTIVE_LOGOUT_DELAY
-} from '../config'
+import { ACCESS_TOKEN_STORAGE_KEY, INACTIVE_LOGOUT_DELAY } from '../config'
 import initialState from './initial-state'
 
 const storeAccessToken = (token: string): void => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
 const clearAccessToken = (): void => localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
 
-interface StoreObject {
-  commit?(mutation: string, payload?: any): any
-  state?: any
+interface Context {
+  commit(mutation: string, payload?: any): void
+  state: any
 }
 
-export const login = async ({ commit, state }: StoreObject): Promise<void> => {
+export const login = async ({ commit, state }: Context): Promise<void> => {
   const { token, username } = await gh.login()
   storeAccessToken(token)
   commit('SET_ACCESS_TOKEN', token)
@@ -29,20 +26,20 @@ export const logout = ({ commit }): void => {
 }
 
 export const getUserFromToken = async (
-  { commit, state }: StoreObject,
+  { commit, state }: Context,
   token: string
 ): Promise<void> => {
   const { login: username } = await gh.getUser({ token })
   commit('SET_USERNAME', username)
 }
 
-export const getGists = async ({ commit, state }: StoreObject): Promise<void> => {
+export const getGists = async ({ commit, state }: Context): Promise<void> => {
   const { username, token } = state
   const gists = await gh.getGists({ username, token })
   commit('SET_GISTS', gists)
 }
 
-export const createEntry = ({ commit }: StoreObject): void => {
+export const createEntry = ({ commit }: Context): void => {
   const entry = new Entry({
     title: 'New entry'
   })
@@ -51,14 +48,14 @@ export const createEntry = ({ commit }: StoreObject): void => {
 }
 
 export const deleteEntry = (
-  { commit }: StoreObject,
+  { commit }: Context,
   entryID: string
 ): void => {
   commit('REMOVE_ENTRY', entryID)
 }
 
 export const createGist = async (
-  { commit, state }: StoreObject,
+  { commit, state }: Context,
   { filename, secret }: { filename: string, secret: string }
 ): Promise<void> => {
   filename = [filename, gh.FILE_EXTENSION].join('.')
@@ -84,7 +81,7 @@ export const createGist = async (
 }
 
 export const selectGist = async (
-  { commit, state }: StoreObject,
+  { commit, state }: Context,
   { gistID, secret, filename }: { gistID: string, secret: string, filename: string }
 ): Promise<void> => {
   const { token, username } = state
@@ -101,20 +98,20 @@ export const selectGist = async (
 }
 
 export const setActiveEntryID = (
-  { commit, state }: StoreObject,
+  { commit, state }: Context,
   entryID: string
 ): void => {
   commit('SET_ENTRY_ID', entryID)
 }
 
 export const updateEntry = (
-  { commit }: StoreObject,
+  { commit }: Context,
   entry: EntryInterface
 ): void => {
   commit('UPDATE_ENTRY', new Entry({ ...entry }))
 }
 
-export const saveEntries = async ({ commit, state }: StoreObject): Promise<void> => {
+export const saveEntries = async ({ commit, state }: Context): Promise<void> => {
   const {
     entries,
     filename,
@@ -132,15 +129,15 @@ export const saveEntries = async ({ commit, state }: StoreObject): Promise<void>
   })
 }
 
-export const showError = ({ commit }: StoreObject, message: string): void => {
+export const showError = ({ commit }: Context, message: string): void => {
   commit('SET_ERROR', message)
 }
 
-export const hideError = ({ commit }: StoreObject): void => {
+export const hideError = ({ commit }: Context): void => {
   commit('REMOVE_ERROR')
 }
 
-export const setInactiveTimer = ({ commit, state }: StoreObject) => {
+export const setInactiveTimer = ({ commit, state }: Context) => {
   if (state.secret) {
     commit('SET_TIMER', setTimeout(() => commit('RESET'), INACTIVE_LOGOUT_DELAY))
   }
