@@ -1,4 +1,4 @@
-import EntryInterface from '../interfaces/Entry';
+import EntryInterface from '../interfaces/Entry'
 
 /**
  * Class representing an Entry
