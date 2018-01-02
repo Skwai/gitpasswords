@@ -5,7 +5,7 @@ describe('password.js', () => {
     it('should generate a random number within the range supplied', () => {
       const result = getRandomInteger(10)
       expect(result).toBeLessThanOrEqual(10)
-      expect(result).toBeGreaterThan(0)
+      expect(result).toBeGreaterThanOrEqual(0)
     })
   })
 
