@@ -98,7 +98,6 @@ export default class TheEntry extends Vue {
   entry: EntryObject = { ...new Entry() }
   saving: boolean = false
   destroying: boolean = false
-  error: string|boolean = null
   isDirty: boolean = false
   passwordShown: boolean = false
   mask: string = PASSWORD_MASK
