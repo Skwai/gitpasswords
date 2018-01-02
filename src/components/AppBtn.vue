@@ -9,7 +9,9 @@
     v-on="$listeners"
   >
     <span :class="$style.AppBtn__Label"><slot></slot></span>
-    <span v-if="loading" :class="$style.AppBtn__Loading"><AppSpinner></AppSpinner></span>
+    <span v-if="loading" :class="$style.AppBtn__Loading">
+      <AppSpinner></AppSpinner>
+    </span>
   </button>
 </template>
 
