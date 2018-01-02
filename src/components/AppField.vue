@@ -68,7 +68,7 @@ export default class AppField extends Vue {
   spellcheck: string
 
   get uid (): string {
-    return Math.random().toString(16).substr(2)
+    return Math.random().toString(36).substr(2)
   }
 
   get inputID (): string {

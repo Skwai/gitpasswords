@@ -1,6 +1,6 @@
 {
   "name": "gitpasswords",
-  "version": "v1.0.1",
+  "version": "v1.0.2",
   "description": "A Vue.js app to store your passwords in an encrypted Github Gist",
   "author": "Cameron Jensen <me@skwai.com>",
   "private": false,
@@ -17,7 +17,6 @@
   "dependencies": {
     "crypto-js": "^3.1.9-1",
     "firebase": "^4.6.1",
-    "hashids": "^1.1.4",
     "vue": "^2.5.2",
     "vue-class-component": "^6.1.2",
     "vue-property-decorator": "^6.0.0",

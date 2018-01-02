@@ -1,7 +1,4 @@
-import Hashids from 'hashids'
 import EntryInterface from '../interfaces/Entry';
-
-const hashids = new Hashids()
 
 /**
  * Class representing an Entry
@@ -28,7 +25,6 @@ export default class Entry {
    * Generate a hash ID
    */
   static generateID (): string {
-    const time = new Date().getTime()
-    return hashids.encode(...String(time).split('').map(s => Number(s)))
+    return Math.random().toString(36).substr(2)
   }
 }
