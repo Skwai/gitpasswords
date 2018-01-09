@@ -4,12 +4,12 @@ import EntryInterface from '../interfaces/Entry'
  * Class representing an Entry
  */
 export default class Entry {
-  id: string|null = null
-  title: string|null = null
-  username: string|null = null
-  password: string|null = null
-  url: string|null = null
-  notes: string|null = null
+  id: string | null = null
+  title: string | null = null
+  username: string | null = null
+  password: string | null = null
+  url: string | null = null
+  notes: string | null = null
   created: Date = new Date()
   modified: Date = new Date()
 

@@ -24,14 +24,14 @@ import TheError from './components/TheError.vue'
   }
 })
 export default class App extends Vue {
-  @Getter username
-  @Getter gistID
-  @Getter token
-  @Getter error
+  @Getter username: string
+  @Getter gistID: string
+  @Getter token: string
+  @Getter error: string
 
-  @Action setInactiveTimer
-  @Action getUserFromToken
-  @Action logout
+  @Action setInactiveTimer: () => void
+  @Action getUserFromToken: (token: string) => void
+  @Action logout: () => void
 
   bindClickTimeout (): void {
     document.addEventListener('click', this.setInactiveTimer)

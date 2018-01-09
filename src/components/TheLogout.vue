@@ -17,7 +17,7 @@ import AppBtn from './AppBtn.vue'
   }
 })
 export default class TheLogout extends Vue {
-  @Action('logout') actionLogout
+  @Action('logout') actionLogout: () => void
 
   logout (): void {
     this.actionLogout()

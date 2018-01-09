@@ -3,15 +3,17 @@ import EntryInterface from '../interfaces/Entry'
 import * as gh from '../services/gh'
 import { encryptData, decryptData } from '../services/encrypt'
 import { ACCESS_TOKEN_STORAGE_KEY, INACTIVE_LOGOUT_DELAY } from '../config'
+import State from '../interfaces/State'
 import initialState from './initial-state'
+
+interface Context {
+  commit (mutation: string, payload?: any): void
+  state: State
+}
 
 const storeAccessToken = (token: string): void => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
 const clearAccessToken = (): void => localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
 
-interface Context {
-  commit(mutation: string, payload?: any): void
-  state: any
-}
 
 export const login = async ({ commit, state }: Context): Promise<void> => {
   const { token, username } = await gh.login()
@@ -20,7 +22,7 @@ export const login = async ({ commit, state }: Context): Promise<void> => {
   commit('SET_USERNAME', username)
 }
 
-export const logout = ({ commit }): void => {
+export const logout = ({ commit }: Context): void => {
   clearAccessToken()
   commit('RESET', { ...initialState })
 }

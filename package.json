@@ -24,8 +24,10 @@
     "vuex-class": "^0.3.0"
   },
   "devDependencies": {
+    "@types/crypto-js": "^3.1.38",
     "@types/jest": "^21.1.10",
     "@types/node": "^8.5.2",
+    "@types/whatwg-fetch": "^0.0.33",
     "autoprefixer": "^7.1.2",
     "babel-jest": "^22.0.4",
     "chalk": "^2.0.1",

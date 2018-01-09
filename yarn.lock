@@ -90,6 +90,10 @@
   version "0.2.5"
   resolved "https://registry.yarnpkg.com/@firebase/webchannel-wrapper/-/webchannel-wrapper-0.2.5.tgz#11ccb45505cb56d4bc0a9a09712b14585248e784"
 
+"@types/crypto-js@^3.1.38":
+  version "3.1.38"
+  resolved "https://registry.yarnpkg.com/@types/crypto-js/-/crypto-js-3.1.38.tgz#e1367f773edde2986ba9aebee3bf1cdf3e818a5d"
+
 "@types/jest@^21.1.10":
   version "21.1.10"
   resolved "https://registry.yarnpkg.com/@types/jest/-/jest-21.1.10.tgz#dcacb5217ddf997a090cc822bba219b4b2fd7984"
@@ -105,6 +109,16 @@
 "@types/strip-json-comments@0.0.30":
   version "0.0.30"
   resolved "https://registry.yarnpkg.com/@types/strip-json-comments/-/strip-json-comments-0.0.30.tgz#9aa30c04db212a9a0649d6ae6fd50accc40748a1"
+
+"@types/whatwg-fetch@^0.0.33":
+  version "0.0.33"
+  resolved "https://registry.yarnpkg.com/@types/whatwg-fetch/-/whatwg-fetch-0.0.33.tgz#19c0d2863c8cb2380f21a1c736b79cbf7895bb13"
+  dependencies:
+    "@types/whatwg-streams" "*"
+
+"@types/whatwg-streams@*":
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/@types/whatwg-streams/-/whatwg-streams-0.0.4.tgz#a3e841e1a3ff52fb088b9e09833bd38501fb3779"
 
 abab@^1.0.3:
   version "1.0.4"

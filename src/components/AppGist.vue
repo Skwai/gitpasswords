@@ -30,11 +30,11 @@ export default class AppGist extends Vue {
   @Prop({ default: false, required: false })
   loading: boolean
 
-  get filename (): string|null {
+  get filename (): string | null {
     return Object.keys(this.gist.files).shift() || null
   }
 
-  get updatedAt (): string|null {
+  get updatedAt (): string | null {
     if (this.gist && this.gist.updated_at) {
       return new Date(this.gist.updated_at).toLocaleDateString()
     }

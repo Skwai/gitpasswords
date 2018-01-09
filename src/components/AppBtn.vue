@@ -29,10 +29,10 @@ export default class AppBtn extends Vue {
   type: string
 
   @Prop({ default: null, required: false })
-  color: string|null
+  color: string | null
 
   @Prop({ default: null, required: false })
-  size: string|null
+  size: string | null
 
   @Prop({ default: false, required: false })
   disabled: boolean

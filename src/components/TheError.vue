@@ -13,10 +13,10 @@ export default class TheError extends Vue {
   @Prop({ required: true })
   error: string
 
-  @Action('hideError') hideErrorAction
+  @Action('hideError') hideErrorAction: () => void
 
   mounted (): void {
-    setTimeout(() => this.hideErrorAction(ERROR_DURATION))
+    setTimeout(() => this.hideErrorAction())
   }
 }
 </script>

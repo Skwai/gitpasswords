@@ -38,6 +38,7 @@ import AppBtn from './AppBtn.vue'
 import AppDesktop from './AppDesktop.vue'
 import TheLogout from './TheLogout.vue'
 import TheEntryList from './TheEntryList.vue'
+import Entry from '../interfaces/Entry'
 
 @Component({
   components: {
@@ -48,12 +49,12 @@ import TheEntryList from './TheEntryList.vue'
   }
 })
 export default class TheNav extends Vue {
-  @Getter entries
-  @Getter entryID
+  @Getter entries: Entry[]
+  @Getter entryID: string
 
-  @Action('createEntry') createEntryAction
-  @Action('setActiveEntryID') setActiveEntryIDAction
-  @Action('logout') logoutAction
+  @Action('createEntry') createEntryAction: () => void
+  @Action('setActiveEntryID') setActiveEntryIDAction: (entryID: string | null) => void
+  @Action('logout') logoutAction: () => void
 
   createEntry (): void {
     this.createEntryAction()

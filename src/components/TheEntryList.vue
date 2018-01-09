@@ -13,6 +13,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
 import AppEntryListItem from './AppEntryListItem.vue'
+import Entry from '../interfaces/Entry'
 
 @Component({
   components: {
@@ -20,11 +21,8 @@ import AppEntryListItem from './AppEntryListItem.vue'
   }
 })
 export default class TheEntryList extends Vue {
-  @Getter
-  entries
-
-  @Getter
-  entryID
+  @Getter entries: Entry[]
+  @Getter entryID: string
 }
 </script>
 

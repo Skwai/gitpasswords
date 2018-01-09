@@ -108,20 +108,20 @@ export default class TheEntry extends Vue {
   @Prop({ required: true })
   entryID: string
 
+  @Getter entryByID: (id: string) => EntryInterface | null
+
+  @Action('showError') showErrorAction: (message: string) => void
+  @Action('deleteEntry') deleteEntryAction: (entryID: string) => Promise<void>
+  @Action('saveEntries') saveEntriesAction: () => Promise<void>
+  @Action('setActiveEntryID') setActiveEntryIDAction: (entryID: string | null) => void
+  @Action('updateEntry') updateEntryAction: (entry: EntryInterface) => void
+
   @Watch('entry', { deep: true })
   onEntryChanged (val: EntryInterface) {
     const prev = JSON.stringify(this.getEntry())
     const curr = JSON.stringify(this.entry)
     this.isDirty = prev !== curr
   }
-
-  @Getter entryByID
-
-  @Action('showError') showErrorAction
-  @Action('deleteEntry') deleteEntryAction
-  @Action('saveEntries') saveEntriesAction
-  @Action('setActiveEntryID') setActiveEntryIDAction
-  @Action('updateEntry') updateEntryAction
 
   getEntry (): EntryInterface {
     return { ...this.entryByID(this.entryID) }

@@ -31,11 +31,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { Action } from 'vuex-class'
-import { Getter } from 'vuex-class'
+import { Action, Getter } from 'vuex-class'
 import AppLoading from './AppLoading.vue'
 import AppBtn from './AppBtn.vue'
 import AppGist from './AppGist.vue'
+import Gist from '../interfaces/Gist'
 
 @Component({
   components: {
@@ -47,21 +47,21 @@ import AppGist from './AppGist.vue'
 export default class TheGists extends Vue {
   filename: string = ''
   loading: boolean = true
-  selectedGistID: string|null = null
+  selectedGistID: string | null = null
   creating: boolean = false
 
-  @Getter gists
+  @Getter gists: Gist[]
 
-  @Action('selectGist') selectGistAction
-  @Action('getGists') getGistsAction
-  @Action('createGist') createGistAction
-  @Action('showError') showErrorAction
+  @Action('selectGist') selectGistAction: ({ gistID, secret, filename }: { gistID: string, secret: string, filename: string }) => void
+  @Action('getGists') getGistsAction: () => Promise<void>
+  @Action('createGist') createGistAction: ({ secret, filename }: { secret: string, filename: string }) => Promise<void>
+  @Action('showError') showErrorAction: (message: string) => void
 
-  requestSecret (message: string): string|null {
+  requestSecret (message: string): string | null {
     return prompt(message)
   }
 
-  async select (gistID, filename): Promise<void> {
+  async select (gistID: string, filename: string): Promise<void> {
     const secret = this.requestSecret('Enter your secret key to decrypt your passwords')
     if (secret === null || this.selectedGistID) {
       return

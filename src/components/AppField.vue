@@ -50,7 +50,7 @@ export default class AppField extends Vue {
   required: boolean
 
   @Prop({ required: true })
-  value: string|number|null
+  value: string | number | null
 
   @Prop({ default: false, required: false })
   disabled: boolean

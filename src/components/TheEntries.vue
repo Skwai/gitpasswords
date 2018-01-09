@@ -29,8 +29,7 @@ import TheNav from './TheNav.vue'
   }
 })
 export default class TheEntries extends Vue {
-  @Getter
-  entryID
+  @Getter entryID: string
 }
 </script>
 
