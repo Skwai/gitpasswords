@@ -45,18 +45,13 @@ export const query = async (path: string, {
   return response.json()
 }
 
-interface FirebaseLoginResponse {
-  token: string,
-  username: string
-}
-
 /**
  * Perform oAuth login request via Firebase
  * @return {Promise}
  * @property {String} token     The Github auth token
  * @property {String} username  The Github username
  */
-export const login = async (): Promise<FirebaseLoginResponse> => {
+export const login = async (): Promise<{token: string, username: string}> => {
   const { credential } = await auth().signInWithPopup(github)
   const { accessToken: token } = credential
   const { login: username } = await getUser({ token })
@@ -64,10 +59,6 @@ export const login = async (): Promise<FirebaseLoginResponse> => {
     token,
     username
   }
-}
-
-interface UserResponse {
-  login?: string
 }
 
 /**
@@ -79,7 +70,7 @@ export const getUser = ({
 }: {
   username?: string,
   token?: string
-}): Promise<UserResponse> => {
+}): Promise<{login?: string}> => {
   const path = username ? `users/${username}` : 'user'
   return query(path, { token })
 }
@@ -105,11 +96,6 @@ export const getGists = async ({
   return filtered
 }
 
-interface GistResponse {
-  id: string,
-  files: Object[]
-}
-
 /**
  * Create a new Gist
  */
@@ -121,7 +107,7 @@ export const createGist = ({
   filename: string,
   encryptedData: string,
   token: string
-}): Promise<GistResponse> => {
+}): Promise<{id: string, files: Object[]}> => {
   const data = {
     description: DEFAULT_DESCRIPTION,
     public: false,

@@ -28,4 +28,9 @@ declare namespace GitPasswords {
     error: string | null
     inactiveTimer: number
   }
+
+  interface Context {
+    state: State
+    commit (mutation: string, payload?: any): void
+  }
 }
