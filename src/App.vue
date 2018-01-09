@@ -1,10 +1,10 @@
 <template>
-  <div :class="$style.App">
+  <main :class="$style.App">
     <TheError v-if="error" :error="error"></TheError>
     <TheLogin v-if="!username"></TheLogin>
     <TheGists v-else-if="!gistID"></TheGists>
     <TheEntries v-else></TheEntries>
-  </div>
+  </main>
 </template>
 
 <script lang="ts">
@@ -64,6 +64,9 @@ body
 h2
   margin: 0 0 1.5rem
   line-height: 1.1
+
+p
+  line-height: 1.5
 
 input,
 textarea,

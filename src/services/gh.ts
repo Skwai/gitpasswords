@@ -1,6 +1,5 @@
 import Firebase from 'firebase'
 import { FIREBASE } from '../config'
-import Gist from '../interfaces/Gist'
 
 const API_URL = 'https://api.github.com'
 const ACCEPT_HEADER = 'application/vnd.github.v3+json'
@@ -99,7 +98,7 @@ export const getGists = async ({
 }): Promise<Object> => {
   const path = `users/${username}/gists`
   const gists = await query(path, { token })
-  const filtered = gists.filter((gist: Gist) => {
+  const filtered = gists.filter((gist: GitPasswords.GithubGist) => {
     const filenames = Object.keys(gist.files)
     return !!filenames.find(filename => filename.endsWith(`.${fileExtension}`))
   })
@@ -142,7 +141,7 @@ export const createGist = ({
 /**
  * Get a the contents of a Gist's file
  */
-export const getGistData = async ({
+export const getGithubGist = async ({
   filename,
   gistID,
   token
@@ -162,7 +161,7 @@ export const getGistData = async ({
 /**
  * Save a Gist's data
  */
-export const saveGistData = ({
+export const saveGithubGist = ({
   gistID,
   filename,
   encryptedData,

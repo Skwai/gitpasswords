@@ -1,5 +1,3 @@
-import EntryInterface from '../interfaces/Entry'
-
 /**
  * Class representing an Entry
  */
@@ -16,7 +14,7 @@ export default class Entry {
   /**
    * Create an Entry
    */
-  constructor (props: EntryInterface = {}) {
+  constructor (props: GitPasswords.EntryData = {}) {
     this.id = Entry.generateID()
     Object.assign(this, props)
   }

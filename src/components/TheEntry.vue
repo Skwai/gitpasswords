@@ -83,7 +83,6 @@
 import { Component, Watch, Vue, Prop } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
 import Entry from '../models/Entry'
-import EntryInterface from '../interfaces/Entry'
 import AppField from './AppField.vue'
 import AppBtn from './AppBtn.vue'
 import { generatePassword } from '../services/password'
@@ -108,22 +107,22 @@ export default class TheEntry extends Vue {
   @Prop({ required: true })
   entryID: string
 
-  @Getter entryByID: (id: string) => EntryInterface | null
+  @Getter entryByID: (id: string) => GitPasswords.EntryData | null
 
   @Action('showError') showErrorAction: (message: string) => void
   @Action('deleteEntry') deleteEntryAction: (entryID: string) => Promise<void>
   @Action('saveEntries') saveEntriesAction: () => Promise<void>
   @Action('setActiveEntryID') setActiveEntryIDAction: (entryID: string | null) => void
-  @Action('updateEntry') updateEntryAction: (entry: EntryInterface) => void
+  @Action('updateEntry') updateEntryAction: (entry: GitPasswords.EntryData) => void
 
   @Watch('entry', { deep: true })
-  onEntryChanged (val: EntryInterface) {
+  onEntryChanged (val: GitPasswords.EntryData) {
     const prev = JSON.stringify(this.getEntry())
     const curr = JSON.stringify(this.entry)
     this.isDirty = prev !== curr
   }
 
-  getEntry (): EntryInterface {
+  getEntry (): GitPasswords.EntryData {
     return { ...this.entryByID(this.entryID) }
   }
 

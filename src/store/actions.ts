@@ -1,14 +1,12 @@
 import Entry from '../models/Entry'
-import EntryInterface from '../interfaces/Entry'
 import * as gh from '../services/gh'
 import { encryptData, decryptData } from '../services/encrypt'
 import { ACCESS_TOKEN_STORAGE_KEY, INACTIVE_LOGOUT_DELAY } from '../config'
-import State from '../interfaces/State'
 import initialState from './initial-state'
 
 interface Context {
   commit (mutation: string, payload?: any): void
-  state: State
+  state: GitPasswords.State
 }
 
 const storeAccessToken = (token: string): void => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
@@ -87,7 +85,7 @@ export const selectGist = async (
   { gistID, secret, filename }: { gistID: string, secret: string, filename: string }
 ): Promise<void> => {
   const { token, username } = state
-  const data = await gh.getGistData({
+  const data = await gh.getGithubGist({
     filename,
     gistID,
     token
@@ -108,7 +106,7 @@ export const setActiveEntryID = (
 
 export const updateEntry = (
   { commit }: Context,
-  entry: EntryInterface
+  entry: GitPasswords.EntryData
 ): void => {
   commit('UPDATE_ENTRY', new Entry({ ...entry }))
 }
@@ -123,7 +121,7 @@ export const saveEntries = async ({ commit, state }: Context): Promise<void> => 
     username
   } = state
   const encryptedData = encryptData(entries, secret, username)
-  await gh.saveGistData({
+  await gh.saveGithubGist({
     gistID,
     filename,
     encryptedData,

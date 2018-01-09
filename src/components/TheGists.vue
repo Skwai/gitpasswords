@@ -26,6 +26,18 @@
         </form>
       </div>
     </div>
+    <AppModal title="Create an encryption key" :open="true">
+      <p>It's <strong>very</strong> important that you use a <strong>secure</strong> passphrase for your encryption key.</p>
+      <p><strong>Don't</strong> lose it! you won't be able to recover it.</p>
+      <form method="dialog">
+        <AppField
+          label="My new encryption key"
+          type="password"
+          :value="secret"
+          ></AppField>
+          <AppBtn type="submit">Confirm</AppBtn>
+      </form>
+    </AppModal>
   </div>
 </template>
 
@@ -35,13 +47,16 @@ import { Action, Getter } from 'vuex-class'
 import AppLoading from './AppLoading.vue'
 import AppBtn from './AppBtn.vue'
 import AppGist from './AppGist.vue'
-import Gist from '../interfaces/Gist'
+import AppField from './AppField.vue'
+import AppModal from './AppModal.vue'
 
 @Component({
   components: {
     AppLoading,
     AppBtn,
-    AppGist
+    AppGist,
+    AppField,
+    AppModal
   }
 })
 export default class TheGists extends Vue {
@@ -49,8 +64,9 @@ export default class TheGists extends Vue {
   loading: boolean = true
   selectedGistID: string | null = null
   creating: boolean = false
+  secret: string | null = null
 
-  @Getter gists: Gist[]
+  @Getter gists: GitPasswords.GithubGist[]
 
   @Action('selectGist') selectGistAction: ({ gistID, secret, filename }: { gistID: string, secret: string, filename: string }) => void
   @Action('getGists') getGistsAction: () => Promise<void>
@@ -66,7 +82,9 @@ export default class TheGists extends Vue {
     if (secret === null || this.selectedGistID) {
       return
     }
+
     this.selectedGistID = gistID
+
     try {
       await this.selectGistAction({ gistID, secret, filename })
     } catch (err) {

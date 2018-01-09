@@ -9,6 +9,7 @@
     "allowSyntheticDefaultImports": true,
     "noImplicitAny": true,
     "typeRoots": [
+      "./src/types",
       "./node_modules/@types"
     ]
   }

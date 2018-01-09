@@ -38,7 +38,6 @@ import AppBtn from './AppBtn.vue'
 import AppDesktop from './AppDesktop.vue'
 import TheLogout from './TheLogout.vue'
 import TheEntryList from './TheEntryList.vue'
-import Entry from '../interfaces/Entry'
 
 @Component({
   components: {
@@ -49,7 +48,7 @@ import Entry from '../interfaces/Entry'
   }
 })
 export default class TheNav extends Vue {
-  @Getter entries: Entry[]
+  @Getter entries: GitPasswords.EntryData[]
   @Getter entryID: string
 
   @Action('createEntry') createEntryAction: () => void
