@@ -68,7 +68,11 @@ export default class TheGists extends Vue {
   }
 
   async selectGist (gistID: string, filename: string): Promise<void> {
-    const secret = await showModal(TheNewSecretModal)
+    let secret: string
+
+    try {
+      secret = await showModal(TheSecretModal)
+    } catch (err) {}
 
     if (secret === null || this.selectedGistID) {
       return
@@ -86,11 +90,11 @@ export default class TheGists extends Vue {
   }
 
   async createGist (): Promise<void> {
-    if (this.creating) {
-      return
-    }
+    let secret: string
 
-    const secret = this.requestSecret('Enter a secret key to encrypt your passwords. It is vital that it is secure')
+    try {
+      secret = await showModal(TheNewSecretModal)
+    } catch (err) {}
 
     if (secret === null) {
       this.showErrorAction('Your secret key cannot be blank')

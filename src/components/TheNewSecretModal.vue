@@ -36,11 +36,11 @@ import hub from '../services/hub'
 export default class TheSecretModal extends Vue {
   secret: string = ''
 
-  close (ev: Event) {
+  close (ev: Event): void {
     hub.$emit('close', ev)
   }
 
-  submit (ev: Event) {
+  submit (): void {
     hub.$emit('confirm', this.secret)
   }
 }

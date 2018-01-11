@@ -3,11 +3,11 @@
     title="Enter your encryption key"
     :open="true"
   >
-    <form method="dialog">
+    <form method="dialog" @submit.prevent="submit">
       <AppField
         label="My encryption key"
         type="password"
-        :value="secret"
+        v-model="secret"
         :showLabel="false"
         placeholder="My new encryption key"
       ></AppField>
@@ -33,11 +33,11 @@ import hub from '../services/hub'
 export default class TheSecretModal extends Vue {
   secret: string = ''
 
-  close (ev: Event) {
+  close (ev: Event): void {
     hub.$emit('close', ev)
   }
 
-  submit (ev: Event) {
+  submit (): void {
     hub.$emit('confirm', this.secret)
   }
 }
