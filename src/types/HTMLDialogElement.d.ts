@@ -7,6 +7,6 @@ interface HTMLDialogElement extends HTMLElement {
 }
 
 declare var HTMLDialogElement: {
-  prototype: HTMLDialogElement;
-  new (): HTMLDialogElement;
+  prototype: HTMLDialogElement
+  new (): HTMLDialogElement
 }

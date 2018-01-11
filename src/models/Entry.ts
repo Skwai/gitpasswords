@@ -2,12 +2,12 @@
  * Class representing an Entry
  */
 export default class Entry {
-  id: string | null = null
-  title: string | null = null
-  username: string | null = null
-  password: string | null = null
-  url: string | null = null
-  notes: string | null = null
+  id: string = null
+  title: string = null
+  username: string = null
+  password: string = null
+  url: string = null
+  notes: string = null
   created: Date = new Date()
   modified: Date = new Date()
 

@@ -13,7 +13,7 @@
           <AppGist
             :gist="gist"
             :loading="selectedGistID === gist.id"
-            @click="select"
+            @click="selectGist"
           ></AppGist>
         </div>
         <form @submit.prevent="createGist" :class="$style.TheGists__New">
@@ -26,45 +26,35 @@
         </form>
       </div>
     </div>
-    <AppModal title="Create an encryption key" :open="true">
-      <p>It's <strong>very</strong> important that you use a <strong>secure</strong> passphrase for your encryption key.</p>
-      <p><strong>Don't</strong> lose it! you won't be able to recover it.</p>
-      <form method="dialog">
-        <AppField
-          label="My new encryption key"
-          type="password"
-          :value="secret"
-          ></AppField>
-          <AppBtn type="submit">Confirm</AppBtn>
-      </form>
-    </AppModal>
   </div>
 </template>
 
 <script lang="ts">
+/* tslint:disable */
 import { Component, Vue } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
-import AppLoading from './AppLoading.vue'
 import AppBtn from './AppBtn.vue'
 import AppGist from './AppGist.vue'
-import AppField from './AppField.vue'
-import AppModal from './AppModal.vue'
+import AppLoading from './AppLoading.vue'
+import TheSecretModal from './TheSecretModal.vue'
+import TheNewSecretModal from './TheNewSecretModal.vue'
+import { showModal } from '../services/hub'
 
 @Component({
   components: {
-    AppLoading,
     AppBtn,
     AppGist,
-    AppField,
-    AppModal
+    AppLoading,
+    TheSecretModal,
+    TheNewSecretModal
   }
 })
 export default class TheGists extends Vue {
-  filename: string = ''
+  filename: string = null
   loading: boolean = true
-  selectedGistID: string | null = null
+  selectedGistID: string = null
   creating: boolean = false
-  secret: string | null = null
+  secret: string = null
 
   @Getter gists: GitPasswords.GithubGist[]
 
@@ -73,12 +63,13 @@ export default class TheGists extends Vue {
   @Action('createGist') createGistAction: ({ secret, filename }: { secret: string, filename: string }) => Promise<void>
   @Action('showError') showErrorAction: (message: string) => void
 
-  requestSecret (message: string): string | null {
+  requestSecret (message: string): string {
     return prompt(message)
   }
 
-  async select (gistID: string, filename: string): Promise<void> {
-    const secret = this.requestSecret('Enter your secret key to decrypt your passwords')
+  async selectGist (gistID: string, filename: string): Promise<void> {
+    const secret = await showModal(TheNewSecretModal)
+
     if (secret === null || this.selectedGistID) {
       return
     }
@@ -98,12 +89,16 @@ export default class TheGists extends Vue {
     if (this.creating) {
       return
     }
+
     const secret = this.requestSecret('Enter a secret key to encrypt your passwords. It is vital that it is secure')
+
     if (secret === null) {
       this.showErrorAction('Your secret key cannot be blank')
       return
     }
+
     this.creating = true
+
     try {
       await this.createGistAction({ secret, filename: this.filename })
     } catch (err) {

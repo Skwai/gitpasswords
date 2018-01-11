@@ -30,7 +30,7 @@ import AppBtn from './AppBtn.vue'
 })
 export default class TheLogin extends Vue {
   loading: boolean = false
-  error: string | null = null
+  error: string = null
 
   @Action('login') loginAction: () => Promise<void>
   @Action('showError') showErrorAction: (message: string) => void

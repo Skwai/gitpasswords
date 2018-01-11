@@ -5,27 +5,27 @@ declare namespace GitPasswords {
   }
 
   interface EntryData {
-    id?: string | null
-    title?: string | null
-    username?: string | null
-    password?: string | null
-    url?: string | null
-    notes?: string | null
+    id?: string
+    title?: string
+    username?: string
+    password?: string
+    url?: string
+    notes?: string
     created?: Date
     modified?: Date
   }
 
   interface State {
     [key: string]: any
-    username: string | null
-    token: string | null
-    secret: string | null
-    filename: string | null
-    gistID: string | null
-    entryID: string | null
+    username: string
+    token: string
+    secret: string
+    filename: string
+    gistID: string
+    entryID: string
     gists: GithubGist[]
     entries: EntryData[]
-    error: string | null
+    error: string
     inactiveTimer: number
   }
 

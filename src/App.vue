@@ -4,6 +4,7 @@
     <TheLogin v-if="!username"></TheLogin>
     <TheGists v-else-if="!gistID"></TheGists>
     <TheEntries v-else></TheEntries>
+    <component :is="modal"></component>
   </main>
 </template>
 
@@ -14,6 +15,7 @@ import TheLogin from './components/TheLogin.vue'
 import TheGists from './components/TheGists.vue'
 import TheEntries from './components/TheEntries.vue'
 import TheError from './components/TheError.vue'
+import hub from './services/hub'
 
 @Component({
   components: {
@@ -24,6 +26,8 @@ import TheError from './components/TheError.vue'
   }
 })
 export default class App extends Vue {
+  modal: any = null
+
   @Getter username: string
   @Getter gistID: string
   @Getter token: string
@@ -37,14 +41,24 @@ export default class App extends Vue {
     document.addEventListener('click', this.setInactiveTimer)
   }
 
+  showModal (component: any): void {
+    this.modal = component
+  }
+
+  hideModal (): void {
+    this.modal = null
+  }
+
   async created (): Promise<void> {
+    hub.$on('showModal', this.showModal)
+    hub.$on('hideModal', this.hideModal)
     this.bindClickTimeout()
 
     if (this.token) {
       try {
         await this.getUserFromToken(this.token)
       } catch (err) {
-        await this.logout()
+        this.logout()
       }
     }
   }

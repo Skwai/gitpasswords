@@ -52,7 +52,7 @@ export default class TheNav extends Vue {
   @Getter entryID: string
 
   @Action('createEntry') createEntryAction: () => void
-  @Action('setActiveEntryID') setActiveEntryIDAction: (entryID: string | null) => void
+  @Action('setActiveEntryID') setActiveEntryIDAction: (entryID: string) => void
   @Action('logout') logoutAction: () => void
 
   createEntry (): void {

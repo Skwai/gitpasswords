@@ -27,7 +27,7 @@ export default class AppEntryListItem extends Vue {
   @Prop({ default: false })
   selected: boolean
 
-  @Action('setActiveEntryID') setActiveEntryIDAction: (entryID: string | null) => void
+  @Action('setActiveEntryID') setActiveEntryIDAction: (entryID: string) => void
 
   selectEntry (): void {
     this.setActiveEntryIDAction(this.entry.id)

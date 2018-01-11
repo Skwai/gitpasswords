@@ -1,6 +1,10 @@
 <template>
   <div :class="$style.AppField">
-    <label :class="$style.AppField__Label" :for="inputID">{{label}}</Label>
+    <label
+      v-if="showLabel"
+      :class="$style.AppField__Label"
+      :for="inputID"
+    >{{label}}</Label>
     <div :class="$style.AppField__Wrap">
       <textarea v-if="type === 'textarea'"
         :class="$style.AppField__Input"
@@ -15,6 +19,7 @@
         :autocapitalize="autocapitalize"
         :autocorrect="autocorrect"
         :spellcheck="spellcheck"
+        :placeholder="placeholder"
       ></textarea>
       <input
         v-else
@@ -29,6 +34,7 @@
         :autocapitalize="autocapitalize"
         :autocorrect="autocorrect"
         :spellcheck="spellcheck"
+        :placeholder="placeholder"
       >
       <slot></slot>
     </div>
@@ -66,6 +72,12 @@ export default class AppField extends Vue {
 
   @Prop({ default: 'on', required: false })
   spellcheck: string
+
+  @Prop({ required: false })
+  placeholder: string
+
+  @Prop({ default: true })
+  showLabel: boolean
 
   get uid (): string {
     return Math.random().toString(36).substr(2)

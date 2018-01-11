@@ -7,7 +7,6 @@ import initialState from './initial-state'
 const storeAccessToken = (token: string): void => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
 const clearAccessToken = (): void => localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
 
-
 export const login = async ({ commit, state }: GitPasswords.Context): Promise<void> => {
   const { token, username } = await gh.login()
   storeAccessToken(token)

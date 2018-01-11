@@ -112,7 +112,7 @@ export default class TheEntry extends Vue {
   @Action('showError') showErrorAction: (message: string) => void
   @Action('deleteEntry') deleteEntryAction: (entryID: string) => Promise<void>
   @Action('saveEntries') saveEntriesAction: () => Promise<void>
-  @Action('setActiveEntryID') setActiveEntryIDAction: (entryID: string | null) => void
+  @Action('setActiveEntryID') setActiveEntryIDAction: (entryID: string) => void
   @Action('updateEntry') updateEntryAction: (entry: GitPasswords.EntryData) => void
 
   @Watch('entry', { deep: true })
