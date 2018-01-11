@@ -61,6 +61,7 @@ export default class AppEntryListItem extends Vue {
   user-select: none
   background: transparent
   border: 0
+  width: 100%
 
   img
     opacity: 0.35

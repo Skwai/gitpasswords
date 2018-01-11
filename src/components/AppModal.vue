@@ -87,6 +87,7 @@ export default class AppModal extends Vue {
   box-shadow: rgba(0,0,0,.05) 0 0.125rem 0.5rem, rgba($grayLighter, .7) 0 0 0 9999rem
   width: 30rem
   animation: AppModal ease-in-out 0.5s 1 forwards
+  max-width: 90vw
 
   &__Title
     margin-bottom: $spacingBase
