@@ -42,6 +42,7 @@ export default class AppEntryListItem extends Vue {
 </script>
 
 <style lang="stylus" module>
+@import "../../node_modules/dialog-polyfill/dialog-polyfill.css"
 @import "../styles/config.styl"
 
 .AppEntryListItem
