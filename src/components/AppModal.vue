@@ -16,7 +16,7 @@
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import { Action } from 'vuex-class'
 
-const ESCAPE_KEYCODE = 32
+const ESCAPE_KEYCODE = 27
 
 @Component
 export default class AppModal extends Vue {
@@ -35,7 +35,6 @@ export default class AppModal extends Vue {
   }
 
   focus () {
-    // Find element with `autofocus` attribute, or fall back to the first form/tabindex control.
     let target: HTMLElement = this.$el.querySelector('[autofocus]:not([disabled])') as HTMLElement
 
     if (!target && this.$el.tabIndex >= 0) {
@@ -43,12 +42,9 @@ export default class AppModal extends Vue {
     }
 
     if (!target) {
-      // Note that this is 'any focusable area'. This list is probably not exhaustive, but the
-      // alternative involves stepping through and trying to focus everything.
       const opts = ['button', 'input', 'keygen', 'select', 'textarea']
       const query = opts.map((el) => `${el}:not([disabled])`)
-      // TODO(samthor): tabindex values that are not numeric are not focusable.
-      query.push('[tabindex]:not([disabled]):not([tabindex=""])')  // tabindex != "", not disabled
+      query.push('[tabindex]:not([disabled]):not([tabindex=""])')
       target = this.$el.querySelector(query.join(', ')) as HTMLElement
     }
 
@@ -56,7 +52,7 @@ export default class AppModal extends Vue {
   }
 
   documentKeypress (ev: KeyboardEvent) {
-    if (ev.keyCode === 27) {
+    if (ev.keyCode === ESCAPE_KEYCODE) {
       this.close(ev)
     }
   }
