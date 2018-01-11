@@ -1,13 +1,19 @@
 <template>
-  <div
+  <button
     tabindex="1"
     :class="$style.AppEntryListItem"
     @click="selectEntry"
     :selected="selected"
+    type="button"
+    role="button"
+    aria-hidden="false"
   >
-    <AppEntryIcon v-if="entry.url" :url="entry.url"></AppEntryIcon>
+    <AppEntryIcon
+      v-if="entry.url"
+      :url="entry.url"
+    ></AppEntryIcon>
     {{entry.title}}
-  </div>
+  </button>
 </template>
 
 <script lang="ts">
@@ -52,7 +58,8 @@ export default class AppEntryListItem extends Vue {
   align-items: center
   position: relative
   user-select: none
-  pointer-events: none
+  background: transparent
+  border: 0
 
   img
     opacity: 0.35

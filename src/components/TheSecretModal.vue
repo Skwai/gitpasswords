@@ -2,7 +2,9 @@
   <AppModal
     title="Enter your encryption key"
     :open="true"
+    @close="close"
   >
+    <p>This will decrypt your passwords</p>
     <form method="dialog" @submit.prevent="submit">
       <AppField
         label="My encryption key"

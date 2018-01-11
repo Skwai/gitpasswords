@@ -1,5 +1,6 @@
 <template>
   <main :class="$style.App">
+    {{error}}
     <TheError v-if="error" :error="error"></TheError>
     <TheLogin v-if="!username"></TheLogin>
     <TheGists v-else-if="!gistID"></TheGists>

@@ -16,7 +16,7 @@ export default class TheError extends Vue {
   @Action('hideError') hideErrorAction: () => void
 
   mounted (): void {
-    setTimeout(() => this.hideErrorAction())
+    setTimeout(() => this.hideErrorAction(), ERROR_DURATION)
   }
 }
 </script>

@@ -11,7 +11,6 @@
 
 <script lang="ts">
 import 'dialog-polyfill'
-
 import { Prop, Component, Vue } from 'vue-property-decorator'
 import { Action } from 'vuex-class'
 
@@ -70,7 +69,7 @@ export default class AppModal extends Vue {
     left: 0
     right: 0
     bottom: 0
-    background: rgba($grayLighter, .5)
+    background: rgba($grayLighter, .7)
 
   &__Title
     margin-bottom: $spacingBase

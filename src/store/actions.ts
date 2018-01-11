@@ -48,18 +48,20 @@ export const deleteEntry = (
   commit('REMOVE_ENTRY', entryID)
 }
 
+const PLACEHOLDER_ENTRY = {
+  title: 'Example Entry',
+  username: 'Example',
+  url: 'http://example.com',
+  password: 'test'
+}
+
 export const createGist = async (
   { commit, state }: GitPasswords.Context,
   { filename, secret }: { filename: string, secret: string }
 ): Promise<void> => {
   filename = [filename, gh.FILE_EXTENSION].join('.')
   const { token, username } = state
-  const placeholder = new Entry({
-    title: 'Example Entry',
-    username: 'Example',
-    url: 'http://example.com',
-    password: 'test'
-  })
+  const placeholder = new Entry(PLACEHOLDER_ENTRY)
   const data = [placeholder]
   const encryptedData = encryptData(data, secret, username)
   const gist = await gh.createGist({

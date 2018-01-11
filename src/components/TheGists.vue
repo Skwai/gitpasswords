@@ -72,7 +72,9 @@ export default class TheGists extends Vue {
 
     try {
       secret = await showModal(TheSecretModal)
-    } catch (err) {}
+    } catch (err) {
+      return
+    }
 
     if (secret === null || this.selectedGistID) {
       return
@@ -94,7 +96,9 @@ export default class TheGists extends Vue {
 
     try {
       secret = await showModal(TheNewSecretModal)
-    } catch (err) {}
+    } catch (err) {
+      return
+    }
 
     if (secret === null) {
       this.showErrorAction('Your secret key cannot be blank')
