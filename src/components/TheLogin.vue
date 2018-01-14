@@ -1,30 +1,30 @@
 <template>
-  <div :class="$style.Login">
-    <div :class="$style.Login__Body">
+  <div :class="$style.TheLogin">
+    <div :class="$style.TheLogin__Body">
       <h2>GitWords</h2>
       <p>Store your passwords in an encrypted Github Gist</p>
-      <div :class="$style.Login__Btn">
+      <div :class="$style.TheLogin__Btn">
         <AppBtn
           @click="login"
           :loading="loading"
         >Sign in with GitHub</AppBtn>
       </div>
     </div>
-    <AppFooter></AppFooter>
+    <TheFooter></TheFooter>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { Action } from 'vuex-class'
-import AppFooter from './AppFooter.vue'
+import TheFooter from './TheFooter.vue'
 import AppLoading from './AppLoading.vue'
 import AppBtn from './AppBtn.vue'
 
 @Component({
   components: {
     AppBtn,
-    AppFooter,
+    TheFooter,
     AppLoading
   }
 })
@@ -52,7 +52,7 @@ export default class TheLogin extends Vue {
 <style lang="stylus" module>
 @import "../styles/config.styl"
 
-.Login
+.TheLogin
   modal()
   text-align: center
 

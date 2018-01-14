@@ -1,25 +1,25 @@
 <template>
-  <div :class="$style.TheEntryList" :open="!entryID">
-    <AppEntryListItem
+  <div :class="$style.EntryList" :open="!entryID">
+    <EntryListItem
       :key="entry.id"
       :selected="entryID === entry.id"
       :entry="entry"
       v-for="entry in entries"
-    ></AppEntryListItem>
+    ></EntryListItem>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
-import AppEntryListItem from './AppEntryListItem.vue'
+import EntryListItem from './EntryListItem.vue'
 
 @Component({
   components: {
-    AppEntryListItem
+    EntryListItem
   }
 })
-export default class TheEntryList extends Vue {
+export default class EntryList extends Vue {
   @Getter entries: GitPasswords.EntryData[]
   @Getter entryID: string
 }
@@ -28,7 +28,7 @@ export default class TheEntryList extends Vue {
 <style lang="stylus" module>
 @import "../styles/config.styl"
 
-.TheEntryList
+.EntryList
   @media (max-width: 639px)
     display: none
     position: absolute

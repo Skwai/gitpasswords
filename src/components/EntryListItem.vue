@@ -1,32 +1,32 @@
 <template>
   <button
     tabindex="1"
-    :class="$style.AppEntryListItem"
+    :class="$style.EntryListItem"
     @click="selectEntry"
     :selected="selected"
     type="button"
     role="button"
     aria-hidden="false"
   >
-    <AppEntryIcon
+    <EntryIcon
       v-if="entry.url"
       :url="entry.url"
-    ></AppEntryIcon>
+    ></EntryIcon>
     {{entry.title}}
   </button>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Prop } from 'vue-property-decorator'
-import AppEntryIcon from './AppEntryIcon.vue'
+import EntryIcon from './EntryIcon.vue'
 import { Action } from 'vuex-class'
 
 @Component({
   components: {
-    AppEntryIcon
+    EntryIcon
   }
 })
-export default class AppEntryListItem extends Vue {
+export default class EntryListItem extends Vue {
   @Prop({ required: true })
   entry: GitPasswords.EntryData
 
@@ -44,7 +44,7 @@ export default class AppEntryListItem extends Vue {
 <style lang="stylus" module>
 @import "../styles/config.styl"
 
-.AppEntryListItem
+.EntryListItem
   padding: 1rem $spacingBase 1rem calc(2.5rem + 16px)
   font-weight: 600
   white-space: nowrap
@@ -78,7 +78,7 @@ export default class AppEntryListItem extends Vue {
     filter: grayscale(0)
     transform: scale(1.1) translateY(-50%)
 
-  + .AppEntryListItem
+  + .EntryListItem
     margin-top: -1px
 
   @media (max-width: 639px)

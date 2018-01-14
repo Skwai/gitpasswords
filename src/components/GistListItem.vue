@@ -1,15 +1,15 @@
 <template>
   <div
     tabindex="1"
-    :class="$style.AppGist"
+    :class="$style.GistListItem"
     @click="$listeners.click(gist.id, filename)"
   >
-    <div :class="$style.AppGist__Loading" v-if="loading">
+    <div :class="$style.GistListItem__Loading" v-if="loading">
       <AppSpinner></AppSpinner>
     </div>
-    <small :class="$style.AppGist__Privacy">{{gist.public ? 'public' : 'private'}}</small>
-    <div :class="$style.AppGist__Filename">{{filename}}</div>
-    <div :class="$style.AppGist__Updated">{{updatedAt}}</div>
+    <small :class="$style.GistListItem__Privacy">{{gist.public ? 'public' : 'private'}}</small>
+    <div :class="$style.GistListItem__Filename">{{filename}}</div>
+    <div :class="$style.GistListItem__Updated">{{updatedAt}}</div>
   </div>
 </template>
 
@@ -22,7 +22,7 @@ import AppSpinner from './AppSpinner.vue'
     AppSpinner
   }
 })
-export default class AppGist extends Vue {
+export default class GistListItem extends Vue {
   @Prop({ required: true })
   gist: GitPasswords.GithubGist
 
@@ -45,7 +45,7 @@ export default class AppGist extends Vue {
 <style lang="stylus" module>
 @import "../styles/config.styl"
 
-.AppGist
+.GistListItem
   cursor: pointer
   padding: 1rem $spacingBase
   transition: $transitionBase

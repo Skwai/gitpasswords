@@ -1,15 +1,15 @@
 <template>
-  <div :class="$style.Entries">
-    <div :class="$style.Entries__List">
+  <div :class="$style.TheEntries">
+    <div :class="$style.TheEntries__List">
       <TheNav></TheNav>
     </div>
-    <div :class="$style.Entries__Entry">
+    <div :class="$style.TheEntries__Entry">
       <TheEntry
         v-if="entryID"
         :key="entryID"
         :entryID="entryID"
       ></TheEntry>
-      <AppEntryBlank v-else></AppEntryBlank>
+      <TheEntryBlank v-else></TheEntryBlank>
     </div>
   </div>
 </template>
@@ -18,14 +18,14 @@
 import { Component, Vue, Prop } from 'vue-property-decorator'
 import { Getter } from 'vuex-class'
 import TheEntry from './TheEntry.vue'
-import AppEntryBlank from './AppEntryBlank.vue'
+import TheEntryBlank from './TheEntryBlank.vue'
 import TheNav from './TheNav.vue'
 
 @Component({
   components: {
     TheNav,
     TheEntry,
-    AppEntryBlank
+    TheEntryBlank
   }
 })
 export default class TheEntries extends Vue {
@@ -36,7 +36,7 @@ export default class TheEntries extends Vue {
 <style lang="stylus" module>
 @import "../styles/config.styl"
 
-.Entries
+.TheEntries
   max-height: 100vh
   height: 100vh
   display: flex

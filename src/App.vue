@@ -3,7 +3,7 @@
     {{error}}
     <TheError v-if="error" :error="error"></TheError>
     <TheLogin v-if="!username"></TheLogin>
-    <TheGists v-else-if="!gistID"></TheGists>
+    <GistList v-else-if="!gistID"></GistList>
     <TheEntries v-else></TheEntries>
     <component :is="modal"></component>
   </main>
@@ -13,7 +13,7 @@
 import { Vue, Prop, Component } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
 import TheLogin from './components/TheLogin.vue'
-import TheGists from './components/TheGists.vue'
+import GistList from './components/GistList.vue'
 import TheEntries from './components/TheEntries.vue'
 import TheError from './components/TheError.vue'
 import hub from './services/hub'
@@ -21,9 +21,9 @@ import hub from './services/hub'
 @Component({
   components: {
     TheLogin,
-    TheGists,
     TheEntries,
-    TheError
+    TheError,
+    GistList
   }
 })
 export default class App extends Vue {

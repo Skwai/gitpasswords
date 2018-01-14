@@ -1,21 +1,21 @@
 <template>
-  <nav :class="$style.EntryList">
-    <div :class="$style.EntryList__Mobile">
+  <nav :class="$style.TheNav">
+    <div :class="$style.TheNav__Mobile">
       <button
         v-if="entryID"
-        :class="[$style.EntryList__MobileButton, $style.EntryList__MobileBack]"
+        :class="[$style.TheNav__MobileButton, $style.TheNav__MobileBack]"
         aria-hidden="true"
         @click="clearEntry"
       ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="none"  stroke-width="1" stroke-linecap="square" stroke-miterlimit="10" d="M17 2L7 12l10 10"/></svg>
       </button>
       <button
-        :class="[$style.EntryList__MobileButton, $style.EntryList__MobileAdd]"
+        :class="[$style.TheNav__MobileButton, $style.TheNav__MobileAdd]"
         aria-hidden="true"
         @click="createEntry"
       ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M12 2v20m10-10H2" fill="none"  stroke-width="1" stroke-linecap="square" stroke-miterlimit="10"/></svg>
       </button>
       <button
-        :class="[$style.EntryList__MobileButton, $style.EntryList__MobileLogout]"
+        :class="[$style.TheNav__MobileButton, $style.TheNav__MobileLogout]"
         aria-hidden="true"
         @click="logout"
       ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g fill="none" stroke-width="1" stroke-linecap="square" stroke-miterlimit="10"><path d="M12 1C9.2 1 7 3.2 7 6v3h10V6c0-2.8-2.2-5-5-5zM4 9h16v14H4z"/><circle cx="12" cy="15" r="2"/><path d="M12 17v2"/></g></svg>
@@ -24,8 +24,8 @@
     <AppDesktop>
       <AppBtn @click="createEntry">New Entry</AppBtn>
     </AppDesktop>
-    <TheEntryList></TheEntryList>
-    <AppDesktop :class="$style.EntryList__Logout">
+    <EntryList></EntryList>
+    <AppDesktop :class="$style.TheNav__Logout">
       <TheLogout></TheLogout>
     </AppDesktop>
   </nav>
@@ -37,14 +37,14 @@ import { Getter, Action } from 'vuex-class'
 import AppBtn from './AppBtn.vue'
 import AppDesktop from './AppDesktop.vue'
 import TheLogout from './TheLogout.vue'
-import TheEntryList from './TheEntryList.vue'
+import EntryList from './EntryList.vue'
 
 @Component({
   components: {
     AppBtn,
     AppDesktop,
     TheLogout,
-    TheEntryList
+    EntryList
   }
 })
 export default class TheNav extends Vue {
@@ -72,7 +72,7 @@ export default class TheNav extends Vue {
 <style lang="stylus" module>
 @import "../styles/config"
 
-.EntryList
+.TheNav
   background: #fff
   height: 100%
   shadow()

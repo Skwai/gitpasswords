@@ -1,28 +1,30 @@
 <template>
-  <div :class="$style.TheGists">
-    <div :class="$style.TheGists__Body">
+  <div :class="$style.GistList">
+    <div :class="$style.GistList__Body">
       <h2>Select a Gist</h2>
       <AppLoading v-if="loading"></AppLoading>
-      <div :class="$style.TheGists__Wrap" v-else>
-        <div v-if="!gists.length" :class="$style.TheGists__Empty">You don't have any Gists, yet</div>
+      <div :class="$style.GistList__Wrap" v-else>
+        <div v-if="!gists.length" :class="$style.GistList__Empty">You don't have any Gists, yet</div>
         <div
           v-for="gist in gists"
-          :class="$style.TheGists__Gist"
+          :class="$style.GistList__Gist"
           :key="gist.id"
         >
-          <AppGist
+          <GistListItem
             :gist="gist"
             :loading="selectedGistID === gist.id"
             @click="selectGist"
-          ></AppGist>
+          ></GistListItem>
         </div>
-        <form @submit.prevent="createGist" :class="$style.TheGists__New">
+        <form @submit.prevent="createGist" :class="$style.GistList__New">
           <input type="text" placeholder="New Gist Name" v-model="filename">
           <AppBtn
             type="submit"
             title="Create a new Gist"
             :loading="creating"
-          ><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg></AppBtn>
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          </AppBtn>
         </form>
       </div>
     </div>
@@ -30,26 +32,25 @@
 </template>
 
 <script lang="ts">
-/* tslint:disable */
 import { Component, Vue } from 'vue-property-decorator'
 import { Action, Getter } from 'vuex-class'
 import AppBtn from './AppBtn.vue'
-import AppGist from './AppGist.vue'
+import GistListItem from './GistListItem.vue'
 import AppLoading from './AppLoading.vue'
-import TheSecretModal from './TheSecretModal.vue'
-import TheNewSecretModal from './TheNewSecretModal.vue'
+import SecretFormModal from './SecretFormModal.vue'
+import NewSecretFormModal from './NewSecretFormModal.vue'
 import { showModal } from '../services/hub'
 
 @Component({
   components: {
     AppBtn,
-    AppGist,
+    GistListItem,
     AppLoading,
-    TheSecretModal,
-    TheNewSecretModal
+    SecretFormModal,
+    NewSecretFormModal
   }
 })
-export default class TheGists extends Vue {
+export default class GistList extends Vue {
   filename: string = null
   loading: boolean = true
   selectedGistID: string = null
@@ -71,7 +72,7 @@ export default class TheGists extends Vue {
     let secret: string
 
     try {
-      secret = await showModal(TheSecretModal)
+      secret = await showModal(SecretFormModal)
     } catch (err) {
       return
     }
@@ -95,7 +96,7 @@ export default class TheGists extends Vue {
     let secret: string
 
     try {
-      secret = await showModal(TheNewSecretModal)
+      secret = await showModal(NewSecretFormModal)
     } catch (err) {
       return
     }
@@ -129,7 +130,7 @@ export default class TheGists extends Vue {
 <style lang="stylus" module>
 @import "../styles/config.styl"
 
-.TheGists
+.GistList
   modal()
 
   h2

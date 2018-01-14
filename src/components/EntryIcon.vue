@@ -1,6 +1,6 @@
 <template>
   <img
-    :class="$style.AppEntryIcon"
+    :class="$style.EntryIcon"
     :src="faviconURL"
     width="16"
     height="16"
@@ -14,7 +14,7 @@ import { Component, Vue, Prop } from 'vue-property-decorator'
 const BASE_URL = 'https://www.google.com/s2/favicons?domain_url='
 
 @Component
-export default class AppEntryIcon extends Vue {
+export default class EntryIcon extends Vue {
   @Prop({ required: true })
   url: string
 
@@ -25,6 +25,6 @@ export default class AppEntryIcon extends Vue {
 </script>
 
 <style lang="stylus" module>
-.AppEntryIcon
+.EntryIcon
   border-radius: 2px
 </style>

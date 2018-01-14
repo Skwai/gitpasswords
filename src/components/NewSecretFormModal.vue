@@ -33,7 +33,7 @@ import hub from '../services/hub'
     AppBtn
   }
 })
-export default class TheSecretModal extends Vue {
+export default class SecretModal extends Vue {
   secret: string = ''
 
   close (ev: Event): void {
