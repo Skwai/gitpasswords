@@ -2,38 +2,39 @@ import Entry from '../models/Entry'
 import * as gh from '../services/gh'
 import { encryptData, decryptData } from '../services/encrypt'
 import { ACCESS_TOKEN_STORAGE_KEY, INACTIVE_LOGOUT_DELAY } from '../config'
-import initialState from './initial-state'
+import State from './state'
+import { ActionContext } from 'vuex'
 
 const storeAccessToken = (token: string): void => localStorage.setItem(ACCESS_TOKEN_STORAGE_KEY, token)
 const clearAccessToken = (): void => localStorage.removeItem(ACCESS_TOKEN_STORAGE_KEY)
 
-export const login = async ({ commit, state }: GitPasswords.Context): Promise<void> => {
+export const login = async ({ commit, state }: ActionContext<State, null>): Promise<void> => {
   const { token, username } = await gh.login()
   storeAccessToken(token)
   commit('SET_ACCESS_TOKEN', token)
   commit('SET_USERNAME', username)
 }
 
-export const logout = ({ commit }: GitPasswords.Context): void => {
+export const logout = ({ commit }: ActionContext<State, null>): void => {
   clearAccessToken()
-  commit('RESET', { ...initialState })
+  commit('RESET', new State())
 }
 
 export const getUserFromToken = async (
-  { commit, state }: GitPasswords.Context,
+  { commit, state }: ActionContext<State, null>,
   token: string
 ): Promise<void> => {
   const { login: username } = await gh.getUser({ token })
   commit('SET_USERNAME', username)
 }
 
-export const getGists = async ({ commit, state }: GitPasswords.Context): Promise<void> => {
+export const getGists = async ({ commit, state }: ActionContext<State, null>): Promise<void> => {
   const { username, token } = state
   const gists = await gh.getGists({ username, token })
   commit('SET_GISTS', gists)
 }
 
-export const createEntry = ({ commit }: GitPasswords.Context): void => {
+export const createEntry = ({ commit }: ActionContext<State, null>): void => {
   const entry = new Entry({
     title: 'New entry'
   })
@@ -42,7 +43,7 @@ export const createEntry = ({ commit }: GitPasswords.Context): void => {
 }
 
 export const deleteEntry = (
-  { commit }: GitPasswords.Context,
+  { commit }: ActionContext<State, null>,
   entryID: string
 ): void => {
   commit('REMOVE_ENTRY', entryID)
@@ -56,7 +57,7 @@ const PLACEHOLDER_ENTRY = {
 }
 
 export const createGist = async (
-  { commit, state }: GitPasswords.Context,
+  { commit, state }: ActionContext<State, null>,
   { filename, secret }: { filename: string, secret: string }
 ): Promise<void> => {
   filename = [filename, gh.FILE_EXTENSION].join('.')
@@ -77,7 +78,7 @@ export const createGist = async (
 }
 
 export const selectGist = async (
-  { commit, state }: GitPasswords.Context,
+  { commit, state }: ActionContext<State, null>,
   { gistID, secret, filename }: { gistID: string, secret: string, filename: string }
 ): Promise<void> => {
   const { token, username } = state
@@ -94,20 +95,20 @@ export const selectGist = async (
 }
 
 export const setActiveEntryID = (
-  { commit, state }: GitPasswords.Context,
+  { commit, state }: ActionContext<State, null>,
   entryID: string
 ): void => {
   commit('SET_ENTRY_ID', entryID)
 }
 
 export const updateEntry = (
-  { commit }: GitPasswords.Context,
+  { commit }: ActionContext<State, null>,
   entry: GitPasswords.EntryData
 ): void => {
   commit('UPDATE_ENTRY', new Entry({ ...entry }))
 }
 
-export const saveEntries = async ({ commit, state }: GitPasswords.Context): Promise<void> => {
+export const saveEntries = async ({ commit, state }: ActionContext<State, null>): Promise<void> => {
   const {
     entries,
     filename,
@@ -125,15 +126,15 @@ export const saveEntries = async ({ commit, state }: GitPasswords.Context): Prom
   })
 }
 
-export const showError = ({ commit }: GitPasswords.Context, message: string): void => {
+export const showError = ({ commit }: ActionContext<State, null>, message: string): void => {
   commit('SET_ERROR', message)
 }
 
-export const hideError = ({ commit }: GitPasswords.Context): void => {
+export const hideError = ({ commit }: ActionContext<State, null>): void => {
   commit('REMOVE_ERROR')
 }
 
-export const setInactiveTimer = ({ commit, state }: GitPasswords.Context) => {
+export const setInactiveTimer = ({ commit, state }: ActionContext<State, null>) => {
   if (state.secret) {
     commit('SET_TIMER', setTimeout(() => commit('RESET'), INACTIVE_LOGOUT_DELAY))
   }

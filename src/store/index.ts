@@ -4,7 +4,7 @@ import Vuex from 'vuex'
 import * as actions from './actions'
 import * as getters from './getters'
 import * as mutations from './mutations'
-import initialState from './initial-state'
+import State from './state'
 
 Vue.use(Vuex)
 
@@ -14,6 +14,6 @@ export default new Vuex.Store({
   actions,
   getters,
   mutations,
-  state: { ...initialState },
+  state: new State(),
   strict: debug
 })

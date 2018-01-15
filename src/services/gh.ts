@@ -47,9 +47,6 @@ export const query = async (path: string, {
 
 /**
  * Perform oAuth login request via Firebase
- * @return {Promise}
- * @property {String} token     The Github auth token
- * @property {String} username  The Github username
  */
 export const login = async (): Promise<{token: string, username: string}> => {
   const { credential } = await auth().signInWithPopup(github)

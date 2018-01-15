@@ -14,23 +14,4 @@ declare namespace GitPasswords {
     created?: Date
     modified?: Date
   }
-
-  interface State {
-    [key: string]: any
-    username: string
-    token: string
-    secret: string
-    filename: string
-    gistID: string
-    entryID: string
-    gists: GithubGist[]
-    entries: EntryData[]
-    error: string
-    inactiveTimer: number
-  }
-
-  interface Context {
-    state: State
-    commit (mutation: string, payload?: any): void
-  }
 }
